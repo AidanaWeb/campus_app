@@ -13,3 +13,82 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id String @id @default(cuid())
+  name String
+  lastName String @map("last_name")
+  password String
+  email String?
+  bio String?
+  phone String?
+  role UserRole @default(STUDENT)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  posts Post[]
+  likedPosts PostLike[]
+
+  @@map("user")
+}
+
+enum UserRole {
+  STUDENT
+  TEACHER
+  EMPLOYER
+}
+
+model Post {
+  id String @id @default(cuid())
+  title String
+  body String
+  coverImage String @map("cover_image")
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  authorId String 
+  author User @relation(fields: [authorId], references: [id])
+
+  likes PostLike[]
+
+  @@map("post")
+}
+
+model PostLike {
+  id String @id @default(cuid())
+  userId String
+  postId String
+
+  createdAt DateTime @default(now()) @map("created_at")  
+
+  user User @relation(fields: [userId], references: [id])
+  post Post @relation(fields: [postId], references: [id])
+
+  @@map("post_like")
+}
+
+model Event {
+  id String @id @default(cuid())
+  title String 
+  description String
+  startsAt DateTime @map("starts_at")
+  endsAt DateTime?
+  place String?
+
+  createdAt DateTime @default(now()) @map("created_at")  
+
+  instituteId Int
+  institute Institute @relation(fields: [instituteId], references: [id])
+}
+
+model Institute {
+  id Int @id @default(autoincrement())
+  name String
+  code String
+
+  events Event[]
+}
+
+
