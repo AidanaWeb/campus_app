@@ -31,7 +31,7 @@ export default tseslint.config(
       "@typescript-eslint/no-unsafe-argument": "warn",
       // "prettier/prettier": "error",
       "no-multiple-empty-lines": ["error", { max: 1, maxEOF: 0 }],
-      quotes: ["error", "double"],
+      quotes: ["error"],
       "prettier/prettier": [
         "error",
         {
