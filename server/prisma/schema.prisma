@@ -81,6 +81,8 @@ model Event {
 
   instituteId Int
   institute Institute @relation(fields: [instituteId], references: [id])
+
+  @@map("event")
 }
 
 model Institute {
@@ -89,6 +91,8 @@ model Institute {
   code String
 
   events Event[]
+
+  @@map("institute")
 }
 
 
