@@ -1,10 +1,15 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { SignupDto } from "./dtos/signup.dto";
 import { PrismaService } from "src/prisma.service";
 import * as bcrypt from "bcrypt";
 import { LoginDto } from "./dtos/login.dto";
 import { JwtService } from "@nestjs/jwt";
 import { v4 as uuidv4 } from "uuid";
+import { RefreshTokenDto } from "./dtos/refresh-token.dto";
 
 @Injectable()
 export class AuthService {
@@ -118,6 +123,10 @@ export class AuthService {
     const expiryDate = new Date();
     expiryDate.setDate(expiryDate.getDate() + 7);
 
+    await this.prisma.refreshToken.deleteMany({
+      where: { userId },
+    });
+
     const storedToken = await this.prisma.refreshToken.create({
       data: {
         token,
@@ -127,5 +136,24 @@ export class AuthService {
     });
 
     return storedToken;
+  }
+
+  async refreshTokens(refreshToken: RefreshTokenDto) {
+    const existingToken = await this.prisma.refreshToken.findFirst({
+      where: {
+        token: refreshToken.refreshToken,
+        expiryDate: {
+          gt: new Date(),
+        },
+      },
+    });
+
+    if (!existingToken) {
+      throw new UnauthorizedException({
+        message: "refresh token is invalid",
+      });
+    }
+
+    return this.generateUserTokens(existingToken.userId);
   }
 }
