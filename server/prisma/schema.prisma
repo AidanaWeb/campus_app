@@ -19,7 +19,7 @@ model User {
   name String
   lastName String @map("last_name")
   password String
-  email String?
+  email String @unique
   bio String?
   phone String?
   role UserRole @default(STUDENT)
