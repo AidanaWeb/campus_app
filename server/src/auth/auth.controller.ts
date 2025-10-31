@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { AuthService } from "./auth.service";
 import { SignupDto } from "./dtos/signup.dto";
+import { LoginDto } from "./dtos/login.dto";
 
 @Controller("auth")
 export class AuthController {
@@ -8,19 +9,11 @@ export class AuthController {
 
   @Post("signup")
   async signUp(@Body() signupData: SignupDto) {
-    const user = await this.authService.signup(signupData);
+    return await this.authService.signup(signupData);
+  }
 
-    return {
-      message: "User created successfully",
-      translations: {
-        ru: "Пользователь был успешно создан",
-        en: "User created successfully",
-      },
-      user: {
-        id: user.id,
-        email: user.email,
-      },
-      access_token: "",
-    };
+  @Post("login")
+  async login(@Body() loginData: LoginDto) {
+    return await this.authService.login(loginData);
   }
 }

@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { SignupDto } from "./dtos/signup.dto";
 import { PrismaService } from "src/prisma.service";
 import * as bcrypt from "bcrypt";
+import { LoginDto } from "./dtos/login.dto";
 
 @Injectable()
 export class AuthService {
@@ -37,6 +38,59 @@ export class AuthService {
       },
     });
 
-    return createdUser;
+    // return createdUser;
+    return {
+      message: "User created successfully",
+      translations: {
+        ru: "Пользователь был успешно создан",
+        en: "User created successfully",
+      },
+      user: {
+        id: createdUser.id,
+        email: createdUser.email,
+      },
+    };
+  }
+
+  async login(loginData: LoginDto) {
+    const { email, password } = loginData;
+
+    const existingUser = await this.prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+
+    if (!existingUser) {
+      throw new BadRequestException({
+        message: "Wrong email or password",
+        translations: {
+          ru: "Неверный email или пароль",
+          en: "Wrong email or password",
+        },
+      });
+    }
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      existingUser.password,
+    );
+
+    if (!isPasswordCorrect) {
+      throw new BadRequestException({
+        message: "Wrong email or password",
+        translations: {
+          ru: "Неверный email или пароль",
+          en: "Wrong email or password",
+        },
+      });
+    }
+
+    // return existingUser;
+    // TODO: generate jwt token
+    const { password, ...safeUserData } = existingUser;
+    return {
+      user: safeUserData,
+    };
   }
 }
