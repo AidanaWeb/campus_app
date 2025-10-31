@@ -88,7 +88,7 @@ export class AuthService {
 
     // return existingUser;
     // TODO: generate jwt token
-    const { existingUserPassword, ...safeUserData } = existingUser;
+    const { password: existingUserPassword, ...safeUserData } = existingUser;
     return {
       user: safeUserData,
     };
