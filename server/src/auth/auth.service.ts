@@ -94,7 +94,7 @@ export class AuthService {
     // return existingUser;
     // TODO: generate jwt token
     const { password: existingUserPassword, ...safeUserData } = existingUser;
-    const token = this.generateUserTokens(existingUser.id);
+    const token = await this.generateUserTokens(existingUser.id);
 
     return {
       user: safeUserData,
@@ -103,13 +103,29 @@ export class AuthService {
     };
   }
 
-  generateUserTokens(userId: string) {
+  async generateUserTokens(userId: string) {
     const accessToken = this.jwtService.sign({ userId }, { expiresIn: "1h" });
     const refreshToken = uuidv4();
 
+    await this.storeRefreshToken(refreshToken, userId);
     return {
       accessToken,
       refreshToken,
     };
+  }
+
+  async storeRefreshToken(token: string, userId: string) {
+    const expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + 7);
+
+    const storedToken = await this.prisma.refreshToken.create({
+      data: {
+        token,
+        userId,
+        expiryDate,
+      },
+    });
+
+    return storedToken;
   }
 }
