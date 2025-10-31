@@ -4,6 +4,7 @@ import { PrismaService } from "src/prisma.service";
 import * as bcrypt from "bcrypt";
 import { LoginDto } from "./dtos/login.dto";
 import { JwtService } from "@nestjs/jwt";
+import { v4 as uuidv4 } from "uuid";
 
 @Injectable()
 export class AuthService {
@@ -93,19 +94,22 @@ export class AuthService {
     // return existingUser;
     // TODO: generate jwt token
     const { password: existingUserPassword, ...safeUserData } = existingUser;
-    const token = await this.generateUserTokens(existingUser.id);
+    const token = this.generateUserTokens(existingUser.id);
 
     return {
       user: safeUserData,
       accessToken: token.accessToken,
+      refreshToken: token.refreshToken,
     };
   }
 
-  async generateUserTokens(userId: string) {
+  generateUserTokens(userId: string) {
     const accessToken = this.jwtService.sign({ userId }, { expiresIn: "1h" });
+    const refreshToken = uuidv4();
 
     return {
       accessToken,
+      refreshToken,
     };
   }
 }
