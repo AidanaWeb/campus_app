@@ -93,7 +93,7 @@ export class AuthService {
     // return existingUser;
     // TODO: generate jwt token
     const { password: existingUserPassword, ...safeUserData } = existingUser;
-    const token = await this.generateUserTokens(Number(existingUser.id));
+    const token = await this.generateUserTokens(existingUser.id);
 
     return {
       user: safeUserData,
@@ -101,7 +101,7 @@ export class AuthService {
     };
   }
 
-  async generateUserTokens(userId: number) {
+  async generateUserTokens(userId: string) {
     const accessToken = this.jwtService.sign({ userId }, { expiresIn: "1h" });
 
     return {
