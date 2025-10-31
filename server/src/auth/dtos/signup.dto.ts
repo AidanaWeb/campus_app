@@ -5,6 +5,10 @@ export class SignupDto {
   @MinLength(2, { message: "Имя должно содержать хотя бы 2 символа" })
   name: string;
 
+  @IsString({ message: "Введите некорректные данные" })
+  @MinLength(2, { message: "Фамилия должна содержать хотя бы 2 символа" })
+  lastName: string;
+
   @IsEmail({}, { message: "Введите корректный email" })
   email: string;
 
