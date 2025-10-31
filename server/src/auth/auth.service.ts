@@ -48,7 +48,6 @@ export class AuthService {
       },
     });
 
-    // return createdUser;
     return {
       message: "User created successfully",
       translations: {
@@ -96,8 +95,6 @@ export class AuthService {
       });
     }
 
-    // return existingUser;
-    // TODO: generate jwt token
     const { password: existingUserPassword, ...safeUserData } = existingUser;
     const token = await this.generateUserTokens(existingUser.id);
 
