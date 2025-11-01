@@ -30,6 +30,7 @@ model User {
   posts Post[]
   likedPosts PostLike[]
   refreshToken RefreshToken?
+  likes Like[]
 
   @@map("user")
 }
@@ -48,6 +49,23 @@ model RefreshToken {
   user User @relation(fields: [userId], references: [id])
 
   @@map("refresh_token")
+}
+
+model Like{
+  id String @id @default(cuid())
+  userId String
+  entityId String
+  entityType EntityType
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("like")
+}
+
+enum EntityType {
+  POST
+  EVENT
+  NEWS
 }
 
 model Post {
