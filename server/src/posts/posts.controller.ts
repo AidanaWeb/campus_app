@@ -1,4 +1,4 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Controller, Get, Req, UseGuards } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { AuthGuard } from "src/auth/auth.guard";
 
@@ -6,9 +6,14 @@ import { AuthGuard } from "src/auth/auth.guard";
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
+  // @Get()
+  // @UseGuards(AuthGuard)
+  // protectedRoute() {
+  //   return { message: "Accessed Resource" };
+  // }
+
   @Get()
-  @UseGuards(AuthGuard)
-  protectedRoute() {
-    return { message: "Accessed Resource" };
+  async getAllPosts() {
+    return await this.postsService.getAllPosts();
   }
 }
