@@ -52,9 +52,9 @@ model RefreshToken {
 
 model Post {
   id String @id @default(cuid())
-  title String
+  title String?
   body String
-  coverImage String @map("cover_image")
+  coverImage String? @map("cover_image")
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

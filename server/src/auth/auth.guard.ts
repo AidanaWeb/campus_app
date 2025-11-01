@@ -35,7 +35,7 @@ export class AuthGuard implements CanActivate {
       if (error instanceof Error) {
         Logger.error(error.message);
       } else {
-        Logger.error("Unknown error", error);
+        Logger.error("Unknown error");
       }
 
       throw new UnauthorizedException({

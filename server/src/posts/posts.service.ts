@@ -1,5 +1,11 @@
-import { Injectable } from "@nestjs/common";
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  UnauthorizedException,
+} from "@nestjs/common";
 import { PrismaService } from "src/prisma.service";
+import { createPostDto } from "./dtos/create-post.dto";
 
 @Injectable()
 export class PostsService {
@@ -33,5 +39,40 @@ export class PostsService {
     return {
       data: post,
     };
+  }
+
+  async createPost(userId: string | undefined, postData: createPostDto) {
+    if (!userId) {
+      throw new UnauthorizedException({
+        message: "unathorized",
+      });
+    }
+
+    try {
+      const createdPost = await this.prisma.post.create({
+        data: {
+          authorId: userId,
+          ...postData,
+        },
+      });
+
+      return {
+        data: createdPost,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        Logger.error(error.message);
+      } else {
+        Logger.error("Unknown error");
+      }
+
+      throw new InternalServerErrorException({
+        message: "An error occurred while creating the post",
+        translations: {
+          ru: "Произошла ошибка при создании поста",
+          en: "An error occurred while creating the post",
+        },
+      });
+    }
   }
 }
