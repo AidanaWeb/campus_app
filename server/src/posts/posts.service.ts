@@ -12,4 +12,26 @@ export class PostsService {
       data: posts,
     };
   }
+
+  async getPostById(id: string) {
+    const post = await this.prisma.post.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!post) {
+      return {
+        message: "Post is not found",
+        translations: {
+          ru: "Пост не найден",
+          en: "Post is not found",
+        },
+      };
+    }
+
+    return {
+      data: post,
+    };
+  }
 }
