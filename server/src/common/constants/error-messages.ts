@@ -27,4 +27,11 @@ export const ErrorMessages = {
       en: "Invalid token",
     },
   },
+  USER_NOT_FOUND: {
+    message: "User not found",
+    translations: {
+      ru: "Пользователь не найден",
+      en: "User not found",
+    },
+  },
 };
