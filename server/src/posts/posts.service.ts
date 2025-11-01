@@ -7,6 +7,7 @@ import {
 import { PrismaService } from "src/prisma.service";
 import { createPostDto } from "./dtos/create-post.dto";
 import { SearchPostDto } from "./dtos/search-post.dto";
+import { ErrorMessages } from "src/common/constants/error-messages";
 
 @Injectable()
 export class PostsService {
@@ -52,13 +53,7 @@ export class PostsService {
         Logger.error("Unknown error");
       }
 
-      return {
-        message: "",
-        translations: {
-          ru: "",
-          en: "",
-        },
-      };
+      return ErrorMessages.FIND_POSTS_FAILED;
     }
   }
 
@@ -78,13 +73,7 @@ export class PostsService {
     });
 
     if (!post) {
-      return {
-        message: "Post is not found",
-        translations: {
-          ru: "Пост не найден",
-          en: "Post is not found",
-        },
-      };
+      return ErrorMessages.POST_NOT_FOUND;
     }
 
     return {
@@ -117,13 +106,7 @@ export class PostsService {
         Logger.error("Unknown error");
       }
 
-      throw new InternalServerErrorException({
-        message: "An error occurred while creating the post",
-        translations: {
-          ru: "Произошла ошибка при создании поста",
-          en: "An error occurred while creating the post",
-        },
-      });
+      throw new InternalServerErrorException(ErrorMessages.CREATE_POST_FAILED);
     }
   }
 }
