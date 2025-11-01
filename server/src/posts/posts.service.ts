@@ -107,4 +107,15 @@ export class PostsService {
       throw new InternalServerErrorException(ErrorMessages.CREATE_POST_FAILED);
     }
   }
+
+  async getPostLikesCount(postId: string) {
+    const likesCount = await this.prisma.like.count({
+      where: {
+        entityId: postId,
+        entityType: "POST",
+      },
+    });
+
+    return likesCount;
+  }
 }
