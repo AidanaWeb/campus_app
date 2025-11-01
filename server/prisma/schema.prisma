@@ -28,7 +28,6 @@ model User {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   posts Post[]
-  likedPosts PostLike[]
   refreshToken RefreshToken?
   likes Like[]
 
@@ -73,29 +72,15 @@ model Post {
   title String?
   body String
   coverImage String? @map("cover_image")
-  
+  likesCount Int @default(0)
+
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
   authorId String 
   author User @relation(fields: [authorId], references: [id])
 
-  likes PostLike[]
-
   @@map("post")
-}
-
-model PostLike {
-  id String @id @default(cuid())
-  userId String
-  postId String
-
-  createdAt DateTime @default(now()) @map("created_at")  
-
-  user User @relation(fields: [userId], references: [id])
-  post Post @relation(fields: [postId], references: [id])
-
-  @@map("post_like")
 }
 
 model Event {
