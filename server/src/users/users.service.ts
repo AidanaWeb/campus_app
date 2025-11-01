@@ -2,17 +2,14 @@ import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { ErrorMessages } from "src/common/constants/error-messages";
 import { PrismaService } from "src/prisma.service";
 import type { SearchUserDto } from "./dtos/search-user.dto";
+import { Prisma } from "generated/prisma";
 
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async searchUsers(query: SearchUserDto) {
-    interface whereParams {
-      OR?: object[];
-      role?: SearchUserDto["role"];
-    }
-    const where: whereParams = query.search
+    const where: Prisma.UserWhereInput = query.search
       ? {
           OR: [
             { name: { contains: query.search, mode: "insensitive" } },

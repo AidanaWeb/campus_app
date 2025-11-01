@@ -8,6 +8,7 @@ import { PrismaService } from "src/prisma.service";
 import { createPostDto } from "./dtos/create-post.dto";
 import { SearchPostDto } from "./dtos/search-post.dto";
 import { ErrorMessages } from "src/common/constants/error-messages";
+import { Prisma } from "generated/prisma";
 
 @Injectable()
 export class PostsService {
@@ -20,10 +21,7 @@ export class PostsService {
       return await this.getAllPosts();
     }
 
-    interface whereParams extends SearchPostDto {
-      createdAt?: any;
-    }
-    const where: whereParams = {};
+    const where: Prisma.PostWhereInput = {};
     if (query.authorId) {
       where.authorId = query.authorId;
     }
