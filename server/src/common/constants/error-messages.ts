@@ -34,4 +34,11 @@ export const ErrorMessages = {
       en: "User not found",
     },
   },
+  USERS_NOT_FOUND: {
+    message: "Users not found",
+    translations: {
+      ru: "Пользователи не найден",
+      en: "Users not found",
+    },
+  },
 };
