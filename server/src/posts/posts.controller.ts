@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Req,
   UseGuards,
 } from "@nestjs/common";
@@ -11,14 +12,15 @@ import { PostsService } from "./posts.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { createPostDto } from "./dtos/create-post.dto";
 import type { AuthRequest } from "src/auth/interfaces/auth-request.interface";
+import { SearchPostDto } from "./dtos/search-post.dto";
 
 @Controller("posts")
 export class PostsController {
   constructor(private readonly postsService: PostsService) {}
 
   @Get()
-  async getAllPosts() {
-    return await this.postsService.getAllPosts();
+  async getPosts(@Query() searchPostQuery: SearchPostDto) {
+    return await this.postsService.getPosts(searchPostQuery);
   }
 
   @Get("/:id")
