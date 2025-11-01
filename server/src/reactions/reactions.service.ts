@@ -10,7 +10,21 @@ export class ReactionsService {
     const { userId, postId } = likeData;
 
     try {
-      const like = await this.prisma.like.create({
+      const existingLike = await this.prisma.like.findFirst({
+        where: {
+          userId,
+          entityId: postId,
+          entityType: "POST",
+        },
+      });
+
+      if (existingLike) {
+        return {
+          status: false,
+        };
+      }
+
+      await this.prisma.like.create({
         data: {
           userId,
           entityId: postId,
@@ -18,9 +32,20 @@ export class ReactionsService {
         },
       });
 
+      const post = await this.prisma.post.update({
+        where: {
+          id: postId,
+        },
+        data: {
+          likesCount: {
+            increment: 1,
+          },
+        },
+      });
+
       return {
         status: true,
-        data: like,
+        data: post,
       };
     } catch (error) {
       throw new BadRequestException({
