@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Post } from "@nestjs/common";
 import { ReactionsService } from "./reactions.service";
 import { LikePostDto } from "./dtos/like-post.dto";
 
@@ -9,5 +9,10 @@ export class ReactionsController {
   @Post("/like")
   async likePost(@Body() likePostData: LikePostDto) {
     return await this.reactionsService.likePost(likePostData);
+  }
+
+  @Delete("/like")
+  async deletePostLike(@Body() likePostData: LikePostDto) {
+    return await this.reactionsService.deletePostLike(likePostData);
   }
 }

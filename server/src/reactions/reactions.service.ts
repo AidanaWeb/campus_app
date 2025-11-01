@@ -53,4 +53,52 @@ export class ReactionsService {
       });
     }
   }
+
+  async deletePostLike(likeData: LikePostDto) {
+    const { userId, postId } = likeData;
+
+    try {
+      const existingLike = await this.prisma.like.findFirst({
+        where: {
+          userId,
+          entityId: postId,
+          entityType: "POST",
+        },
+      });
+
+      if (!existingLike) {
+        return {
+          status: false,
+        };
+      }
+
+      await this.prisma.like.deleteMany({
+        where: {
+          userId,
+          entityId: postId,
+          entityType: "POST",
+        },
+      });
+
+      const post = await this.prisma.post.update({
+        where: {
+          id: postId,
+        },
+        data: {
+          likesCount: {
+            decrement: 1,
+          },
+        },
+      });
+
+      return {
+        status: true,
+        data: post,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        status: false,
+      });
+    }
+  }
 }
