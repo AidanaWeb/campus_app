@@ -55,4 +55,11 @@ export const ErrorMessages = {
       en: "Authentication failed",
     },
   },
+  CLUB_NOT_FOUND: {
+    message: "Club not found",
+    translations: {
+      ru: "Клуб не найден",
+      en: "Club not found",
+    },
+  },
 };
