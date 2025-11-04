@@ -30,6 +30,7 @@ model User {
   posts Post[]
   refreshToken RefreshToken?
   likes Like[]
+  clubsAdmin Club[]
 
   @@map("user")
 }
@@ -107,6 +108,9 @@ model Club {
   updatedAt DateTime @updatedAt @map("updated_at")
   coverImage String? @map("cover_image")
   clubImage String? @map("club_image")
+  adminId String @map("admin_id")
+
+  admin User @relation(fields: [adminId], references: [id])
 
   @@map("club")
 }
