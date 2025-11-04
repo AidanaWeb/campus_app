@@ -20,7 +20,7 @@ export class ClubsService {
     }
   }
 
-  async createClub(userId: string, clubData: CreateClubDto) {
+  async createClub(userId: string | undefined, clubData: CreateClubDto) {
     if (!userId) {
       throw new UnauthorizedException({
         message: "",
