@@ -93,10 +93,22 @@ model Event {
 
   createdAt DateTime @default(now()) @map("created_at")  
 
-  instituteId Int
-  institute Institute @relation(fields: [instituteId], references: [id])
+  instituteId Int?
+  institute Institute? @relation(fields: [instituteId], references: [id])
 
   @@map("event")
+}
+
+model Club {
+  id String @id @default(cuid()) 
+  name String
+  description String?
+  createdAd DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  coverImage String? @map("cover_image")
+  clubImage String? @map("club_image")
+
+  @@map("club")
 }
 
 model Institute {
@@ -108,5 +120,3 @@ model Institute {
 
   @@map("institute")
 }
-
-
