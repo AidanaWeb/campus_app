@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
@@ -33,5 +34,11 @@ export class PostsController {
   // TODO: store images
   async createPost(@Req() req: AuthRequest, @Body() postData: createPostDto) {
     return await this.postsService.createPost(req.userId, postData);
+  }
+
+  @Delete("/:id")
+  @UseGuards(AuthGuard)
+  async deletePost(@Req() req: AuthRequest, @Body() postId: string) {
+    return await this.postsService.deletePost(req.userId, postId);
   }
 }

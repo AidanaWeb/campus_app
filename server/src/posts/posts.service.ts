@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   Logger,
@@ -117,5 +118,37 @@ export class PostsService {
     });
 
     return likesCount;
+  }
+
+  async deletePost(userId: string | undefined, postId: string | undefined) {
+    if (!userId) {
+      throw new UnauthorizedException(ErrorMessages.AUTHENTICATION_FAILED);
+    }
+
+    if (!postId) {
+      throw new BadRequestException(ErrorMessages.POST_NOT_FOUND);
+    }
+
+    try {
+      const post = await this.prisma.post.delete({
+        where: {
+          id: postId,
+          authorId: userId,
+        },
+      });
+
+      if (!post) {
+        return {
+          status: false,
+          ...ErrorMessages.POST_NOT_FOUND,
+        };
+      }
+
+      return {
+        status: true,
+      };
+    } catch (error) {
+      throw new InternalServerErrorException(ErrorMessages.INTERNAL_ERROR);
+    }
   }
 }

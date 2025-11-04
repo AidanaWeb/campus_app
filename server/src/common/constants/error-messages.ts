@@ -41,4 +41,18 @@ export const ErrorMessages = {
       en: "Users not found",
     },
   },
+  INTERNAL_ERROR: {
+    message: "Internal error",
+    translations: {
+      ru: "Внутренняя ошибка",
+      en: "Internal error",
+    },
+  },
+  AUTHENTICATION_FAILED: {
+    message: "Authentication failed",
+    translations: {
+      ru: "Ошибка авторизации",
+      en: "Authentication failed",
+    },
+  },
 };
