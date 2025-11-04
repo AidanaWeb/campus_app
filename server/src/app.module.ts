@@ -8,6 +8,7 @@ import { AuthModule } from "./auth/auth.module";
 import { PrismaModule } from "./prisma.module";
 import { JwtModule } from "@nestjs/jwt";
 import { ReactionsModule } from './reactions/reactions.module';
+import { ClubsModule } from './clubs/clubs.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ReactionsModule } from './reactions/reactions.module';
     AuthModule,
     PrismaModule,
     ReactionsModule,
+    ClubsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
