@@ -6,9 +6,7 @@ import { Text } from "@/components/Themed";
 export default function TabOneScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+      <Text>Главная</Text>
     </View>
   );
 }
