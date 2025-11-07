@@ -2,10 +2,10 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Link, Redirect, Tabs, usePathname } from "expo-router";
 import React from "react";
 
-import { useColorScheme } from "@/components/useColorScheme";
 import Colors from "@/constants/Colors";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -16,13 +16,12 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const pathname = usePathname();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
+        tabBarActiveTintColor: Colors["light"].tint,
         headerShown: true,
       }}
     >
