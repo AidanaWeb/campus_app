@@ -4,6 +4,7 @@ import Swiper from "react-native-swiper";
 import { banners } from "@/mock/banners";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Text } from "react-native";
+import Banners from "@/components/Banners";
 
 const { width } = Dimensions.get("window");
 
@@ -13,46 +14,11 @@ export default function TabOneScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <Text>Главная</Text>
+      {/* <Text>Главная</Text> */}
 
-      <Swiper
-        autoplay
-        loop
-        showsPagination
-        autoplayTimeout={3}
-        dotColor="rgba(255,255,255,0.4)"
-        activeDotColor="#fff"
-        paginationStyle={{
-          bottom: 10,
-        }}
-        containerStyle={{
-          width: width,
-        }}
-      >
-        {banners.map((banner) => (
-          <View
-            key={banner.id}
-            style={{
-              borderRadius: 16,
-              overflow: "hidden",
-              width: ITEM_WIDTH,
-              height: ITEM_HEIGHT,
-              // marginHorizontal: (width - ITEM_WIDTH) / 2,
-            }}
-          >
-            <Image
-              source={{ uri: banner.image }}
-              style={{
-                width: ITEM_WIDTH,
-                height: ITEM_HEIGHT,
-                marginHorizontal: 16,
-                borderRadius: 16,
-              }}
-              resizeMode="cover"
-            />
-          </View>
-        ))}
-      </Swiper>
+      <View style={{ marginTop: 20 }}>
+        <Banners />
+      </View>
     </ScrollView>
   );
 }
