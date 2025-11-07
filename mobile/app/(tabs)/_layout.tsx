@@ -19,7 +19,6 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
   const pathname = usePathname();
 
-  console.log(pathname);
   return (
     <Tabs
       screenOptions={{
@@ -36,6 +35,14 @@ export default function TabLayout() {
               name={pathname === "/" ? "home-fill" : "home"}
               size={24}
               color={color}
+            />
+          ),
+          headerRight: () => (
+            <Ionicons
+              name="notifications-outline"
+              size={24}
+              color="black"
+              style={{ marginRight: 20 }}
             />
           ),
         }}
@@ -71,6 +78,7 @@ export default function TabLayout() {
               color={color}
             />
           ),
+          tabBarBadge: 4,
         }}
       />
     </Tabs>
