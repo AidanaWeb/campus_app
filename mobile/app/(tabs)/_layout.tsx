@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { BlurView } from "expo-blur";
 import UserAvatar from "@/components/UserAvatar";
+import Icon from "@/components/Icon";
 
 function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
   return (
@@ -94,15 +95,10 @@ export default function TabLayout() {
                 flexDirection: "row",
                 alignItems: "center",
                 marginRight: 10,
+                gap: 20,
               }}
             >
-              <Ionicons
-                name="notifications-outline"
-                size={24}
-                color="black"
-                style={{ marginRight: 20 }}
-              />
-
+              <Icon type="Ionicons" name="notifications-outline" />
               <UserAvatar imageUrl="https://randomuser.me/api/portraits/women/44.jpg" />
             </View>
           ),
@@ -115,12 +111,7 @@ export default function TabLayout() {
                 marginRight: 10,
               }}
             >
-              <Ionicons
-                name="settings-outline"
-                size={24}
-                color="black"
-                style={{ opacity: 0.3 }}
-              />
+              <Icon type="Ionicons" name="settings-outline" opacity={0.3} />
             </View>
           ),
         }}
