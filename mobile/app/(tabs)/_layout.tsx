@@ -1,20 +1,27 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Link, Redirect, Tabs, usePathname } from "expo-router";
-import React from "react";
-
-import Colors from "@/constants/Colors";
+import { Tabs, usePathname } from "expo-router";
+import React, { ReactNode } from "react";
+import Colors from "@/constants/Theme";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
-import { Pressable, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { BlurView } from "expo-blur";
 
-// You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
+function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
+  return (
+    <View
+      style={{
+        backgroundColor: props.isFocused ? "rgba(0, 0, 0, 0.1)" : "",
+        height: 50,
+        width: 70,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 50,
+      }}
+    >
+      {props.icon}
+    </View>
+  );
 }
 
 export default function TabLayout() {
@@ -26,17 +33,33 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors["light"].tint,
+        tabBarActiveTintColor: Colors[theme].secondary,
+        tabBarInactiveTintColor: "#000",
         headerShown: true,
+        tabBarStyle: styles.tabBar,
+        tabBarItemStyle: styles.tabBarItem,
+        tabBarIconStyle: styles.tabBarIcon,
+        tabBarBadgeStyle: styles.tabBarBadge,
         sceneStyle: {
-          backgroundColor,
-        },
-        tabBarStyle: {
           backgroundColor,
         },
         headerStyle: {
           backgroundColor,
         },
+
+        tabBarBackground: () => (
+          <BlurView
+            intensity={60}
+            tint={theme}
+            style={{
+              position: "absolute",
+              top: 0,
+              bottom: 0,
+              left: 0,
+              right: 0,
+            }}
+          />
+        ),
       }}
     >
       <Tabs.Screen
@@ -44,13 +67,23 @@ export default function TabLayout() {
         options={{
           title: "Главная",
           headerTitle: "",
-          tabBarIcon: ({ color }) => (
-            <Octicons
-              name={pathname === "/" ? "home-fill" : "home"}
-              size={24}
-              color={color}
-            />
-          ),
+          tabBarLabel: "",
+
+          tabBarIcon: ({ color }) => {
+            const isFocused = pathname === "/";
+            return (
+              <TabBarIcon
+                isFocused={isFocused}
+                icon={
+                  <Octicons
+                    name={isFocused ? "home-fill" : "home"}
+                    size={24}
+                    color={color}
+                  />
+                }
+              />
+            );
+          },
           headerRight: () => (
             <Ionicons
               name="notifications-outline"
@@ -67,13 +100,22 @@ export default function TabLayout() {
         options={{
           title: "Создать",
           tabBarLabel: "",
-          tabBarIcon: ({ color }) => (
-            <Ionicons
-              name={pathname === "/post" ? "add-circle" : "add-circle-outline"}
-              size={30}
-              color={color}
-            />
-          ),
+
+          tabBarIcon: ({ color }) => {
+            const isFocused = pathname === "/post";
+            return (
+              <TabBarIcon
+                isFocused={isFocused}
+                icon={
+                  <Ionicons
+                    name={isFocused ? "add-circle" : "add-circle-outline"}
+                    size={30}
+                    color={color}
+                  />
+                }
+              />
+            );
+          },
         }}
       />
 
@@ -81,20 +123,54 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: "Профиль",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name={
-                pathname === "/profile"
-                  ? "account-school"
-                  : "account-school-outline"
-              }
-              size={24}
-              color={color}
-            />
-          ),
+          tabBarLabel: "",
+
+          tabBarIcon: ({ color }) => {
+            const isFocused = pathname === "/profile";
+            return (
+              <TabBarIcon
+                isFocused={isFocused}
+                icon={
+                  <MaterialCommunityIcons
+                    name={
+                      isFocused ? "account-school" : "account-school-outline"
+                    }
+                    size={24}
+                    color={color}
+                  />
+                }
+              />
+            );
+          },
           tabBarBadge: 4,
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: "rgba(124, 124, 124, 0.32)",
+    position: "absolute",
+    borderRadius: 50,
+    borderTopWidth: 0,
+    marginHorizontal: 50,
+    height: 70,
+    marginBottom: 20,
+    alignItems: "center",
+    elevation: 5,
+    overflow: "hidden",
+    paddingBottom: 0,
+    paddingHorizontal: 0,
+  },
+  tabBarItem: {
+    height: 80,
+  },
+  tabBarIcon: {
+    flex: 1,
+  },
+  tabBarBadge: {
+    top: 5,
+  },
+});
