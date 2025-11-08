@@ -12,8 +12,11 @@ import {
 import { Stack } from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Provider } from "react-redux";
-import { store } from "@/store/store";
+import { Provider, useDispatch, useSelector } from "react-redux";
+import { RootState, store } from "@/store/store";
+import { useColorScheme } from "react-native";
+import { getDataFromStorage } from "@/utils/storage";
+import { setTheme } from "@/store/slices/themeSlice";
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
@@ -42,19 +45,40 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <Provider store={store}>
+      <RootLayoutNav />
+    </Provider>
+  );
 }
 
 function RootLayoutNav() {
+  const dispatch = useDispatch();
+  const OStheme = useColorScheme();
+  const themeState = useSelector((state: RootState) => state.theme.current);
+
+  useEffect(() => {
+    const initTheme = async () => {
+      const themeFromStorage = await getDataFromStorage("app_theme");
+
+      if (themeFromStorage) {
+        dispatch(setTheme(themeFromStorage));
+        return;
+      }
+
+      dispatch(setTheme(OStheme));
+    };
+
+    initTheme();
+  }, [OStheme]);
+
   return (
     <SafeAreaProvider>
       <ThemeProvider value={DefaultTheme}>
-        <Provider store={store}>
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-          </Stack>
-        </Provider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="modal" options={{ presentation: "modal" }} />
+        </Stack>
       </ThemeProvider>
     </SafeAreaProvider>
   );

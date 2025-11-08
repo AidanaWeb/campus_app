@@ -14,4 +14,6 @@ const Theme = {
   //   },
 };
 
+export type ThemeType = "light" | "dark";
+
 export default Theme;
