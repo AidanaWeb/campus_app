@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserAvatar from "./UserAvatar";
 import UserRoleTag from "./UserRoleTag";
+import Icon from "./Icon";
 
 interface PostProps {
   post: post;
@@ -69,6 +70,8 @@ export default function Post({ post }: PostProps) {
             {post.body}
           </AppText>
         )}
+
+        <PostLike likes={post.likesCount} />
       </TouchableOpacity>
     </View>
   );
@@ -104,6 +107,24 @@ const PostAuthor = ({ author }: PostAuthorProps) => {
         <UserRoleTag role={author.role} />
       </View>
     </TouchableOpacity>
+  );
+};
+
+const PostLike = (props: { likes: number }) => {
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 5,
+        marginTop: 10,
+      }}
+    >
+      <TouchableOpacity>
+        <Icon type="FontAwesome" name="heart-o" />
+      </TouchableOpacity>
+      <AppText>{props.likes}</AppText>
+    </View>
   );
 };
 
