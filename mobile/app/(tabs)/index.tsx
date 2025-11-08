@@ -1,17 +1,24 @@
-import { Dimensions, FlatList, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 import Carousel from "@/components/Carousel";
-
-import { banners } from "@/mock/banners";
 import AppText from "@/components/AppText";
 import Button from "@/components/Button";
-const { width } = Dimensions.get("window");
+import Post from "@/components/Post";
+
+import { posts } from "@/mock/posts";
+import { banners } from "@/mock/banners";
 
 export default function TabOneScreen() {
   return (
     <FlatList
       ListHeaderComponent={<ListHeader />}
-      data={[]}
-      renderItem={({ item }) => <></>}
+      data={posts}
+      renderItem={({ item }) => (
+        <View style={{ marginHorizontal: 10 }}>
+          <Post post={item} />
+        </View>
+      )}
+      ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      showsVerticalScrollIndicator={false}
     />
   );
 }
@@ -70,5 +77,6 @@ const styles = StyleSheet.create({
   headerContainer: {
     gap: 10,
     marginTop: 10,
+    marginBottom: 20,
   },
 });

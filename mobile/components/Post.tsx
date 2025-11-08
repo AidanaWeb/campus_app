@@ -1,0 +1,112 @@
+import {
+  View,
+  Image,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import React from "react";
+import AppText from "./AppText";
+import { author, post } from "@/types/post.type";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+import UserAvatar from "./UserAvatar";
+import UserRoleTag from "./UserRoleTag";
+
+interface PostProps {
+  post: post;
+}
+
+const { width } = Dimensions.get("window");
+
+export default function Post({ post }: PostProps) {
+  const theme = useSelector((state: RootState) => state.theme.current);
+
+  const backgroundColor =
+    theme === "light" ? "rgba(0,0,0, 0.05)" : "rgba(255, 255, 255, 0.05)";
+
+  return (
+    <TouchableOpacity
+      style={[
+        styles.container,
+        {
+          backgroundColor,
+        },
+      ]}
+    >
+      {post.author && <PostAuthor author={post.author} />}
+
+      {post.coverImage && (
+        <Image
+          source={{ uri: post.coverImage }}
+          style={styles.image}
+          resizeMode="cover"
+        />
+      )}
+      {post.title && (
+        <AppText
+          size={18}
+          type="title"
+          style={{
+            fontWeight: 500,
+          }}
+        >
+          {post.title}
+        </AppText>
+      )}
+      {post.body && (
+        <AppText size={14} type="subText">
+          {post.body}
+        </AppText>
+      )}
+    </TouchableOpacity>
+  );
+}
+
+interface PostAuthorProps {
+  author: author;
+}
+
+const PostAuthor = ({ author }: PostAuthorProps) => {
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+      }}
+    >
+      <UserAvatar imageUrl={author.avatar} />
+
+      <View>
+        <AppText
+          size={14}
+          type="title"
+          style={{
+            fontWeight: 500,
+          }}
+        >
+          {author.name + " " + author.lastName}
+        </AppText>
+
+        <UserRoleTag role={author.role} />
+      </View>
+    </View>
+  );
+};
+
+const IMAGE_WITH = width - 40;
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 20,
+    backgroundColor: "rgba(0,0,0, 0.05)",
+    paddingVertical: 10,
+    paddingHorizontal: 10,
+    gap: 10,
+  },
+  image: {
+    width: IMAGE_WITH,
+    height: IMAGE_WITH,
+    borderRadius: 20,
+  },
+});
