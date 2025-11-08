@@ -49,8 +49,7 @@ export const posts: post[] = [
     id: 4,
     title: "Открыта новая лаборатория робототехники",
     body: "Факультет инженерии открыл современную лабораторию робототехники. Приглашаются студенты всех курсов.",
-    coverImage:
-      "https://images.unsplash.com/photo-1581092795360-fd1ca4d0ef1a?w=800",
+    coverImage: undefined,
     likesCount: 67,
     createdAt: new Date("2025-09-22"),
     author: {
@@ -79,8 +78,7 @@ export const posts: post[] = [
     id: 6,
     title: "Неделя карьеры 2025",
     body: "В университете пройдет Неделя карьеры. Компании-партнёры проведут мастер-классы и собеседования.",
-    coverImage:
-      "https://images.unsplash.com/photo-1532619675605-1ede6b9e7048?w=800",
+    coverImage: undefined,
     likesCount: 75,
     createdAt: new Date("2025-11-05"),
     author: {
@@ -139,8 +137,7 @@ export const posts: post[] = [
     id: 10,
     title: "Студенческий фестиваль искусств",
     body: "Приглашаем всех на ежегодный фестиваль искусств! Вас ждут музыкальные номера, выставки и ярмарка талантов.",
-    coverImage:
-      "https://images.unsplash.com/photo-1515162305280-7d67c05b39c2?w=800",
+    coverImage: undefined,
     likesCount: 48,
     createdAt: new Date("2025-11-01"),
     author: {
