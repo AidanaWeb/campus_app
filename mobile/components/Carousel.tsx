@@ -11,6 +11,7 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
+import AppText from "./AppText";
 const { width } = Dimensions.get("window");
 
 interface sliderItem {
@@ -129,7 +130,11 @@ const SliderItem = ({ slider, index, scrollX }: SliderItemProps) => {
   return (
     <Animated.View key={index} style={[styles.slider, rnAnimatedStyle]}>
       <Image source={{ uri: slider.image }} style={styles.sliderImage} />
-      <Text style={styles.sliderText}>{slider.title}</Text>
+      {slider.title && (
+        <AppText size={14} style={styles.sliderText}>
+          {slider.title}
+        </AppText>
+      )}
     </Animated.View>
   );
 };
@@ -149,5 +154,9 @@ const styles = StyleSheet.create({
   sliderText: {
     position: "absolute",
     bottom: 10,
+    left: 50,
+    fontWeight: 500,
+    color: "#fff",
+    width: width * 0.8,
   },
 });
