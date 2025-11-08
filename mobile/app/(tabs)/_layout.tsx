@@ -6,6 +6,7 @@ import { StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { BlurView } from "expo-blur";
+import UserAvatar from "@/components/UserAvatar";
 
 function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
   return (
@@ -45,7 +46,10 @@ export default function TabLayout() {
         },
         headerStyle: {
           backgroundColor,
+          borderBottomWidth: 0,
+          height: 110,
         },
+        headerShadowVisible: false,
 
         tabBarBackground: () => (
           <BlurView
@@ -66,7 +70,7 @@ export default function TabLayout() {
         name="index"
         options={{
           title: "Главная",
-          headerTitle: "",
+          headerTitle: "Главная",
           tabBarLabel: "",
 
           tabBarIcon: ({ color }) => {
@@ -85,12 +89,39 @@ export default function TabLayout() {
             );
           },
           headerRight: () => (
-            <Ionicons
-              name="notifications-outline"
-              size={24}
-              color="black"
-              style={{ marginRight: 20 }}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginRight: 10,
+              }}
+            >
+              <Ionicons
+                name="notifications-outline"
+                size={24}
+                color="black"
+                style={{ marginRight: 20 }}
+              />
+
+              <UserAvatar imageUrl="https://randomuser.me/api/portraits/women/44.jpg" />
+            </View>
+          ),
+          headerLeft: () => (
+            <View
+              style={{
+                marginLeft: 10,
+                flexDirection: "row",
+                alignItems: "center",
+                marginRight: 10,
+              }}
+            >
+              <Ionicons
+                name="settings-outline"
+                size={24}
+                color="black"
+                style={{ opacity: 0.3 }}
+              />
+            </View>
           ),
         }}
       />
