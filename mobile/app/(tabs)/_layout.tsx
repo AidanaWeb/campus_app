@@ -179,6 +179,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   headerSide: {
+    flexDirection: "row",
     alignItems: "center",
     gap: 20,
     marginHorizontal: 10,
