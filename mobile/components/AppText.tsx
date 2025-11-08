@@ -1,11 +1,11 @@
-import { Text, TextStyle } from "react-native";
+import { StyleProp, Text, TextStyle } from "react-native";
 import React from "react";
 
 interface AppTextProps {
   type?: "title" | "default";
   size?: number;
   children: string | number;
-  style?: TextStyle;
+  style?: StyleProp<TextStyle>;
 }
 
 export default function AppText({
@@ -14,11 +14,10 @@ export default function AppText({
   children,
   style = {},
 }: AppTextProps) {
-  const textStyle: TextStyle = {
+  const textStyle = {
     fontFamily: type === "title" ? "Montserrat" : "Roboto",
     fontSize: size,
-    ...style,
   };
 
-  return <Text style={textStyle}>{children}</Text>;
+  return <Text style={[textStyle, style]}>{children}</Text>;
 }
