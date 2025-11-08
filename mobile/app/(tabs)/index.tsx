@@ -64,7 +64,7 @@ const ListHeader = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
         style={{
-          marginLeft: 20,
+          marginLeft: 10,
           marginTop: 10,
         }}
         ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
