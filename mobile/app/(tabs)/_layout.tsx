@@ -4,7 +4,7 @@ import React from "react";
 
 import Colors from "@/constants/Colors";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -23,12 +23,16 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors["light"].tint,
         headerShown: true,
+        sceneStyle: {
+          backgroundColor: "#fff",
+        },
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
           title: "Главная",
+          headerTitle: "",
           tabBarIcon: ({ color }) => (
             <Octicons
               name={pathname === "/" ? "home-fill" : "home"}
