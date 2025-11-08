@@ -6,6 +6,8 @@ import Colors from "@/constants/Colors";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 import { Pressable, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -16,7 +18,10 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
+  const theme = useSelector((state: RootState) => state.theme.current);
   const pathname = usePathname();
+
+  const backgroundColor = theme === "light" ? "#fff" : "#000";
 
   return (
     <Tabs
@@ -24,7 +29,13 @@ export default function TabLayout() {
         tabBarActiveTintColor: Colors["light"].tint,
         headerShown: true,
         sceneStyle: {
-          backgroundColor: "#fff",
+          backgroundColor,
+        },
+        tabBarStyle: {
+          backgroundColor,
+        },
+        headerStyle: {
+          backgroundColor,
         },
       }}
     >

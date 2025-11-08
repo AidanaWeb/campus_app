@@ -1,19 +1,16 @@
-const Theme = {
+const Colors = {
   light: {
     primary: "#FEFFFF",
     secondary: "#000",
+    text: "#000",
   },
   dark: {
     primary: "#000",
     secondary: "#FEFFFF",
+    text: "#FEFFFF",
   },
-
-  //   common: {
-  //     buttonOpacity: "5%",
-  //     buttonTextOpacity: "40%",
-  //   },
 };
 
 export type ThemeType = "light" | "dark";
 
-export default Theme;
+export default Colors;
