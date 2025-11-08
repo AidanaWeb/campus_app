@@ -53,17 +53,7 @@ export default function TabLayout() {
         headerShadowVisible: false,
 
         tabBarBackground: () => (
-          <BlurView
-            intensity={60}
-            tint={theme}
-            style={{
-              position: "absolute",
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-            }}
-          />
+          <BlurView intensity={60} tint={theme} style={styles.blurView} />
         ),
       }}
     >
@@ -90,27 +80,13 @@ export default function TabLayout() {
             );
           },
           headerRight: () => (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                marginRight: 10,
-                gap: 20,
-              }}
-            >
+            <View style={styles.headerSide}>
               <Icon type="Ionicons" name="notifications-outline" />
               <UserAvatar imageUrl="https://randomuser.me/api/portraits/women/44.jpg" />
             </View>
           ),
           headerLeft: () => (
-            <View
-              style={{
-                marginLeft: 10,
-                flexDirection: "row",
-                alignItems: "center",
-                marginRight: 10,
-              }}
-            >
+            <View style={styles.headerSide}>
               <Icon type="Ionicons" name="settings-outline" opacity={0.3} />
             </View>
           ),
@@ -194,5 +170,17 @@ const styles = StyleSheet.create({
   },
   tabBarBadge: {
     top: 5,
+  },
+  blurView: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  headerSide: {
+    alignItems: "center",
+    gap: 20,
+    marginHorizontal: 10,
   },
 });
