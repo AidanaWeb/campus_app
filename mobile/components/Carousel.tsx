@@ -22,7 +22,7 @@ interface sliderItem {
 
 interface CarouselProps {
   data: sliderItem[];
-  slideInterval: number;
+  slideInterval?: number;
 }
 
 export default function Carousel({
