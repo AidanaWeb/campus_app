@@ -56,8 +56,8 @@ export default function Carousel({
           animated: true,
         });
       } else {
+        currentIndex.current = 0;
         setTimeout(() => {
-          currentIndex.current = 0;
           ref.current?.scrollToOffset({
             offset: 0,
             animated: true,
@@ -87,12 +87,18 @@ export default function Carousel({
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={onScrollHandler}
-        // onScrollBeginDrag={(e) => {
-        //   setIsAutoPlay(false);
-        // }}
-        // onScrollEndDrag={(e) => {
-        //   setIsAutoPlay(true);
-        // }}
+        onScrollBeginDrag={(e) => {
+          currentIndex.current = Math.round(
+            e.nativeEvent.contentOffset.x / width
+          );
+          setIsAutoPlay(false);
+        }}
+        onScrollEndDrag={(e) => {
+          currentIndex.current = Math.round(
+            e.nativeEvent.contentOffset.x / width
+          );
+          setIsAutoPlay(true);
+        }}
         onMomentumScrollBegin={(e) => {
           currentIndex.current = Math.round(
             e.nativeEvent.contentOffset.x / width
