@@ -26,7 +26,7 @@ export default function Post({ post }: PostProps) {
     theme === "light" ? "rgba(0,0,0, 0.05)" : "rgba(255, 255, 255, 0.05)";
 
   return (
-    <TouchableOpacity
+    <View
       style={[
         styles.container,
         {
@@ -37,29 +37,40 @@ export default function Post({ post }: PostProps) {
       {post.author && <PostAuthor author={post.author} />}
 
       {post.coverImage && (
-        <Image
-          source={{ uri: post.coverImage }}
-          style={styles.image}
-          resizeMode="cover"
-        />
+        <TouchableOpacity activeOpacity={0.7}>
+          <Image
+            source={{ uri: post.coverImage }}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        </TouchableOpacity>
       )}
-      {post.title && (
-        <AppText
-          size={18}
-          type="title"
-          style={{
-            fontWeight: 500,
-          }}
-        >
-          {post.title}
-        </AppText>
-      )}
-      {post.body && (
-        <AppText size={14} type="subText">
-          {post.body}
-        </AppText>
-      )}
-    </TouchableOpacity>
+
+      <TouchableOpacity
+        activeOpacity={0.5}
+        style={{
+          gap: 5,
+        }}
+      >
+        {post.title && (
+          <AppText
+            size={18}
+            type="title"
+            style={{
+              fontWeight: 500,
+            }}
+          >
+            {post.title}
+          </AppText>
+        )}
+
+        {post.body && (
+          <AppText size={14} type="subText">
+            {post.body}
+          </AppText>
+        )}
+      </TouchableOpacity>
+    </View>
   );
 }
 
@@ -69,7 +80,8 @@ interface PostAuthorProps {
 
 const PostAuthor = ({ author }: PostAuthorProps) => {
   return (
-    <View
+    <TouchableOpacity
+      activeOpacity={0.5}
       style={{
         flexDirection: "row",
         alignItems: "center",
@@ -91,7 +103,7 @@ const PostAuthor = ({ author }: PostAuthorProps) => {
 
         <UserRoleTag role={author.role} />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
