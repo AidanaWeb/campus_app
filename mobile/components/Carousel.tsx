@@ -87,18 +87,6 @@ export default function Carousel({
         pagingEnabled
         showsHorizontalScrollIndicator={false}
         onScroll={onScrollHandler}
-        onScrollBeginDrag={(e) => {
-          currentIndex.current = Math.round(
-            e.nativeEvent.contentOffset.x / width
-          );
-          setIsAutoPlay(false);
-        }}
-        onScrollEndDrag={(e) => {
-          currentIndex.current = Math.round(
-            e.nativeEvent.contentOffset.x / width
-          );
-          setIsAutoPlay(true);
-        }}
         onMomentumScrollBegin={(e) => {
           currentIndex.current = Math.round(
             e.nativeEvent.contentOffset.x / width
