@@ -1,4 +1,11 @@
-import { View, Text, Image, Dimensions, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Dimensions,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import React, { useEffect, useRef, useState } from "react";
 import Animated, {
   Extrapolation,
@@ -129,12 +136,14 @@ const SliderItem = ({ slider, index, scrollX }: SliderItemProps) => {
 
   return (
     <Animated.View key={index} style={[styles.slider, rnAnimatedStyle]}>
-      <Image source={{ uri: slider.image }} style={styles.sliderImage} />
-      {slider.title && (
-        <AppText size={14} style={styles.sliderText}>
-          {slider.title}
-        </AppText>
-      )}
+      <TouchableOpacity activeOpacity={0.7}>
+        <Image source={{ uri: slider.image }} style={styles.sliderImage} />
+        {slider.title && (
+          <AppText size={14} style={styles.sliderText}>
+            {slider.title}
+          </AppText>
+        )}
+      </TouchableOpacity>
     </Animated.View>
   );
 };
