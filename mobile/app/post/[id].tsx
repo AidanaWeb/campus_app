@@ -23,7 +23,7 @@ const NAVBAR_HEIGHT = 60;
 
 export default function PostDetails() {
   const { id } = useLocalSearchParams();
-  const [post, setPost] = useState<post | null>(null);
+  const [post, setPost] = useState<Post | null>(null);
 
   useEffect(() => {
     const found = posts.find((item) => item.id === Number(id));
@@ -52,64 +52,15 @@ export default function PostDetails() {
   }
 
   return (
-    // <View>
-    //   <ScrollView>
-    //     <ListHeader image={post.coverImage} />
-    //   </ScrollView>
-    // </View>
-
     <View style={styles.container}>
-      {/* <StatusBar
-        barStyle="light-content"
-        translucent
-        backgroundColor="transparent"
-      /> */}
+      {post.coverImage && (
+        <PostImage image={post.coverImage} headerTranslate={headerTranslate} />
+      )}
 
-      {/* Картинка */}
-      <Animated.View
-        style={[
-          styles.headerImageContainer,
-          { transform: [{ translateY: headerTranslate }] },
-        ]}
-      >
-        <TouchableOpacity
-          style={{
-            position: "absolute",
-            top: 10,
-            zIndex: 20,
-            backgroundColor: "#ffffff40",
-            borderRadius: 50,
-            paddingVertical: 15,
-            paddingHorizontal: 15,
-            margin: 10,
-          }}
-        >
-          <Icon type="Ionicons" name="arrow-back" color="white" />
-        </TouchableOpacity>
-
-        <Image
-          source={{
-            uri: post.coverImage,
-          }}
-          style={styles.headerImage}
-        />
-
-        <View
-          style={{
-            borderRadius: 50,
-            backgroundColor: "#fff",
-            height: 80,
-            bottom: 40,
-          }}
-        ></View>
-      </Animated.View>
-
-      {/* Панель */}
       <Animated.View style={[styles.navbar, { opacity: navbarOpacity }]}>
         <Text style={styles.navbarTitle}>Новости университета</Text>
       </Animated.View>
 
-      {/* Контент */}
       <Animated.ScrollView
         style={styles.scrollView}
         contentContainerStyle={{ paddingTop: HEADER_HEIGHT }}
@@ -151,29 +102,48 @@ export default function PostDetails() {
   );
 }
 
-const ListHeader = (props: { image: string | undefined }) => {
+const PostImage = (props: {
+  image: string;
+  headerTranslate: Animated.AnimatedInterpolation<string | number>;
+}) => {
   return (
-    <View>
-      {props.image && (
-        <Image
-          source={{ uri: props.image }}
-          style={{
-            width: IMAGE_SIZE,
-            height: IMAGE_SIZE,
-          }}
-          resizeMode="cover"
-        />
-      )}
+    <Animated.View
+      style={[
+        styles.headerImageContainer,
+        { transform: [{ translateY: props.headerTranslate }] },
+      ]}
+    >
+      <TouchableOpacity
+        style={{
+          position: "absolute",
+          top: 10,
+          zIndex: 20,
+          backgroundColor: "#ffffff40",
+          borderRadius: 50,
+          paddingVertical: 15,
+          paddingHorizontal: 15,
+          margin: 10,
+        }}
+      >
+        <Icon type="Ionicons" name="arrow-back" color="white" />
+      </TouchableOpacity>
+
+      <Image
+        source={{
+          uri: props.image,
+        }}
+        style={styles.headerImage}
+      />
 
       <View
         style={{
           borderRadius: 50,
           backgroundColor: "#fff",
-          height: 60,
-          bottom: 30,
+          height: 80,
+          bottom: 40,
         }}
       ></View>
-    </View>
+    </Animated.View>
   );
 };
 
@@ -214,7 +184,8 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
+    top: -30,
 
     // marginTop: 60,
   },
