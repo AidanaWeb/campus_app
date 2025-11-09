@@ -3,8 +3,6 @@ import {
   Text,
   Image,
   Dimensions,
-  ScrollView,
-  FlatList,
   Animated,
   StyleSheet,
   TouchableOpacity,
@@ -23,7 +21,7 @@ const IMAGE_SIZE = width;
 const HEADER_HEIGHT = IMAGE_SIZE;
 const NAVBAR_HEIGHT = 60;
 
-export default function postDetails() {
+export default function PostDetails() {
   const { id } = useLocalSearchParams();
   const [post, setPost] = useState<post | null>(null);
 

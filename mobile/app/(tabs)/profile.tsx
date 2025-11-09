@@ -11,7 +11,7 @@ import {
 const HEADER_HEIGHT = 250;
 const NAVBAR_HEIGHT = 60;
 
-export default function profile() {
+export default function Profile() {
   const scrollY = useRef(new Animated.Value(0)).current;
 
   const headerTranslate = scrollY.interpolate({
