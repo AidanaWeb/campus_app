@@ -1,18 +1,23 @@
 import { View, Text, Image } from "react-native";
-import React from "react";
+import React, { Fragment } from "react";
 
 interface UserAvatarProps {
-  imageUrl: string;
+  imageUrl: string | undefined;
+  size?: number;
 }
 
-export default function UserAvatar({ imageUrl }: UserAvatarProps) {
+export default function UserAvatar({ imageUrl, size = 50 }: UserAvatarProps) {
+  if (!imageUrl) {
+    return <Fragment />;
+  }
+
   return (
     <View>
       <Image
         source={{ uri: imageUrl }}
         style={{
-          width: 50,
-          height: 50,
+          width: size,
+          height: size,
           borderRadius: 50,
         }}
       />

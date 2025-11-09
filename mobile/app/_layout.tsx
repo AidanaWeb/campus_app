@@ -18,6 +18,8 @@ import { useColorScheme } from "react-native";
 import { getDataFromStorage } from "@/utils/storage";
 import { setTheme } from "@/store/slices/themeSlice";
 import Colors from "@/constants/Theme";
+import { users } from "@/mock/users";
+import { setUserInfo } from "@/store/slices/userSlice";
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
@@ -72,6 +74,11 @@ function RootLayoutNav() {
 
     initTheme();
   }, [OStheme]);
+
+  useEffect(() => {
+    const user = users[0];
+    dispatch(setUserInfo(user));
+  }, [users.length]);
 
   return (
     <SafeAreaProvider>

@@ -9,6 +9,6 @@ export interface User {
   bio?: string;
   phone?: string;
   role: UserRole;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: number;
+  updatedAt: number;
 }

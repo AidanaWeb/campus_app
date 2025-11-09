@@ -9,8 +9,8 @@ export const users: User[] = [
     bio: "Студент факультета информационных технологий. Увлекаюсь веб-разработкой и дизайном интерфейсов.",
     phone: "77051234567",
     role: "STUDENT",
-    createdAt: new Date("2024-09-12T09:00:00"),
-    updatedAt: new Date("2024-11-01T14:20:00"),
+    createdAt: 1726122000000, // 2024-09-12T09:00:00
+    updatedAt: 1730454000000, // 2024-11-01T14:20:00
     avatar: "https://randomuser.me/api/portraits/women/45.jpg",
   },
   {
@@ -21,8 +21,8 @@ export const users: User[] = [
     bio: "Преподаватель кафедры программирования. Читаю курс по алгоритмам и структурам данных.",
     phone: "77051234568",
     role: "TEACHER",
-    createdAt: new Date("2023-02-10T12:30:00"),
-    updatedAt: new Date("2024-10-15T10:45:00"),
+    createdAt: 1676025000000, // 2023-02-10T12:30:00
+    updatedAt: 1728989100000, // 2024-10-15T10:45:00
     avatar: "https://randomuser.me/api/portraits/men/12.jpg",
   },
   {
@@ -33,8 +33,8 @@ export const users: User[] = [
     bio: "Студентка факультета экономики. Активный участник студенческого совета.",
     phone: "77051234569",
     role: "STUDENT",
-    createdAt: new Date("2024-05-20T11:00:00"),
-    updatedAt: new Date("2024-10-20T16:10:00"),
+    createdAt: 1716195600000, // 2024-05-20T11:00:00
+    updatedAt: 1729427400000, // 2024-10-20T16:10:00
     avatar: "https://randomuser.me/api/portraits/women/22.jpg",
   },
   {
@@ -45,8 +45,8 @@ export const users: User[] = [
     bio: "Администратор университета. Отвечаю за техническое сопровождение и безопасность данных.",
     phone: "77051234570",
     role: "ADMIN",
-    createdAt: new Date("2022-12-01T08:15:00"),
-    updatedAt: new Date("2024-11-01T09:00:00"),
+    createdAt: 1669878900000, // 2022-12-01T08:15:00
+    updatedAt: 1730448000000, // 2024-11-01T09:00:00
     avatar: "https://randomuser.me/api/portraits/men/47.jpg",
   },
   {
@@ -57,8 +57,8 @@ export const users: User[] = [
     bio: "Преподаватель по UX/UI-дизайну. Люблю проектировать понятные интерфейсы.",
     phone: "77051234571",
     role: "TEACHER",
-    createdAt: new Date("2023-04-12T13:00:00"),
-    updatedAt: new Date("2024-10-22T11:00:00"),
+    createdAt: 1681304400000, // 2023-04-12T13:00:00
+    updatedAt: 1729587600000, // 2024-10-22T11:00:00
     avatar: "https://randomuser.me/api/portraits/women/41.jpg",
   },
   {
@@ -69,8 +69,8 @@ export const users: User[] = [
     bio: "Студент направления 'Информационные системы'. Люблю программировать на TypeScript.",
     phone: "77051234572",
     role: "STUDENT",
-    createdAt: new Date("2024-03-05T15:45:00"),
-    updatedAt: new Date("2024-10-31T17:00:00"),
+    createdAt: 1709649900000, // 2024-03-05T15:45:00
+    updatedAt: 1730390400000, // 2024-10-31T17:00:00
     avatar: "https://randomuser.me/api/portraits/men/56.jpg",
   },
   {
@@ -81,8 +81,8 @@ export const users: User[] = [
     bio: "Студентка факультета журналистики. Пишу статьи о жизни кампуса.",
     phone: "77051234573",
     role: "STUDENT",
-    createdAt: new Date("2024-02-10T09:30:00"),
-    updatedAt: new Date("2024-10-30T12:00:00"),
+    createdAt: 1707557400000, // 2024-02-10T09:30:00
+    updatedAt: 1730270400000, // 2024-10-30T12:00:00
     avatar: "https://randomuser.me/api/portraits/women/18.jpg",
   },
   {
@@ -93,8 +93,8 @@ export const users: User[] = [
     bio: "Преподаватель по компьютерным сетям и безопасности. Люблю объяснять сложные вещи просто.",
     phone: "77051234574",
     role: "TEACHER",
-    createdAt: new Date("2022-10-10T14:10:00"),
-    updatedAt: new Date("2024-10-25T09:50:00"),
+    createdAt: 1665413400000, // 2022-10-10T14:10:00
+    updatedAt: 1729835400000, // 2024-10-25T09:50:00
     avatar: "https://randomuser.me/api/portraits/men/33.jpg",
   },
   {
@@ -105,8 +105,8 @@ export const users: User[] = [
     bio: "Системный администратор. Отвечаю за стабильную работу серверов.",
     phone: "77051234575",
     role: "ADMIN",
-    createdAt: new Date("2021-09-15T10:20:00"),
-    updatedAt: new Date("2024-10-28T13:30:00"),
+    createdAt: 1631694000000, // 2021-09-15T10:20:00
+    updatedAt: 1729811400000, // 2024-10-28T13:30:00
     avatar: "https://randomuser.me/api/portraits/men/61.jpg",
   },
   {
@@ -117,8 +117,8 @@ export const users: User[] = [
     bio: "Студентка 3 курса факультета лингвистики. Организую мероприятия для иностранных студентов.",
     phone: "77051234576",
     role: "STUDENT",
-    createdAt: new Date("2024-04-05T12:00:00"),
-    updatedAt: new Date("2024-11-01T08:00:00"),
+    createdAt: 1712318400000, // 2024-04-05T12:00:00
+    updatedAt: 1730442000000, // 2024-11-01T08:00:00
     avatar: "https://randomuser.me/api/portraits/women/39.jpg",
   },
 ];

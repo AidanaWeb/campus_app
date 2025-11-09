@@ -1,126 +1,61 @@
-import React, { useRef } from "react";
-import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  Animated,
-  StatusBar,
-} from "react-native";
+import AppText from "@/components/AppText";
+import UserAvatar from "@/components/UserAvatar";
+import { RootState } from "@/store/store";
+import React, { Fragment } from "react";
+import { StyleSheet, ScrollView, View, Image, Dimensions } from "react-native";
+import { useSelector } from "react-redux";
 
-const HEADER_HEIGHT = 250;
-const NAVBAR_HEIGHT = 60;
+const { width } = Dimensions.get("window");
+
+const IMAGE_SIZE = 100;
 
 export default function Profile() {
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const user = useSelector((state: RootState) => state.user.info);
 
-  const headerTranslate = scrollY.interpolate({
-    inputRange: [0, HEADER_HEIGHT - NAVBAR_HEIGHT],
-    outputRange: [0, -(HEADER_HEIGHT - NAVBAR_HEIGHT)],
-    extrapolate: "clamp",
-  });
-
-  const navbarOpacity = scrollY.interpolate({
-    inputRange: [
-      HEADER_HEIGHT - NAVBAR_HEIGHT - 20,
-      HEADER_HEIGHT - NAVBAR_HEIGHT,
-    ],
-    outputRange: [0, 1],
-    extrapolate: "clamp",
-  });
+  if (!user) {
+    return <Fragment />;
+  }
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        barStyle="light-content"
-        translucent
-        backgroundColor="transparent"
-      />
-
-      {/* Картинка */}
-      <Animated.View
-        style={[
-          styles.headerImageContainer,
-          { transform: [{ translateY: headerTranslate }] },
-        ]}
+    <ScrollView>
+      <View
+        style={{
+          backgroundColor: "black",
+          width,
+          height: width / 2.5,
+        }}
       >
         <Image
           source={{
-            uri: "https://avatarko.ru/img/kartinka/33/multfilm_lyagushka_32117.jpg",
+            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQyfme07N2Zg8AOUuGY0Ymw-XjjA9sGwVUWQ&s",
           }}
-          style={styles.headerImage}
+          style={{
+            width,
+            height: width / 2.5,
+          }}
         />
-      </Animated.View>
+      </View>
 
-      {/* Панель */}
-      <Animated.View style={[styles.navbar, { opacity: navbarOpacity }]}>
-        <Text style={styles.navbarTitle}>Новости университета</Text>
-      </Animated.View>
+      {user.avatar && (
+        <View
+          style={{
+            width: IMAGE_SIZE + 20,
+            height: IMAGE_SIZE + 20,
+            borderRadius: 60,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            bottom: 50,
+            left: 20,
+          }}
+        >
+          <UserAvatar imageUrl={user.avatar} size={IMAGE_SIZE} />
+        </View>
+      )}
 
-      {/* Контент */}
-      <Animated.ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={{ paddingTop: HEADER_HEIGHT }}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true }
-        )}
-        scrollEventThrottle={16}
-      >
-        {[...Array(20).keys()].map((i) => (
-          <View key={i} style={styles.card}>
-            <Text style={{ fontSize: 16 }}>Пост #{i + 1}</Text>
-          </View>
-        ))}
-      </Animated.ScrollView>
-    </View>
+      <AppText>{user.name}</AppText>
+    </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
-  headerImageContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: HEADER_HEIGHT,
-    overflow: "hidden",
-  },
-  headerImage: {
-    width: "100%",
-    height: "100%",
-  },
-  navbar: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: NAVBAR_HEIGHT + StatusBar.currentHeight!,
-    backgroundColor: "#6C63FF",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: 10,
-  },
-  navbarTitle: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  scrollView: {
-    flex: 1,
-    marginTop: 60,
-  },
-  card: {
-    height: 120,
-    marginHorizontal: 16,
-    marginBottom: 12,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+const styles = StyleSheet.create({});

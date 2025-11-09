@@ -2,11 +2,11 @@ import { User } from "@/types/user.type";
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface UserState {
-  info: User | object;
+  info: User | null;
 }
 
 const initialState: UserState = {
-  info: {},
+  info: null,
 };
 
 export const userSlice = createSlice({
