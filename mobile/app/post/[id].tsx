@@ -5,19 +5,17 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { Fragment, useEffect, useState, useRef } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { posts } from "@/mock/posts";
 import { Post, Event } from "@/types/post.type";
-import { StatusBar, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import AppText from "@/components/AppText";
 import Icon from "@/components/Icon";
 
 const { width } = Dimensions.get("window");
 
 const IMAGE_SIZE = width;
-const HEADER_HEIGHT = IMAGE_SIZE;
-const NAVBAR_HEIGHT = 60;
 
 export default function PostDetails() {
   const { id } = useLocalSearchParams();
@@ -45,9 +43,11 @@ export default function PostDetails() {
               </AppText>
             )}
 
-            <AppText type={"subText"} size={14}>
-              {post.body}
-            </AppText>
+            {post.description && (
+              <AppText type={"subText"} size={14}>
+                {post.description}
+              </AppText>
+            )}
           </View>
 
           <EventProps location={post.location} startsAt={post.startsAt} />
@@ -68,9 +68,11 @@ export default function PostDetails() {
             </AppText>
           )}
 
-          <AppText type={"subText"} size={14}>
-            {post.body}
-          </AppText>
+          {post.description && (
+            <AppText type={"subText"} size={14}>
+              {post.description}
+            </AppText>
+          )}
         </View>
       </View>
     </ScrollView>
@@ -153,8 +155,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
   },
   image: {
-    width: width,
-    height: width,
+    width: IMAGE_SIZE,
+    height: IMAGE_SIZE,
   },
   desc: {
     gap: 10,

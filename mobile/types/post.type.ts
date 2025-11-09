@@ -5,6 +5,7 @@ export interface Author {
   role: "STUDENT" | "TEACHER" | "ADMIN";
 }
 
+export type FeedItem = Post | Event;
 export interface Post {
   id: number;
   title?: string;
