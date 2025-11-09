@@ -1,8 +1,8 @@
-import { Tabs, usePathname } from "expo-router";
+import { router, Tabs, usePathname } from "expo-router";
 import React, { ReactNode } from "react";
 import Colors from "@/constants/Theme";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { BlurView } from "expo-blur";
@@ -129,13 +129,13 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="post/index"
+        name="createPost"
         options={{
           title: "Создать",
           tabBarLabel: "",
 
           tabBarIcon: ({ color }) => {
-            const isFocused = pathname === "/post";
+            const isFocused = pathname === "/createPost";
             return (
               <TabBarIcon
                 isFocused={isFocused}

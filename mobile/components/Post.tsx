@@ -13,18 +13,24 @@ import { RootState } from "@/store/store";
 import UserAvatar from "./UserAvatar";
 import UserRoleTag from "./UserRoleTag";
 import Icon from "./Icon";
+import { router } from "expo-router";
 
+const { width } = Dimensions.get("window");
 interface PostProps {
   post: post;
 }
 
-const { width } = Dimensions.get("window");
-
 export default function Post({ post }: PostProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
-
   const backgroundColor =
     theme === "light" ? "rgba(0,0,0, 0.05)" : "rgba(255, 255, 255, 0.05)";
+
+  const openDetails = () => {
+    router.navigate({
+      pathname: "/post/[id]",
+      params: { id: post.id },
+    });
+  };
 
   return (
     <View
@@ -38,7 +44,7 @@ export default function Post({ post }: PostProps) {
       {post.author && <PostAuthor author={post.author} />}
 
       {post.coverImage && (
-        <TouchableOpacity activeOpacity={0.7}>
+        <TouchableOpacity activeOpacity={0.7} onPress={openDetails}>
           <Image
             source={{ uri: post.coverImage }}
             style={styles.image}
@@ -48,6 +54,7 @@ export default function Post({ post }: PostProps) {
       )}
 
       <TouchableOpacity
+        onPress={openDetails}
         activeOpacity={0.5}
         style={{
           gap: 5,
@@ -70,9 +77,9 @@ export default function Post({ post }: PostProps) {
             {post.body}
           </AppText>
         )}
-
-        <PostLike likes={post.likesCount} />
       </TouchableOpacity>
+
+      <PostLike likes={post.likesCount} />
     </View>
   );
 }
