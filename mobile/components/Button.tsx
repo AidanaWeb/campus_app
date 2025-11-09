@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   TextStyle,
   StyleSheet,
+  ViewStyle,
 } from "react-native";
 import React, { ReactNode } from "react";
 import AppText from "./AppText";
@@ -17,6 +18,8 @@ interface ButtonProps {
   titleColor?: string;
   titleStyle?: TextStyle;
   isActive?: boolean;
+  containerStyle?: ViewStyle;
+  buttonStyle?: ViewStyle;
 }
 
 export default function Button({
@@ -26,6 +29,8 @@ export default function Button({
   titleColor,
   titleStyle,
   isActive = false,
+  containerStyle,
+  buttonStyle,
 }: ButtonProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
 
@@ -34,12 +39,13 @@ export default function Button({
     const color = theme === "light" ? "#fff" : "#000";
 
     return (
-      <View>
+      <View style={containerStyle}>
         <TouchableOpacity
           style={[
             styles.button,
             {
               backgroundColor,
+              ...buttonStyle,
             },
           ]}
         >
@@ -73,6 +79,7 @@ export default function Button({
 
 const styles = StyleSheet.create({
   button: {
+    alignSelf: "flex-start",
     paddingHorizontal: 25,
     paddingVertical: 15,
     backgroundColor: "rgba(0, 0, 0, 0.05)",
