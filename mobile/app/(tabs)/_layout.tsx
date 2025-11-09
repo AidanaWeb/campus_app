@@ -41,7 +41,7 @@ const ToggleThemeButton = () => {
           paddingHorizontal: 5,
         }}
       >
-        <Icon type="Ionicons" name="sunny" color="#fff" />
+        <Icon type="AntDesign" name="sun" color="#fff" />
       </TouchableOpacity>
     );
   }
@@ -55,7 +55,7 @@ const ToggleThemeButton = () => {
         paddingHorizontal: 5,
       }}
     >
-      <Icon type="AntDesign" name="moon" color="#000" />
+      <Icon type="FontAwesome" name="moon-o" color="#000" />
     </TouchableOpacity>
   );
 };
@@ -121,8 +121,8 @@ export default function TabLayout() {
           ),
           headerLeft: () => (
             <View style={styles.headerSide}>
-              <ToggleThemeButton />
               <Icon type="Ionicons" name="settings-outline" opacity={0.3} />
+              {/* <ToggleThemeButton /> */}
             </View>
           ),
         }}
