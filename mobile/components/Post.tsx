@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import AppText from "./AppText";
-import { Author, Post } from "@/types/post.type";
+import type { Author, Post } from "@/types/post.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserAvatar from "./UserAvatar";

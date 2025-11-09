@@ -8,6 +8,7 @@ export const posts: Post[] = [
     coverImage: undefined,
     likesCount: 42,
     createdAt: new Date("2025-09-01"),
+    type: "news",
     author: {
       name: "Алия",
       lastName: "Мухамеджанова",
@@ -23,6 +24,7 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800",
     likesCount: 58,
     createdAt: new Date("2025-10-02"),
+    type: "news",
     author: {
       name: "Данияр",
       lastName: "Тлеулин",
@@ -38,6 +40,7 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800",
     likesCount: 33,
     createdAt: new Date("2025-10-28"),
+    type: "news",
     author: {
       name: "Гульнара",
       lastName: "Сагинтаева",
@@ -52,6 +55,7 @@ export const posts: Post[] = [
     coverImage: undefined,
     likesCount: 67,
     createdAt: new Date("2025-09-22"),
+    type: "news",
     author: {
       name: "Ерлан",
       lastName: "Нургалиев",
@@ -67,6 +71,7 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?w=800",
     likesCount: 29,
     createdAt: new Date("2025-10-15"),
+    type: "news",
     author: {
       name: "Аслан",
       lastName: "Жумабеков",
@@ -81,6 +86,7 @@ export const posts: Post[] = [
     coverImage: undefined,
     likesCount: 75,
     createdAt: new Date("2025-11-05"),
+    type: "news",
     author: {
       name: "Сауле",
       lastName: "Касымова",
@@ -96,6 +102,7 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800",
     likesCount: 84,
     createdAt: new Date("2025-10-18"),
+    type: "news",
     author: {
       name: "Андрей",
       lastName: "Ким",
@@ -111,6 +118,7 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800",
     likesCount: 95,
     createdAt: new Date("2025-09-30"),
+    type: "post",
     author: {
       name: "Алина",
       lastName: "Садыкова",
@@ -126,6 +134,7 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800",
     likesCount: 61,
     createdAt: new Date("2025-10-25"),
+    type: "news",
     author: {
       name: "Бекзат",
       lastName: "Исабаев",
@@ -140,6 +149,89 @@ export const posts: Post[] = [
     coverImage: undefined,
     likesCount: 48,
     createdAt: new Date("2025-11-01"),
+    type: "post",
+    author: {
+      name: "Мария",
+      lastName: "Кравченко",
+      avatar: "https://randomuser.me/api/portraits/women/33.jpg",
+      role: "STUDENT",
+    },
+  },
+
+  // 🎉 Новые посты типа EVENT
+  {
+    id: 11,
+    title: "Tech Meetup 2025",
+    body: "Большая встреча IT-энтузиастов, где выступят разработчики из Google, Yandex и стартапов СНГ.",
+    coverImage:
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800",
+    likesCount: 132,
+    createdAt: new Date("2025-11-12"),
+    type: "event",
+    author: {
+      name: "Алия",
+      lastName: "Мухамеджанова",
+      avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+      role: "ADMIN",
+    },
+  },
+  {
+    id: 12,
+    title: "Хакатон 'Code for Future'",
+    body: "48 часов кода, кофе и командной работы! Регистрируйся и создай свой инновационный проект.",
+    coverImage:
+      "https://www.cpduk.co.uk/sites/default/files/news-imported/cpd-product-marketing-alliance-best-practices-hackathon.jpg",
+    likesCount: 210,
+    createdAt: new Date("2025-11-20"),
+    type: "event",
+    author: {
+      name: "Андрей",
+      lastName: "Ким",
+      avatar: "https://randomuser.me/api/portraits/men/29.jpg",
+      role: "TEACHER",
+    },
+  },
+  {
+    id: 13,
+    title: "Вечер настольных игр",
+    body: "Неформальная встреча студентов в холле главного корпуса. Принеси свои любимые игры и хорошее настроение!",
+    coverImage:
+      "https://cdn.apartmenttherapy.info/image/upload/v1667575155/stock/custom%20stock/2022-11-custom-stock/games-0228-edit.jpg",
+    likesCount: 64,
+    createdAt: new Date("2025-11-10"),
+    type: "event",
+    author: {
+      name: "Алина",
+      lastName: "Садыкова",
+      avatar: "https://randomuser.me/api/portraits/women/42.jpg",
+      role: "STUDENT",
+    },
+  },
+  {
+    id: 14,
+    title: "Спортивный день факультетов",
+    body: "Соревнования между факультетами по волейболу, футболу и лёгкой атлетике. Призы и весёлое настроение гарантированы!",
+    coverImage:
+      "https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800",
+    likesCount: 78,
+    createdAt: new Date("2025-11-08"),
+    type: "event",
+    author: {
+      name: "Бекзат",
+      lastName: "Исабаев",
+      avatar: "https://randomuser.me/api/portraits/men/11.jpg",
+      role: "ADMIN",
+    },
+  },
+  {
+    id: 15,
+    title: "Киноночь в кампусе",
+    body: "Собираемся в актовом зале — смотрим культовые фильмы о науке и технологиях. Вход свободный!",
+    coverImage:
+      "https://img.freepik.com/free-photo/popcorn-juice-movie-night_23-2148470131.jpg?semt=ais_hybrid&w=740&q=80",
+    likesCount: 90,
+    createdAt: new Date("2025-11-15"),
+    type: "event",
     author: {
       name: "Мария",
       lastName: "Кравченко",
