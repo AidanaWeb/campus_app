@@ -1,9 +1,7 @@
 import {
   View,
-  Text,
   Image,
   Dimensions,
-  Animated,
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
@@ -11,7 +9,7 @@ import React, { Fragment, useEffect, useState, useRef } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { posts } from "@/mock/posts";
 import { Post, Event } from "@/types/post.type";
-import { StatusBar } from "react-native";
+import { StatusBar, ScrollView } from "react-native";
 import AppText from "@/components/AppText";
 import Icon from "@/components/Icon";
 
@@ -30,50 +28,16 @@ export default function PostDetails() {
     if (found) setPost(found);
   }, [id]);
 
-  const scrollY = useRef(new Animated.Value(0)).current;
-
-  const headerTranslate = scrollY.interpolate({
-    inputRange: [0, HEADER_HEIGHT - NAVBAR_HEIGHT],
-    outputRange: [0, -(HEADER_HEIGHT - NAVBAR_HEIGHT)],
-    extrapolate: "clamp",
-  });
-
-  const navbarOpacity = scrollY.interpolate({
-    inputRange: [
-      HEADER_HEIGHT - NAVBAR_HEIGHT - 20,
-      HEADER_HEIGHT - NAVBAR_HEIGHT,
-    ],
-    outputRange: [0, 1],
-    extrapolate: "clamp",
-  });
-
   if (!post) {
     return <Fragment />;
   }
 
   if (post.type === "event") {
     return (
-      <View style={styles.container}>
-        {post.coverImage && (
-          <PostImage
-            image={post.coverImage}
-            headerTranslate={headerTranslate}
-          />
-        )}
+      <ScrollView style={{ flex: 1 }}>
+        <PostImage url={post.coverImage} />
 
-        <Animated.View style={[styles.navbar, { opacity: navbarOpacity }]}>
-          <Text style={styles.navbarTitle}>Новости университета</Text>
-        </Animated.View>
-
-        <Animated.ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={{ paddingTop: HEADER_HEIGHT }}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-            { useNativeDriver: true }
-          )}
-          scrollEventThrottle={16}
-        >
+        <View style={styles.panel}>
           <View style={styles.desc}>
             {post.title && (
               <AppText type="title" size={24} weight={"bold"}>
@@ -87,35 +51,17 @@ export default function PostDetails() {
           </View>
 
           <EventProps location={post.location} startsAt={post.startsAt} />
-        </Animated.ScrollView>
-      </View>
+        </View>
+      </ScrollView>
     );
   }
 
   return (
-    <View style={styles.container}>
-      {post.coverImage && (
-        <PostImage image={post.coverImage} headerTranslate={headerTranslate} />
-      )}
+    <ScrollView style={{ flex: 1 }}>
+      <PostImage url={post.coverImage} />
 
-      <Animated.View style={[styles.navbar, { opacity: navbarOpacity }]}>
-        <Text style={styles.navbarTitle}>Новости университета</Text>
-      </Animated.View>
-
-      <Animated.ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={{ paddingTop: HEADER_HEIGHT }}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          { useNativeDriver: true }
-        )}
-        scrollEventThrottle={16}
-      >
-        <View
-          style={{
-            gap: 10,
-          }}
-        >
+      <View style={styles.panel}>
+        <View style={styles.desc}>
           {post.title && (
             <AppText type="title" size={24} weight={"bold"}>
               {post.title}
@@ -126,35 +72,20 @@ export default function PostDetails() {
             {post.body}
           </AppText>
         </View>
-
-        <View
-          style={{
-            marginTop: 20,
-          }}
-        >
-          {[...Array(20).keys()].map((i) => (
-            <View key={i} style={styles.card}>
-              <Text style={{ fontSize: 16 }}>Пост #{i + 1}</Text>
-            </View>
-          ))}
-        </View>
-      </Animated.ScrollView>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
-const PostImage = (props: {
-  image: string;
-  headerTranslate: Animated.AnimatedInterpolation<string | number>;
-}) => {
+const PostImage = (props: { url: string | undefined }) => {
+  if (!props.url) {
+    return;
+  }
+
   return (
-    <Animated.View
-      style={[
-        styles.headerImageContainer,
-        { transform: [{ translateY: props.headerTranslate }] },
-      ]}
-    >
+    <View style={{}}>
       <TouchableOpacity
+        onPress={() => router.back()}
         style={{
           position: "absolute",
           top: 10,
@@ -171,20 +102,11 @@ const PostImage = (props: {
 
       <Image
         source={{
-          uri: props.image,
+          uri: props.url,
         }}
-        style={styles.headerImage}
+        style={styles.image}
       />
-
-      <View
-        style={{
-          borderRadius: 50,
-          backgroundColor: "#fff",
-          height: 80,
-          bottom: 40,
-        }}
-      ></View>
-    </Animated.View>
+    </View>
   );
 };
 
@@ -223,57 +145,17 @@ const EventProps = (props: { location: string; startsAt: Date }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  panel: {
+    borderRadius: 50,
     backgroundColor: "#fff",
+    bottom: 40,
+    paddingTop: 30,
+    paddingHorizontal: 30,
   },
-  headerImageContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: HEADER_HEIGHT,
-    overflow: "hidden",
+  image: {
+    width: width,
+    height: width,
   },
-  headerImage: {
-    width: "100%",
-    height: "100%",
-  },
-  navbar: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: NAVBAR_HEIGHT + StatusBar.currentHeight!,
-    backgroundColor: "#6C63FF",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingBottom: 10,
-    zIndex: 10,
-  },
-  navbarTitle: {
-    color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  scrollView: {
-    flex: 1,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    top: -30,
-
-    // marginTop: 60,
-  },
-  card: {
-    height: 120,
-    marginHorizontal: 16,
-    marginBottom: 12,
-    backgroundColor: "#f0f0f0",
-    borderRadius: 12,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
   desc: {
     gap: 10,
   },
