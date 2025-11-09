@@ -5,11 +5,15 @@ import { RootState } from "@/store/store";
 import Colors from "@/constants/Theme";
 import { opacity } from "react-native-reanimated/lib/typescript/Colors";
 
+type FontWeightString = "normal" | "bold" | "light";
+type FontWeightNumber = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+
 interface AppTextProps {
   type?: "title" | "default" | "subText";
   size?: number;
   children: string | number;
   style?: StyleProp<TextStyle>;
+  weight?: FontWeightString | FontWeightNumber;
 }
 
 export default function AppText({
@@ -17,6 +21,7 @@ export default function AppText({
   size = 12,
   children,
   style = {},
+  weight = "normal",
 }: AppTextProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
 
@@ -24,6 +29,7 @@ export default function AppText({
     fontFamily: type === "title" ? "Montserrat" : "Roboto",
     fontSize: size,
     opacity: type === "subText" ? 0.5 : 1,
+    fontWeight: weight,
     color: Colors[theme].text,
   };
 
