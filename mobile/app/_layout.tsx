@@ -17,6 +17,7 @@ import { RootState, store } from "@/store/store";
 import { useColorScheme } from "react-native";
 import { getDataFromStorage } from "@/utils/storage";
 import { setTheme } from "@/store/slices/themeSlice";
+import Colors from "@/constants/Theme";
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
@@ -78,8 +79,17 @@ function RootLayoutNav() {
         <Stack
           screenOptions={{
             contentStyle: {
-              backgroundColor: "#fff",
+              backgroundColor: Colors[themeState].primary,
             },
+            headerStyle: {
+              backgroundColor: Colors[themeState].primary,
+            },
+            headerShadowVisible: false,
+            headerTitleStyle: {
+              color: Colors[themeState].text,
+            },
+            headerBackButtonDisplayMode: "minimal",
+            headerTintColor: Colors[themeState].secondary,
           }}
         >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

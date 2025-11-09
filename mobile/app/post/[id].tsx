@@ -13,6 +13,9 @@ import { ScrollView } from "react-native";
 import AppText from "@/components/AppText";
 import Icon from "@/components/Icon";
 import { PostAuthor } from "@/components/Post";
+import Colors from "@/constants/Theme";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const { width } = Dimensions.get("window");
 
@@ -20,6 +23,7 @@ const IMAGE_SIZE = width;
 
 export default function PostDetails() {
   const { id } = useLocalSearchParams();
+  const theme = useSelector((state: RootState) => state.theme.current);
   const [post, setPost] = useState<Post | Event | null>(null);
 
   useEffect(() => {
@@ -36,7 +40,14 @@ export default function PostDetails() {
       <ScrollView style={{ flex: 1 }}>
         <PostImage url={post.coverImage} />
 
-        <View style={styles.panel}>
+        <View
+          style={[
+            styles.panel,
+            {
+              backgroundColor: Colors[theme].primary,
+            },
+          ]}
+        >
           <View style={styles.desc}>
             {post.title && (
               <AppText type="title" size={24} weight={"bold"}>
@@ -65,7 +76,14 @@ export default function PostDetails() {
     <ScrollView style={{ flex: 1 }}>
       <PostImage url={post.coverImage} />
 
-      <View style={styles.panel}>
+      <View
+        style={[
+          styles.panel,
+          {
+            backgroundColor: Colors[theme].primary,
+          },
+        ]}
+      >
         <View style={styles.desc}>
           {post.title && (
             <AppText type="title" size={24} weight={"bold"}>
@@ -171,7 +189,6 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
 const styles = StyleSheet.create({
   panel: {
     borderRadius: 50,
-    backgroundColor: "#fff",
     bottom: 40,
     paddingTop: 30,
     paddingHorizontal: 30,
