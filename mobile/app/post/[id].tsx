@@ -10,7 +10,7 @@ import {
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { posts } from "@/mock/posts";
-import { post } from "@/types/post.type";
+import { Post } from "@/types/post.type";
 import { StatusBar } from "react-native";
 import AppText from "@/components/AppText";
 import Icon from "@/components/Icon";

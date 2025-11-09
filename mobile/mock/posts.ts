@@ -1,6 +1,6 @@
-import { post } from "@/types/post.type";
+import { Post } from "@/types/post.type";
 
-export const posts: post[] = [
+export const posts: Post[] = [
   {
     id: 1,
     title: "Начало нового семестра!",

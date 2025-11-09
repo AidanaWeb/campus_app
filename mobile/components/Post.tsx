@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import AppText from "./AppText";
-import { author, post } from "@/types/post.type";
+import { Author, Post } from "@/types/post.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserAvatar from "./UserAvatar";
@@ -17,7 +17,7 @@ import { router } from "expo-router";
 
 const { width } = Dimensions.get("window");
 interface PostProps {
-  post: post;
+  post: Post;
 }
 
 export default function Post({ post }: PostProps) {
@@ -85,7 +85,7 @@ export default function Post({ post }: PostProps) {
 }
 
 interface PostAuthorProps {
-  author: author;
+  author: Author;
 }
 
 const PostAuthor = ({ author }: PostAuthorProps) => {
