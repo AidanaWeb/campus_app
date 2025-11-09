@@ -1,6 +1,8 @@
-import { Post } from "@/types/post.type";
+import { Post, Event } from "@/types/post.type";
 
-export const posts: Post[] = [
+type FeedItem = Post | Event;
+
+export const posts: FeedItem[] = [
   {
     id: 1,
     title: "Начало нового семестра!",
@@ -167,6 +169,9 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800",
     likesCount: 132,
     createdAt: new Date("2025-11-12"),
+    startsAt: new Date("2025-11-12T10:00:00"),
+    endsAt: new Date("2025-11-12T18:00:00"),
+    location: "Главный актовый зал университета",
     type: "event",
     author: {
       name: "Алия",
@@ -183,6 +188,9 @@ export const posts: Post[] = [
       "https://www.cpduk.co.uk/sites/default/files/news-imported/cpd-product-marketing-alliance-best-practices-hackathon.jpg",
     likesCount: 210,
     createdAt: new Date("2025-11-20"),
+    startsAt: new Date("2025-11-20T09:00:00"),
+    endsAt: new Date("2025-11-22T09:00:00"),
+    location: "Лаборатория инноваций, корпус IT",
     type: "event",
     author: {
       name: "Андрей",
@@ -199,6 +207,9 @@ export const posts: Post[] = [
       "https://cdn.apartmenttherapy.info/image/upload/v1667575155/stock/custom%20stock/2022-11-custom-stock/games-0228-edit.jpg",
     likesCount: 64,
     createdAt: new Date("2025-11-10"),
+    startsAt: new Date("2025-11-10T18:00:00"),
+    endsAt: new Date("2025-11-10T22:00:00"),
+    location: "Холл главного корпуса",
     type: "event",
     author: {
       name: "Алина",
@@ -215,6 +226,9 @@ export const posts: Post[] = [
       "https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800",
     likesCount: 78,
     createdAt: new Date("2025-11-08"),
+    startsAt: new Date("2025-11-08T09:00:00"),
+    endsAt: new Date("2025-11-08T17:00:00"),
+    location: "Стадион университета",
     type: "event",
     author: {
       name: "Бекзат",
@@ -231,6 +245,9 @@ export const posts: Post[] = [
       "https://img.freepik.com/free-photo/popcorn-juice-movie-night_23-2148470131.jpg?semt=ais_hybrid&w=740&q=80",
     likesCount: 90,
     createdAt: new Date("2025-11-15"),
+    startsAt: new Date("2025-11-15T20:00:00"),
+    endsAt: new Date("2025-11-16T00:00:00"),
+    location: "Актовый зал кампуса",
     type: "event",
     author: {
       name: "Мария",

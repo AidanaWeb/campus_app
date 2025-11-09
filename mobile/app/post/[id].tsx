@@ -10,7 +10,7 @@ import {
 import React, { Fragment, useEffect, useState, useRef } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { posts } from "@/mock/posts";
-import { Post } from "@/types/post.type";
+import { Post, Event } from "@/types/post.type";
 import { StatusBar } from "react-native";
 import AppText from "@/components/AppText";
 import Icon from "@/components/Icon";
@@ -23,7 +23,7 @@ const NAVBAR_HEIGHT = 60;
 
 export default function PostDetails() {
   const { id } = useLocalSearchParams();
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<Post | Event | null>(null);
 
   useEffect(() => {
     const found = posts.find((item) => item.id === Number(id));
@@ -49,6 +49,85 @@ export default function PostDetails() {
 
   if (!post) {
     return <Fragment />;
+  }
+
+  if (post.type === "event") {
+    return (
+      <View style={styles.container}>
+        {post.coverImage && (
+          <PostImage
+            image={post.coverImage}
+            headerTranslate={headerTranslate}
+          />
+        )}
+
+        <Animated.View style={[styles.navbar, { opacity: navbarOpacity }]}>
+          <Text style={styles.navbarTitle}>Новости университета</Text>
+        </Animated.View>
+
+        <Animated.ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={{ paddingTop: HEADER_HEIGHT }}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+            { useNativeDriver: true }
+          )}
+          scrollEventThrottle={16}
+        >
+          <View style={styles.desc}>
+            {post.title && (
+              <AppText type="title" size={24} weight={"bold"}>
+                {post.title}
+              </AppText>
+            )}
+
+            <AppText type={"subText"} size={14}>
+              {post.body}
+            </AppText>
+          </View>
+
+          <View style={styles.eventPropsLine}>
+            <View style={styles.eventProp}>
+              <Icon
+                type="AntDesign"
+                name="clock-circle"
+                opacity={0.3}
+                size={20}
+              />
+              <AppText
+                type="subText"
+                style={{
+                  flexShrink: 1,
+                }}
+              >
+                {post.startsAt.toLocaleString("ru-RU", {
+                  dateStyle: "full",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </AppText>
+            </View>
+
+            <View style={styles.eventProp}>
+              <Icon
+                type="Ionicons"
+                name="location-outline"
+                opacity={0.3}
+                size={20}
+              />
+              <AppText
+                type="subText"
+                style={{
+                  flexShrink: 1,
+                }}
+              >
+                {post.location}
+              </AppText>
+            </View>
+          </View>
+        </Animated.ScrollView>
+      </View>
+    );
   }
 
   return (
@@ -197,5 +276,23 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     justifyContent: "center",
     alignItems: "center",
+  },
+
+  desc: {
+    gap: 10,
+  },
+
+  eventPropsLine: {
+    marginTop: 20,
+    gap: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  eventProp: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    maxWidth: "45%",
   },
 });

@@ -13,13 +13,23 @@ export interface Post {
   likesCount: number;
   createdAt: Date;
   author: Author;
+  description?: string;
 
-  type: "event" | "post" | "news";
+  type: "post" | "news";
 }
 
-interface Event extends Post {
+export interface Event {
+  id: number;
+  title?: string;
+  body: string;
+  coverImage?: string;
+  likesCount: number;
+  createdAt: Date;
+  author: Author;
+  description?: string;
+
   startsAt: Date;
   endsAt?: Date;
-  createdAt: Date;
-  place: string;
+  location: string;
+  type: "event";
 }
