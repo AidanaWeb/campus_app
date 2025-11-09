@@ -75,7 +75,13 @@ function RootLayoutNav() {
   return (
     <SafeAreaProvider>
       <ThemeProvider value={DefaultTheme}>
-        <Stack>
+        <Stack
+          screenOptions={{
+            contentStyle: {
+              backgroundColor: "#fff",
+            },
+          }}
+        >
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
           <Stack.Screen
