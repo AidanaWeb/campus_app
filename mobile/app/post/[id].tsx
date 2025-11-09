@@ -12,6 +12,7 @@ import { Post, Event } from "@/types/post.type";
 import { ScrollView } from "react-native";
 import AppText from "@/components/AppText";
 import Icon from "@/components/Icon";
+import { PostAuthor } from "@/components/Post";
 
 const { width } = Dimensions.get("window");
 
@@ -51,6 +52,10 @@ export default function PostDetails() {
           </View>
 
           <EventProps location={post.location} startsAt={post.startsAt} />
+
+          <PostAuthor author={post.author} />
+
+          <PostBody />
         </View>
       </ScrollView>
     );
@@ -74,6 +79,10 @@ export default function PostDetails() {
             </AppText>
           )}
         </View>
+
+        <PostAuthor author={post.author} />
+
+        <PostBody />
       </View>
     </ScrollView>
   );
@@ -146,6 +155,19 @@ const EventProps = (props: { location: string; startsAt: Date }) => {
   );
 };
 
+const PostBody = () => {
+  return (
+    <View>
+      <AppText type="subText" size={14}>
+        {`
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laborisnisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+              
+Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`}
+      </AppText>
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   panel: {
     borderRadius: 50,
@@ -153,6 +175,7 @@ const styles = StyleSheet.create({
     bottom: 40,
     paddingTop: 30,
     paddingHorizontal: 30,
+    gap: 20,
   },
   image: {
     width: IMAGE_SIZE,
@@ -163,7 +186,7 @@ const styles = StyleSheet.create({
   },
 
   eventPropsLine: {
-    marginTop: 20,
+    // marginTop: 20,
     gap: 20,
     flexDirection: "row",
     justifyContent: "space-between",

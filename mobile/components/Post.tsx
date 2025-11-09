@@ -88,7 +88,7 @@ interface PostAuthorProps {
   author: Author;
 }
 
-const PostAuthor = ({ author }: PostAuthorProps) => {
+export const PostAuthor = ({ author }: PostAuthorProps) => {
   return (
     <TouchableOpacity
       activeOpacity={0.5}
