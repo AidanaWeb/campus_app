@@ -1,5 +1,5 @@
 import { StyleProp, Text, TextStyle } from "react-native";
-import React from "react";
+import React, { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Colors from "@/constants/Theme";
@@ -11,7 +11,7 @@ type FontWeightNumber = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 interface AppTextProps {
   type?: "title" | "default" | "subText";
   size?: number;
-  children: string | number;
+  children: string | number | ReactNode;
   style?: StyleProp<TextStyle>;
   weight?: FontWeightString | FontWeightNumber;
 }

@@ -1,11 +1,22 @@
 import AppText from "@/components/AppText";
 import Button from "@/components/Button";
+import Icon from "@/components/Icon";
 import UserAvatar from "@/components/UserAvatar";
 import Colors from "@/constants/Theme";
+import { posts } from "@/mock/posts";
 import { RootState } from "@/store/store";
+import { User } from "@/types/user.type";
 import React, { Fragment } from "react";
-import { StyleSheet, ScrollView, View, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  Image,
+  Dimensions,
+  FlatList,
+} from "react-native";
 import { useSelector } from "react-redux";
+import Post from "@/components/Post";
 
 const { width } = Dimensions.get("window");
 
@@ -20,6 +31,13 @@ export default function Profile() {
   }
 
   return (
+    // <FlatList
+    //   ListHeaderComponent={<ListHeader user={user} />}
+    //   data={posts}
+    //   renderItem={({ item }) => <Post post={item} />}
+    //   ListFooterComponent={() => <></>}
+    // />
+
     <ScrollView
       style={{
         flex: 1,
@@ -44,14 +62,85 @@ export default function Profile() {
         }}
       >
         {user.avatar && (
-          <View
-            style={[
+          <UserAvatar
+            containerStyle={[
               styles.avatarContainer,
               { backgroundColor: Colors[theme].primary },
             ]}
-          >
-            <UserAvatar imageUrl={user.avatar} size={IMAGE_SIZE} />
+            imageUrl={user.avatar}
+            size={IMAGE_SIZE}
+          />
+        )}
+
+        <View
+          style={{
+            minHeight: 100,
+            borderRadius: 50,
+            backgroundColor: Colors[theme].primary,
+            top: IMAGE_SIZE / 2,
+          }}
+        >
+          <View style={styles.panelContent}>
+            <View style={{ paddingHorizontal: 10, gap: 5 }}>
+              <AppText type="title" size={20} weight={"bold"}>
+                {user.name + " " + user.lastName}
+              </AppText>
+
+              {user.bio && <AppText type="subText">{user.bio}</AppText>}
+
+              <RegisterDate createdAt={user.createdAt} />
+
+              <SubscribeButton />
+            </View>
+
+            <View style={{ gap: 10, marginTop: 20 }}>
+              <AppText type="title" size={16} style={{ marginLeft: 10 }}>
+                Посты
+              </AppText>
+
+              {posts.map((post) => {
+                return <Post key={post.id} post={post} />;
+              })}
+            </View>
           </View>
+        </View>
+      </View>
+    </ScrollView>
+  );
+}
+
+const ListHeader = (props: { user: User }) => {
+  const theme = useSelector((state: RootState) => state.theme.current);
+
+  return (
+    <View>
+      <View style={styles.imageContainer}>
+        <Image
+          source={{
+            uri: "https://i.pinimg.com/736x/7b/e1/23/7be1232b786e13dadc29bc52abdc38ce.jpg",
+          }}
+          style={{
+            width,
+            height: width / 2.5,
+          }}
+          resizeMode="cover"
+        />
+      </View>
+
+      <View
+        style={{
+          top: IMAGE_SIZE / 2,
+        }}
+      >
+        {props.user.avatar && (
+          <UserAvatar
+            containerStyle={[
+              styles.avatarContainer,
+              { backgroundColor: Colors[theme].primary },
+            ]}
+            imageUrl={props.user.avatar}
+            size={IMAGE_SIZE}
+          />
         )}
 
         <View
@@ -64,24 +153,52 @@ export default function Profile() {
         >
           <View style={styles.panelContent}>
             <AppText type="title" size={20} weight={"bold"}>
-              {user.name + " " + user.lastName}
+              {props.user.name + " " + props.user.lastName}
             </AppText>
 
-            {user.bio && <AppText type="subText">{user.bio}</AppText>}
+            {props.user.bio && (
+              <AppText type="subText">{props.user.bio}</AppText>
+            )}
 
-            <Button
-              containerStyle={{
-                marginTop: 20,
-              }}
-              title={"Подписаться"}
-              isActive
-            />
+            <RegisterDate createdAt={props.user.createdAt} />
+
+            <SubscribeButton />
           </View>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
-}
+};
+
+const SubscribeButton = () => {
+  return (
+    <Button
+      containerStyle={{
+        marginTop: 10,
+      }}
+      title={"Подписаться"}
+      isActive
+    />
+  );
+};
+
+const RegisterDate = (props: { createdAt: number }) => {
+  const registerDate = new Date(props.createdAt).toLocaleDateString();
+
+  return (
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        marginTop: 10,
+      }}
+    >
+      <Icon type="Ionicons" name="calendar-outline" size={18} opacity={0.3} />
+      <AppText type="subText">Дата регистрации: {registerDate}</AppText>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   imageContainer: {
@@ -102,7 +219,7 @@ const styles = StyleSheet.create({
   },
 
   panelContent: {
-    paddingHorizontal: 30,
+    paddingHorizontal: 10,
     gap: 10,
     top: IMAGE_SIZE / 2 + 40,
   },
