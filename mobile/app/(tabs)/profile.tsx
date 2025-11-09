@@ -1,5 +1,7 @@
 import AppText from "@/components/AppText";
+import Button from "@/components/Button";
 import UserAvatar from "@/components/UserAvatar";
+import Colors from "@/constants/Theme";
 import { RootState } from "@/store/store";
 import React, { Fragment } from "react";
 import { StyleSheet, ScrollView, View, Image, Dimensions } from "react-native";
@@ -11,51 +13,97 @@ const IMAGE_SIZE = 100;
 
 export default function Profile() {
   const user = useSelector((state: RootState) => state.user.info);
+  const theme = useSelector((state: RootState) => state.theme.current);
 
   if (!user) {
     return <Fragment />;
   }
 
   return (
-    <ScrollView>
-      <View
-        style={{
-          backgroundColor: "black",
-          width,
-          height: width / 2.5,
-        }}
-      >
+    <ScrollView
+      style={{
+        flex: 1,
+      }}
+    >
+      <View style={styles.imageContainer}>
         <Image
           source={{
-            uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQyfme07N2Zg8AOUuGY0Ymw-XjjA9sGwVUWQ&s",
+            uri: "https://i.pinimg.com/736x/7b/e1/23/7be1232b786e13dadc29bc52abdc38ce.jpg",
           }}
           style={{
             width,
             height: width / 2.5,
           }}
+          resizeMode="cover"
         />
       </View>
 
-      {user.avatar && (
+      <View
+        style={{
+          top: IMAGE_SIZE / 2,
+        }}
+      >
+        {user.avatar && (
+          <View
+            style={[
+              styles.avatarContainer,
+              { backgroundColor: Colors[theme].primary },
+            ]}
+          >
+            <UserAvatar imageUrl={user.avatar} size={IMAGE_SIZE} />
+          </View>
+        )}
+
         <View
           style={{
-            width: IMAGE_SIZE + 20,
-            height: IMAGE_SIZE + 20,
-            borderRadius: 60,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            bottom: 50,
-            left: 20,
+            minHeight: 100,
+            borderRadius: 50,
+            backgroundColor: Colors[theme].primary,
+            top: IMAGE_SIZE / 2,
           }}
         >
-          <UserAvatar imageUrl={user.avatar} size={IMAGE_SIZE} />
-        </View>
-      )}
+          <View style={styles.panelContent}>
+            <AppText type="title" size={20} weight={"bold"}>
+              {user.name + " " + user.lastName}
+            </AppText>
 
-      <AppText>{user.name}</AppText>
+            {user.bio && <AppText type="subText">{user.bio}</AppText>}
+
+            <Button
+              containerStyle={{
+                marginTop: 20,
+              }}
+              title={"Подписаться"}
+              isActive
+            />
+          </View>
+        </View>
+      </View>
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  imageContainer: {
+    backgroundColor: "black",
+    width,
+    height: width / 2.5,
+    position: "absolute",
+  },
+  avatarContainer: {
+    width: IMAGE_SIZE + 20,
+    height: IMAGE_SIZE + 20,
+    borderRadius: 60,
+    justifyContent: "center",
+    alignItems: "center",
+    left: 40,
+    position: "absolute",
+    zIndex: 1,
+  },
+
+  panelContent: {
+    paddingHorizontal: 30,
+    gap: 10,
+    top: IMAGE_SIZE / 2 + 40,
+  },
+});
