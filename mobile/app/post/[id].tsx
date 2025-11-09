@@ -86,45 +86,7 @@ export default function PostDetails() {
             </AppText>
           </View>
 
-          <View style={styles.eventPropsLine}>
-            <View style={styles.eventProp}>
-              <Icon
-                type="AntDesign"
-                name="clock-circle"
-                opacity={0.3}
-                size={20}
-              />
-              <AppText
-                type="subText"
-                style={{
-                  flexShrink: 1,
-                }}
-              >
-                {post.startsAt.toLocaleString("ru-RU", {
-                  dateStyle: "full",
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </AppText>
-            </View>
-
-            <View style={styles.eventProp}>
-              <Icon
-                type="Ionicons"
-                name="location-outline"
-                opacity={0.3}
-                size={20}
-              />
-              <AppText
-                type="subText"
-                style={{
-                  flexShrink: 1,
-                }}
-              >
-                {post.location}
-              </AppText>
-            </View>
-          </View>
+          <EventProps location={post.location} startsAt={post.startsAt} />
         </Animated.ScrollView>
       </View>
     );
@@ -223,6 +185,40 @@ const PostImage = (props: {
         }}
       ></View>
     </Animated.View>
+  );
+};
+
+const EventProps = (props: { location: string; startsAt: Date }) => {
+  return (
+    <View style={styles.eventPropsLine}>
+      <View style={styles.eventProp}>
+        <Icon type="AntDesign" name="clock-circle" opacity={0.3} size={20} />
+        <AppText
+          type="subText"
+          style={{
+            flexShrink: 1,
+          }}
+        >
+          {props.startsAt.toLocaleString("ru-RU", {
+            dateStyle: "full",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </AppText>
+      </View>
+
+      <View style={styles.eventProp}>
+        <Icon type="Ionicons" name="location-outline" opacity={0.3} size={20} />
+        <AppText
+          type="subText"
+          style={{
+            flexShrink: 1,
+          }}
+        >
+          {props.location}
+        </AppText>
+      </View>
+    </View>
   );
 };
 
