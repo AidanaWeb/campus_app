@@ -1,0 +1,70 @@
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    container_name: campus-app-postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql
+    networks:
+      - campus-app-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    networks:
+      - campus-app-net
+    volumes:
+      - ./server:/usr/src/app
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: campus-app-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    ports:
+      - "${PGADMIN_HOST_PORT}:${PGADMIN_CONTAINER_PORT}"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - campus-app-net
+
+  # prisma-studio:
+  #   image: node:20-alpine
+  #   working_dir: /app
+  #   volumes:
+  #     - ./:/app
+  #   ports:
+  #     - "5556:5555"
+  #   environment:
+  #     - DATABASE_URL=${DATABASE_URL}
+  #     - NODE_ENV=development
+  #   depends_on:
+  #     db:
+  #       condition: service_healthy
+  #   command: npx prisma studio
+
+networks:
+  campus-app-net:
+    driver: bridge
