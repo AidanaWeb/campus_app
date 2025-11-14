@@ -16,11 +16,11 @@ export class PostsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getPosts(query: SearchPostDto) {
-    const hasFilters = Object.keys(query).length > 0;
+    // const hasFilters = Object.keys(query).length > 0;
 
-    if (!hasFilters) {
-      return await this.getAllPosts();
-    }
+    // if (!hasFilters) {
+    //   return await this.getAllPosts();
+    // }
 
     const where: Prisma.PostWhereInput = {};
     if (query.authorId) {
@@ -40,6 +40,17 @@ export class PostsService {
         orderBy: {
           createdAt: query.order ?? "desc",
         },
+        include: {
+          author: {
+            select: {
+              name: true,
+              lastName: true,
+              email: true,
+              role: true,
+              avatar: true,
+            },
+          },
+        },
       });
 
       return {
@@ -57,7 +68,13 @@ export class PostsService {
   }
 
   async getAllPosts() {
-    const posts = await this.prisma.post.findMany();
+    const posts = await this.prisma.post.findMany({
+      include: {
+        author: true,
+      },
+    });
+
+    console.log(posts);
 
     return {
       data: posts,
