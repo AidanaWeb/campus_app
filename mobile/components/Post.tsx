@@ -91,6 +91,9 @@ interface PostAuthorProps {
 export const PostAuthor = ({ author }: PostAuthorProps) => {
   return (
     <TouchableOpacity
+      onPress={() =>
+        router.navigate({ pathname: `/social/${author.id}`, params: "" })
+      }
       activeOpacity={0.5}
       style={{
         flexDirection: "row",

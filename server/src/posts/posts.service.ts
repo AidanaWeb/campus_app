@@ -45,6 +45,7 @@ export class PostsService {
         include: {
           author: {
             select: {
+              id: true,
               name: true,
               lastName: true,
               email: true,
@@ -91,6 +92,7 @@ export class PostsService {
       include: {
         author: {
           select: {
+            id: true,
             name: true,
             lastName: true,
             email: true,
