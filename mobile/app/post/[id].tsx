@@ -42,10 +42,11 @@ export default function PostDetails() {
             styles.panel,
             {
               backgroundColor: Colors[theme].primary,
+              bottom: post.coverImage ? 40 : null,
             },
           ]}
         >
-          <View style={styles.desc}>
+          <View style={styles.title}>
             {post.title && (
               <AppText type="title" size={24} weight={"bold"}>
                 {post.title}
@@ -72,10 +73,11 @@ export default function PostDetails() {
           styles.panel,
           {
             backgroundColor: Colors[theme].primary,
+            bottom: post.coverImage ? 40 : null,
           },
         ]}
       >
-        <View style={styles.desc}>
+        <View style={styles.title}>
           {post.title && (
             <AppText type="title" size={24} weight={"bold"}>
               {post.title}
@@ -184,7 +186,6 @@ const PostBody = (props: { description: string }) => {
 const styles = StyleSheet.create({
   panel: {
     borderRadius: 50,
-    bottom: 40,
     paddingTop: 30,
     paddingHorizontal: 30,
     gap: 20,
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
   },
-  desc: {
+  title: {
     gap: 10,
   },
 
