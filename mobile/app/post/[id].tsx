@@ -99,14 +99,20 @@ const PostImage = (props: { url: string | undefined }) => {
   if (!props.url) {
     return (
       <View style={{ height: 150 }}>
-        <HeaderButton onPress={() => router.back()} />
+        <HeaderButton
+          onPress={() => router.back()}
+          icon={{ type: "Ionicons", name: "arrow-back" }}
+        />
       </View>
     );
   }
 
   return (
     <View style={{}}>
-      <HeaderButton onPress={() => router.back()} />
+      <HeaderButton
+        onPress={() => router.back()}
+        icon={{ type: "Ionicons", name: "arrow-back" }}
+      />
 
       <Image
         source={{

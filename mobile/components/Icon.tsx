@@ -11,13 +11,15 @@ import { RootState } from "@/store/store";
 import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 
+export type iconType =
+  | "Ionicons"
+  | "MaterialCommunityIcons"
+  | "Octicons"
+  | "AntDesign"
+  | "FontAwesome";
+
 interface IconsProps {
-  type:
-    | "Ionicons"
-    | "MaterialCommunityIcons"
-    | "Octicons"
-    | "AntDesign"
-    | "FontAwesome";
+  type: iconType;
   name: string;
   size?: number;
   color?: string;

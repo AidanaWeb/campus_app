@@ -1,18 +1,28 @@
 import { TouchableOpacity, StyleSheet } from "react-native";
-import React from "react";
-import Icon from "../Icon";
+import React, { ReactNode } from "react";
+import Icon, { iconType } from "../Icon";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 
 interface HeaderButtonProps {
-  margin?: number;
   onPress: () => void;
+  margin?: number;
+  icon: {
+    type: iconType;
+    name: string;
+  };
 }
 
-export const HeaderButton = ({ margin = 10, onPress }: HeaderButtonProps) => {
+export const HeaderButton = ({
+  margin = 10,
+  onPress,
+  icon,
+}: HeaderButtonProps) => {
   const insets = useSafeAreaInsets();
   const theme = useSelector((state: RootState) => state.theme.current);
+  const backgroundColor = theme === "light" ? "#00000030" : "#ffffff30";
+  const iconColor = theme === "light" ? "white" : "black";
 
   return (
     <TouchableOpacity
@@ -21,14 +31,10 @@ export const HeaderButton = ({ margin = 10, onPress }: HeaderButtonProps) => {
         ...styles.button,
         margin,
         top: insets.top,
-        backgroundColor: theme === "light" ? "#00000030" : "#ffffff30",
+        backgroundColor,
       }}
     >
-      <Icon
-        type="Ionicons"
-        name="arrow-back"
-        color={theme === "light" ? "white" : "black"}
-      />
+      <Icon type={icon.type} name={icon.name} color={iconColor} />
     </TouchableOpacity>
   );
 };
