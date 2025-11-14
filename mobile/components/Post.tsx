@@ -92,7 +92,10 @@ export const PostAuthor = ({ author }: PostAuthorProps) => {
   return (
     <TouchableOpacity
       onPress={() =>
-        router.navigate({ pathname: `/social/${author.id}`, params: "" })
+        router.navigate({
+          pathname: `/social/[id]`,
+          params: { id: author.id },
+        })
       }
       activeOpacity={0.5}
       style={{
