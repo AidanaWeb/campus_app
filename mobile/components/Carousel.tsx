@@ -18,7 +18,7 @@ import Animated, {
   useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
-import AppText from "./AppText";
+import AppText from "./UI/AppText";
 const { width } = Dimensions.get("window");
 
 interface sliderItem {

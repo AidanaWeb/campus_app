@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
-import AppText from "./AppText";
+import AppText from "./UI/AppText";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 

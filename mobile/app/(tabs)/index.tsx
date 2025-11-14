@@ -1,7 +1,7 @@
 import { FlatList, StyleSheet, View } from "react-native";
 import Carousel from "@/components/Carousel";
-import AppText from "@/components/AppText";
-import Button from "@/components/Button";
+import AppText from "@/components/UI/AppText";
+import Button from "@/components/UI/Button";
 import Post from "@/components/Post";
 import { useGetPostsQuery } from "@/store/api/posts";
 import { banners } from "@/mock/banners";

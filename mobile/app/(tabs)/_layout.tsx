@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { BlurView } from "expo-blur";
 import UserAvatar from "@/components/UserAvatar";
-import Icon from "@/components/Icon";
+import Icon from "@/components/UI/Icon";
 import { setTheme } from "@/store/slices/themeSlice";
 
 function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {

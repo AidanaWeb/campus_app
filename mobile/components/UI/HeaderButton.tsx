@@ -1,6 +1,6 @@
 import { TouchableOpacity, StyleSheet } from "react-native";
 import React, { ReactNode } from "react";
-import Icon, { iconType } from "../Icon";
+import Icon, { iconType } from "./Icon";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";

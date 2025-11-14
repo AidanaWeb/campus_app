@@ -9,10 +9,10 @@ import UserAvatar from "@/components/UserAvatar";
 import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import AppText from "@/components/AppText";
+import AppText from "@/components/UI/AppText";
 import { User } from "@/types/user.type";
-import Button from "@/components/Button";
-import Icon from "@/components/Icon";
+import Button from "@/components/UI/Button";
+import Icon from "@/components/UI/Icon";
 import { StyleSheet } from "react-native";
 
 const { width } = Dimensions.get("window");

@@ -6,13 +6,13 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import AppText from "./AppText";
+import AppText from "./UI/AppText";
 import type { Author, FeedItem, Post } from "@/types/post.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import UserAvatar from "./UserAvatar";
 import UserRoleTag from "./UserRoleTag";
-import Icon from "./Icon";
+import Icon from "./UI/Icon";
 import { router } from "expo-router";
 
 const { width } = Dimensions.get("window");
