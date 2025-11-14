@@ -16,20 +16,19 @@ import { PostAuthor } from "@/components/Post";
 import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import { useGetPostByIdQuery } from "@/store/api/posts";
 
 const { width } = Dimensions.get("window");
 
 const IMAGE_SIZE = width;
 
 export default function PostDetails() {
-  const { id } = useLocalSearchParams();
+  const { id }: { id: string } = useLocalSearchParams();
   const theme = useSelector((state: RootState) => state.theme.current);
-  const [post, setPost] = useState<Post | Event | null>(null);
+  // const [post, setPost] = useState<Post | Event | null>(null);
 
-  useEffect(() => {
-    const found = posts.find((item) => item.id === Number(id));
-    if (found) setPost(found);
-  }, [id]);
+  const { currentData } = useGetPostByIdQuery(id);
+  const post: Post | Event | null = currentData?.data ?? null;
 
   if (!post) {
     return <Fragment />;
@@ -139,7 +138,7 @@ const PostImage = (props: { url: string | undefined }) => {
   );
 };
 
-const EventProps = (props: { location: string; startsAt: Date }) => {
+const EventProps = (props: { location: string; startsAt: string }) => {
   return (
     <View style={styles.eventPropsLine}>
       <View style={styles.eventProp}>
@@ -150,11 +149,12 @@ const EventProps = (props: { location: string; startsAt: Date }) => {
             flexShrink: 1,
           }}
         >
-          {props.startsAt.toLocaleString("ru-RU", {
+          {/* {props.startsAt.toLocaleString("ru-RU", {
             dateStyle: "full",
             hour: "2-digit",
             minute: "2-digit",
-          })}
+          })} */}{" "}
+          ""
         </AppText>
       </View>
 

@@ -88,6 +88,17 @@ export class PostsService {
       where: {
         id,
       },
+      include: {
+        author: {
+          select: {
+            name: true,
+            lastName: true,
+            email: true,
+            role: true,
+            avatar: true,
+          },
+        },
+      },
     });
 
     if (!post) {

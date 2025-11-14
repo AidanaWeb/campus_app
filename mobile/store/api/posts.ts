@@ -32,9 +32,13 @@ const postApi = api.injectEndpoints({
         };
       },
     }),
+
+    getPostById: build.query({
+      query: (postId) => `/posts/${postId}`,
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useGetPostsQuery } = postApi;
+export const { useGetPostsQuery, useGetPostByIdQuery } = postApi;
