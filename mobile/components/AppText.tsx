@@ -14,6 +14,7 @@ interface AppTextProps {
   children: string | number | ReactNode;
   style?: StyleProp<TextStyle>;
   weight?: FontWeightString | FontWeightNumber;
+  numberOfLines?: number;
 }
 
 export default function AppText({
@@ -22,6 +23,7 @@ export default function AppText({
   children,
   style = {},
   weight = "normal",
+  numberOfLines,
 }: AppTextProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
 
@@ -33,5 +35,9 @@ export default function AppText({
     color: Colors[theme].text,
   };
 
-  return <Text style={[textStyle, style]}>{children}</Text>;
+  return (
+    <Text style={[textStyle, style]} numberOfLines={numberOfLines}>
+      {children}
+    </Text>
+  );
 }

@@ -73,7 +73,7 @@ export default function Post({ post }: PostProps) {
         )}
 
         {post.description && (
-          <AppText size={14} type="subText">
+          <AppText size={14} type="subText" numberOfLines={3}>
             {post.description}
           </AppText>
         )}
