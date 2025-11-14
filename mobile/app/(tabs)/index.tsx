@@ -7,7 +7,7 @@ import Post from "@/components/Post";
 import { posts } from "@/mock/posts";
 import { banners } from "@/mock/banners";
 
-export default function TabOneScreen() {
+export default function MainScr() {
   return (
     <FlatList
       ListHeaderComponent={<ListHeader />}
