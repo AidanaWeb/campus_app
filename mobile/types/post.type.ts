@@ -17,7 +17,7 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
 
-  type: "post" | "news";
+  type: "POST" | "NEWS";
 }
 
 export interface Event {
@@ -33,5 +33,5 @@ export interface Event {
   createdAt: string;
   updatedAt: string;
 
-  type: "event";
+  type: "EVENT";
 }

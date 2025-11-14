@@ -5,10 +5,9 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { posts } from "@/mock/posts";
-import { Post, Event } from "@/types/post.type";
+import { FeedItem } from "@/types/post.type";
 import { ScrollView } from "react-native";
 import AppText from "@/components/AppText";
 import Icon from "@/components/Icon";
@@ -25,16 +24,15 @@ const IMAGE_SIZE = width;
 export default function PostDetails() {
   const { id }: { id: string } = useLocalSearchParams();
   const theme = useSelector((state: RootState) => state.theme.current);
-  // const [post, setPost] = useState<Post | Event | null>(null);
 
   const { currentData } = useGetPostByIdQuery(id);
-  const post: Post | Event | null = currentData?.data ?? null;
+  const post: FeedItem | null = currentData?.data ?? null;
 
   if (!post) {
     return <Fragment />;
   }
 
-  if (post.type === "event") {
+  if (post.type === "EVENT") {
     return (
       <ScrollView style={{ flex: 1 }}>
         <PostImage url={post.coverImage} />
@@ -54,18 +52,12 @@ export default function PostDetails() {
               </AppText>
             )}
 
-            {post.description && (
-              <AppText type={"subText"} size={14}>
-                {post.description}
-              </AppText>
-            )}
+            <PostAuthor author={post.author} />
           </View>
 
           <EventProps location={post.location} startsAt={post.startsAt} />
 
-          <PostAuthor author={post.author} />
-
-          <PostBody />
+          <PostBody description={post.description} />
         </View>
       </ScrollView>
     );
@@ -90,16 +82,10 @@ export default function PostDetails() {
             </AppText>
           )}
 
-          {post.description && (
-            <AppText type={"subText"} size={14}>
-              {post.description}
-            </AppText>
-          )}
+          <PostAuthor author={post.author} />
         </View>
 
-        <PostAuthor author={post.author} />
-
-        <PostBody />
+        <PostBody description={post.description} />
       </View>
     </ScrollView>
   );
@@ -149,12 +135,11 @@ const EventProps = (props: { location: string; startsAt: string }) => {
             flexShrink: 1,
           }}
         >
-          {/* {props.startsAt.toLocaleString("ru-RU", {
+          {new Date(props.startsAt).toLocaleString("ru-RU", {
             dateStyle: "full",
             hour: "2-digit",
             minute: "2-digit",
-          })} */}{" "}
-          ""
+          })}
         </AppText>
       </View>
 
@@ -173,18 +158,28 @@ const EventProps = (props: { location: string; startsAt: string }) => {
   );
 };
 
-const PostBody = () => {
+const PostBody = (props: { description: string }) => {
   return (
     <View>
       <AppText type="subText" size={14}>
-        {`
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laborisnisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-              
-Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`}
+        {props.description}
       </AppText>
     </View>
   );
 };
+
+// const PostBody = () => {
+//   return (
+//     <View>
+//       <AppText type="subText" size={14}>
+//         {`
+// Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laborisnisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+// Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`}
+//       </AppText>
+//     </View>
+//   );
+// };
 
 const styles = StyleSheet.create({
   panel: {
