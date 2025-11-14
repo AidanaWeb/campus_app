@@ -1,36 +1,37 @@
 export interface Author {
   name: string;
   lastName: string;
+  email: string;
   avatar: string;
   role: "STUDENT" | "TEACHER" | "ADMIN";
 }
 
 export type FeedItem = Post | Event;
 export interface Post {
-  id: number;
-  title?: string;
-  body: string;
+  id: string;
+  title: string;
+  description: string;
   coverImage?: string;
   likesCount: number;
-  createdAt: Date;
   author: Author;
-  description?: string;
+  createdAt: string;
+  updatedAt: string;
 
   type: "post" | "news";
 }
 
 export interface Event {
-  id: number;
+  id: string;
   title?: string;
-  body: string;
+  description: string;
   coverImage?: string;
   likesCount: number;
-  createdAt: Date;
   author: Author;
-  description?: string;
-
-  startsAt: Date;
-  endsAt?: Date;
+  startsAt: string;
+  endsAt?: string;
   location: string;
+  createdAt: string;
+  updatedAt: string;
+
   type: "event";
 }
