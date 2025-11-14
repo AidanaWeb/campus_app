@@ -117,7 +117,7 @@ function RootLayoutNav() {
           <Stack.Screen
             name="post/[id]"
             options={{
-              headerShown: true,
+              headerShown: false,
               headerTitle: "Пост",
             }}
           />

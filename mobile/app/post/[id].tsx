@@ -16,6 +16,7 @@ import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetPostByIdQuery } from "@/store/api/posts";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const { width } = Dimensions.get("window");
 
@@ -94,6 +95,8 @@ export default function PostDetails() {
 }
 
 const PostImage = (props: { url: string | undefined }) => {
+  const insets = useSafeAreaInsets();
+
   if (!props.url) {
     return;
   }
@@ -104,7 +107,7 @@ const PostImage = (props: { url: string | undefined }) => {
         onPress={() => router.back()}
         style={{
           position: "absolute",
-          top: 10,
+          top: insets.top,
           zIndex: 20,
           backgroundColor: "#ffffff40",
           borderRadius: 50,
