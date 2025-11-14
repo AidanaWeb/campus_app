@@ -32,10 +32,9 @@ export class PostsController {
   @Post()
   @UseGuards(AuthGuard)
   // TODO: store images
-  async createPost(@Req() req: AuthRequest, @Body() postData: createPostDto) {
-    return await this.postsService.createPost(req.userId, postData);
-  }
-
+  // async createPost(@Req() req: AuthRequest, @Body() postData: createPostDto) {
+  //   return await this.postsService.createPost(req.userId, postData);
+  // }
   @Delete("/:id")
   @UseGuards(AuthGuard)
   async deletePost(@Req() req: AuthRequest, @Body() postId: string) {
