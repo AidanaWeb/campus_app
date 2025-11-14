@@ -22,6 +22,8 @@ async function main() {
         role: userData.role,
         bio: userData.bio,
         phone: userData.phone,
+        avatar: userData.avatar,
+        coverImage: userData.coverImage,
       },
       create: {
         email: userData.email,
@@ -31,6 +33,8 @@ async function main() {
         role: userData.role,
         bio: userData.bio,
         phone: userData.phone,
+        avatar: userData.avatar,
+        coverImage: userData.coverImage,
       },
     });
 
