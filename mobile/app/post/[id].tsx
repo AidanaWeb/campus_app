@@ -95,29 +95,17 @@ export default function PostDetails() {
 }
 
 const PostImage = (props: { url: string | undefined }) => {
-  const insets = useSafeAreaInsets();
-
   if (!props.url) {
-    return;
+    return (
+      <View style={{ height: 150 }}>
+        <HeaderButton />
+      </View>
+    );
   }
 
   return (
     <View style={{}}>
-      <TouchableOpacity
-        onPress={() => router.back()}
-        style={{
-          position: "absolute",
-          top: insets.top,
-          zIndex: 20,
-          backgroundColor: "#ffffff40",
-          borderRadius: 50,
-          paddingVertical: 15,
-          paddingHorizontal: 15,
-          margin: 10,
-        }}
-      >
-        <Icon type="Ionicons" name="arrow-back" color="white" />
-      </TouchableOpacity>
+      <HeaderButton />
 
       <Image
         source={{
@@ -126,6 +114,33 @@ const PostImage = (props: { url: string | undefined }) => {
         style={styles.image}
       />
     </View>
+  );
+};
+
+const HeaderButton = () => {
+  const insets = useSafeAreaInsets();
+  const theme = useSelector((state: RootState) => state.theme.current);
+
+  return (
+    <TouchableOpacity
+      onPress={() => router.back()}
+      style={{
+        position: "absolute",
+        top: insets.top,
+        zIndex: 20,
+        backgroundColor: theme === "light" ? "#00000030" : "#ffffff30",
+        borderRadius: 50,
+        paddingVertical: 15,
+        paddingHorizontal: 15,
+        margin: 10,
+      }}
+    >
+      <Icon
+        type="Ionicons"
+        name="arrow-back"
+        color={theme === "light" ? "white" : "black"}
+      />
+    </TouchableOpacity>
   );
 };
 
