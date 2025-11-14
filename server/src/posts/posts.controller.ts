@@ -21,6 +21,7 @@ export class PostsController {
 
   @Get()
   async getPosts(@Query() searchPostQuery: SearchPostDto) {
+    console.log("12");
     return await this.postsService.getPosts(searchPostQuery);
   }
 

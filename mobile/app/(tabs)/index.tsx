@@ -3,11 +3,21 @@ import Carousel from "@/components/Carousel";
 import AppText from "@/components/AppText";
 import Button from "@/components/Button";
 import Post from "@/components/Post";
-
-import { posts } from "@/mock/posts";
+import { useGetPostsQuery } from "@/store/api/posts";
 import { banners } from "@/mock/banners";
 
 export default function MainScr() {
+  const { currentData, isLoading, isError } = useGetPostsQuery({});
+  const posts = Array.isArray(currentData?.data) ? currentData.data : [];
+
+  if (isLoading) {
+    return null;
+  }
+
+  if (isError) {
+    return null;
+  }
+
   return (
     <FlatList
       ListHeaderComponent={<ListHeader />}

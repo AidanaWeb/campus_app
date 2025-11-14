@@ -16,6 +16,8 @@ export class PostsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getPosts(query: SearchPostDto) {
+    console.log(query);
+
     // const hasFilters = Object.keys(query).length > 0;
 
     // if (!hasFilters) {
