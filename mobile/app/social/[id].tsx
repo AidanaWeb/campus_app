@@ -69,9 +69,11 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
             styles.avatarContainer,
             { backgroundColor: Colors[theme].primary },
           ]}
-          imageUrl={user.avatar}
           size={IMAGE_SIZE}
-          letter={user.name[0]}
+          user={{
+            name: user.name,
+            avatar: user.avatar,
+          }}
         />
 
         <View

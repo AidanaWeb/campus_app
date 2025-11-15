@@ -116,7 +116,12 @@ export default function TabLayout() {
           headerRight: () => (
             <View style={styles.headerSide}>
               <Icon type="Ionicons" name="notifications-outline" />
-              <UserAvatar imageUrl="https://randomuser.me/api/portraits/women/44.jpg" />
+              <UserAvatar
+                user={{
+                  avatar: "https://randomuser.me/api/portraits/women/44.jpg",
+                  name: "13",
+                }}
+              />
             </View>
           ),
           headerLeft: () => (

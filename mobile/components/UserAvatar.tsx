@@ -10,19 +10,22 @@ import React, { Fragment } from "react";
 import AppText from "./UI/AppText";
 
 interface UserAvatarProps {
-  imageUrl: string | undefined;
+  // imageUrl: string | undefined;
+  // letter?: string;
   size?: number;
   containerStyle?: StyleProp<ViewStyle>;
-  letter?: string;
+  user: {
+    name: string;
+    avatar?: string;
+  };
 }
 
 export default function UserAvatar({
-  imageUrl,
   size = 50,
   containerStyle,
-  letter,
+  user,
 }: UserAvatarProps) {
-  if (!imageUrl) {
+  if (!user.avatar) {
     const letterSize = size / 2;
 
     return (
@@ -43,7 +46,7 @@ export default function UserAvatar({
               color: "#fff",
             }}
           >
-            {letter}
+            {user.name[0]}
           </AppText>
         </View>
       </View>
@@ -53,7 +56,7 @@ export default function UserAvatar({
   return (
     <View style={containerStyle}>
       <Image
-        source={{ uri: imageUrl }}
+        source={{ uri: user.avatar }}
         style={{
           width: size,
           height: size,
