@@ -226,7 +226,10 @@ const ProfileTop = ({ user }: { user: User }) => {
 
                 {user.bio && <AppText type="subText">{user.bio}</AppText>}
 
-                <RegisterDate createdAt={user.createdAt} />
+                <UserAdditionalInfo
+                  createdAt={user.createdAt}
+                  email={user.email}
+                />
 
                 <SubscribeButton />
               </View>
@@ -250,20 +253,33 @@ const SubscribeButton = () => {
   );
 };
 
-const RegisterDate = (props: { createdAt: string }) => {
+const UserAdditionalInfo = (props: { createdAt: string; email: string }) => {
   const registerDate = new Date(props.createdAt).toLocaleDateString();
 
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        marginTop: 10,
-      }}
-    >
-      <Icon type="Ionicons" name="calendar-outline" size={18} opacity={0.3} />
-      <AppText type="subText">Дата регистрации: {registerDate}</AppText>
+    <View style={{ gap: 5 }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
+          marginTop: 10,
+        }}
+      >
+        <Icon type="Entypo" name="email" size={18} opacity={0.3} />
+        <AppText type="subText">{props.email}</AppText>
+      </View>
+
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          gap: 10,
+        }}
+      >
+        <Icon type="Ionicons" name="calendar-outline" size={18} opacity={0.3} />
+        <AppText type="subText">Дата регистрации: {registerDate}</AppText>
+      </View>
     </View>
   );
 };

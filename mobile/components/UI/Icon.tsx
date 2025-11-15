@@ -6,6 +6,7 @@ import {
   Octicons,
   AntDesign,
   FontAwesome,
+  Entypo,
 } from "@expo/vector-icons";
 import { RootState } from "@/store/store";
 import Colors from "@/constants/Theme";
@@ -16,7 +17,8 @@ export type iconType =
   | "MaterialCommunityIcons"
   | "Octicons"
   | "AntDesign"
-  | "FontAwesome";
+  | "FontAwesome"
+  | "Entypo";
 
 interface IconsProps {
   type: iconType;
@@ -89,6 +91,18 @@ export default function Icon({
     case "FontAwesome":
       return (
         <FontAwesome
+          name={name as any}
+          size={size}
+          color={iconColor}
+          style={{
+            opacity,
+          }}
+        />
+      );
+
+    case "Entypo":
+      return (
+        <Entypo
           name={name as any}
           size={size}
           color={iconColor}
