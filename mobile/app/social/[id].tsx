@@ -2,8 +2,7 @@ import { View, Text, Dimensions, FlatList } from "react-native";
 import React from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { useGetUserByIdQuery } from "@/store/api/users";
-import { Author, FeedItem } from "@/types/post.type";
-import { ScrollView } from "react-native";
+import { FeedItem } from "@/types/post.type";
 import { Image } from "react-native";
 import UserAvatar from "@/components/UserAvatar";
 import Colors from "@/constants/Theme";
@@ -16,7 +15,7 @@ import Icon from "@/components/UI/Icon";
 import { StyleSheet } from "react-native";
 import { HeaderButton } from "@/components/UI/HeaderButton";
 import { useGetPostsQuery } from "@/store/api/posts";
-import Post, { PostAuthor } from "@/components/Post";
+import Post from "@/components/Post";
 
 const { width } = Dimensions.get("window");
 const COVER_WIDTH = width;
@@ -77,91 +76,62 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
 const ProfileTop = ({ user }: { user: User }) => {
   const theme = useSelector((state: RootState) => state.theme.current);
 
-  if (user) {
-    return (
-      <View
-        style={{
-          marginBottom: 20,
+  return (
+    <View style={styles.profileTopWrap}>
+      <HeaderButton
+        onPress={() => router.back()}
+        icon={{ type: "Ionicons", name: "arrow-back" }}
+      />
+
+      <UserCoverImage coverImage={user.coverImage} />
+
+      <UserAvatar
+        containerStyle={[
+          styles.avatarContainer,
+          { backgroundColor: Colors[theme].primary },
+        ]}
+        size={IMAGE_SIZE}
+        user={{
+          name: user.name,
+          avatar: user.avatar,
         }}
-      >
-        <HeaderButton
-          onPress={() => router.back()}
-          icon={{ type: "Ionicons", name: "arrow-back" }}
-        />
+      />
 
-        <Image
-          source={{
-            uri: user.coverImage,
-          }}
-          style={{
-            width: COVER_WIDTH,
-            height: COVER_HEIGHT,
-            position: "absolute",
-          }}
-          resizeMode="cover"
-        />
+      <View style={[styles.panel, { backgroundColor: Colors[theme].primary }]}>
+        <View style={styles.panelContent}>
+          <AppText type="title" size={20} weight={"bold"}>
+            {user.name + " " + user.lastName}
+          </AppText>
 
-        <UserAvatar
-          containerStyle={[
-            {
-              width: IMAGE_SIZE + 20,
-              height: IMAGE_SIZE + 20,
-              borderRadius: 60,
-              justifyContent: "center",
-              alignItems: "center",
-              position: "absolute",
-              top: COVER_HEIGHT - 50 - IMAGE_SIZE / 2,
-              left: 40,
-              zIndex: 10,
-            },
-            { backgroundColor: Colors[theme].primary },
-          ]}
-          size={IMAGE_SIZE}
-          user={{
-            name: user.name,
-            avatar: user.avatar,
-          }}
-        />
+          {user.bio && <AppText type="subText">{user.bio}</AppText>}
 
-        <View
-          style={{
-            marginTop: COVER_HEIGHT - 50,
-            borderRadius: 50,
-            backgroundColor: Colors[theme].primary,
-          }}
-        >
-          <View
-            style={{
-              marginTop: IMAGE_SIZE / 2 + 20 + 20,
-              minHeight: 100,
-            }}
-          >
-            <View
-              style={{
-                paddingHorizontal: 10,
-                gap: 10,
-              }}
-            >
-              <View style={{ paddingHorizontal: 10, gap: 5 }}>
-                <AppText type="title" size={20} weight={"bold"}>
-                  {user.name + " " + user.lastName}
-                </AppText>
+          <UserAdditionalInfo createdAt={user.createdAt} email={user.email} />
 
-                {user.bio && <AppText type="subText">{user.bio}</AppText>}
-
-                <UserAdditionalInfo
-                  createdAt={user.createdAt}
-                  email={user.email}
-                />
-
-                <SubscribeButton />
-              </View>
-            </View>
-          </View>
+          <SubscribeButton />
         </View>
       </View>
-    );
+    </View>
+  );
+};
+
+const UserCoverImage = (props: { coverImage: string | undefined }) => {
+  if (!props.coverImage) {
+    return null;
   }
+
+  return (
+    <Image
+      source={{
+        uri: props.coverImage,
+      }}
+      style={{
+        width: COVER_WIDTH,
+        height: COVER_HEIGHT,
+        position: "absolute",
+      }}
+      resizeMode="cover"
+    />
+  );
 };
 
 const SubscribeButton = () => {
@@ -208,11 +178,8 @@ const UserAdditionalInfo = (props: { createdAt: string; email: string }) => {
 };
 
 const styles = StyleSheet.create({
-  imageContainer: {
-    backgroundColor: "black",
-    width,
-    height: width / 2.5,
-    position: "absolute",
+  profileTopWrap: {
+    marginBottom: 20,
   },
   avatarContainer: {
     width: IMAGE_SIZE + 20,
@@ -220,14 +187,19 @@ const styles = StyleSheet.create({
     borderRadius: 60,
     justifyContent: "center",
     alignItems: "center",
-    left: 40,
     position: "absolute",
-    zIndex: 1,
+    top: COVER_HEIGHT - 50 - IMAGE_SIZE / 2,
+    left: 40,
+    zIndex: 10,
   },
-
+  panel: {
+    marginTop: COVER_HEIGHT - 50,
+    borderRadius: 50,
+  },
   panelContent: {
-    paddingHorizontal: 10,
-    gap: 10,
-    top: IMAGE_SIZE / 2 + 40,
+    marginTop: IMAGE_SIZE / 2 + 20 + 20,
+    minHeight: 100,
+    paddingHorizontal: 20,
+    gap: 5,
   },
 });
