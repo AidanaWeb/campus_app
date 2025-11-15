@@ -20,15 +20,15 @@ export default function MainScr() {
 
   return (
     <FlatList
+      showsVerticalScrollIndicator={false}
       ListHeaderComponent={<ListHeader />}
       data={posts}
       renderItem={({ item }) => (
         <View style={{ marginHorizontal: 10 }}>
-          <Post post={item} />
+          <Post post={item} paddingHorizontal={10} />
         </View>
       )}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
-      showsVerticalScrollIndicator={false}
     />
   );
 }

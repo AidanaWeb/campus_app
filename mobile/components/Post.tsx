@@ -18,9 +18,12 @@ import { router } from "expo-router";
 const { width } = Dimensions.get("window");
 interface PostProps {
   post: FeedItem;
+  paddingHorizontal: number;
 }
 
-export default function Post({ post }: PostProps) {
+export default function Post({ post, paddingHorizontal = 10 }: PostProps) {
+  const IMAGE_WITH = width - (paddingHorizontal * 2 + 20);
+
   const theme = useSelector((state: RootState) => state.theme.current);
   const backgroundColor =
     theme === "light" ? "rgba(0,0,0, 0.05)" : "rgba(255, 255, 255, 0.05)";
@@ -47,7 +50,13 @@ export default function Post({ post }: PostProps) {
         <TouchableOpacity activeOpacity={0.7} onPress={openDetails}>
           <Image
             source={{ uri: post.coverImage }}
-            style={styles.image}
+            style={[
+              styles.image,
+              {
+                width: IMAGE_WITH,
+                height: IMAGE_WITH,
+              },
+            ]}
             resizeMode="cover"
           />
         </TouchableOpacity>
@@ -146,7 +155,6 @@ const PostLike = (props: { likes: number }) => {
   );
 };
 
-const IMAGE_WITH = width - 40;
 const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
@@ -156,8 +164,8 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   image: {
-    width: IMAGE_WITH,
-    height: IMAGE_WITH,
+    // width: IMAGE_WITH,
+    // height: IMAGE_WITH,
     borderRadius: 20,
   },
 });

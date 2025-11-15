@@ -2,7 +2,7 @@ import { View, Text, Dimensions, FlatList } from "react-native";
 import React from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { useGetUserByIdQuery } from "@/store/api/users";
-import { Author } from "@/types/post.type";
+import { Author, FeedItem } from "@/types/post.type";
 import { ScrollView } from "react-native";
 import { Image } from "react-native";
 import UserAvatar from "@/components/UserAvatar";
@@ -15,8 +15,12 @@ import Button from "@/components/UI/Button";
 import Icon from "@/components/UI/Icon";
 import { StyleSheet } from "react-native";
 import { HeaderButton } from "@/components/UI/HeaderButton";
+import { useGetPostsQuery } from "@/store/api/posts";
+import Post, { PostAuthor } from "@/components/Post";
 
 const { width } = Dimensions.get("window");
+const COVER_WIDTH = width;
+const COVER_HEIGHT = width / 1.5;
 
 const IMAGE_SIZE = 100;
 
@@ -30,8 +34,19 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
   const { currentData, isLoading, isError } = useGetUserByIdQuery(userId, {
     skip: !userId,
   });
+  const { currentData: postsData } = useGetPostsQuery(
+    {
+      authorId: userId,
+    },
+    {
+      skip: !userId,
+    }
+  );
 
   const user: User | null = currentData?.data ?? null;
+  const posts: FeedItem[] = Array.isArray(postsData?.data)
+    ? postsData.data
+    : [];
 
   const theme = useSelector((state: RootState) => state.theme.current);
 
@@ -43,15 +58,20 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
     return null;
   }
 
-  if (user.coverImage) {
-    return (
-      <FlatList
-        ListHeaderComponent={<ProfileTop user={user} />}
-        data={[]}
-        renderItem={() => <></>}
-      />
-    );
-  }
+  return (
+    <FlatList
+      ListHeaderComponent={<ProfileTop user={user} />}
+      showsVerticalScrollIndicator={false}
+      data={posts}
+      renderItem={({ item }) => (
+        <View style={{ paddingHorizontal: 10 }}>
+          <Post post={item} paddingHorizontal={10} />
+        </View>
+      )}
+      ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      ListFooterComponent={() => <View style={{ height: 100 }} />}
+    />
+  );
 
   // return (
   //   <ScrollView
@@ -134,9 +154,13 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
 const ProfileTop = ({ user }: { user: User }) => {
   const theme = useSelector((state: RootState) => state.theme.current);
 
-  return (
-    <View>
-      <View style={styles.imageContainer}>
+  if (user) {
+    return (
+      <View
+        style={{
+          marginBottom: 20,
+        }}
+      >
         <HeaderButton
           onPress={() => router.back()}
           icon={{ type: "Ionicons", name: "arrow-back" }}
@@ -147,21 +171,26 @@ const ProfileTop = ({ user }: { user: User }) => {
             uri: user.coverImage,
           }}
           style={{
-            width,
-            height: width / 1.5,
+            width: COVER_WIDTH,
+            height: COVER_HEIGHT,
+            position: "absolute",
           }}
           resizeMode="cover"
         />
-      </View>
 
-      <View
-        style={{
-          top: IMAGE_SIZE * 1.5,
-        }}
-      >
         <UserAvatar
           containerStyle={[
-            styles.avatarContainer,
+            {
+              width: IMAGE_SIZE + 20,
+              height: IMAGE_SIZE + 20,
+              borderRadius: 60,
+              justifyContent: "center",
+              alignItems: "center",
+              position: "absolute",
+              top: COVER_HEIGHT - 50 - IMAGE_SIZE / 2,
+              left: 40,
+              zIndex: 10,
+            },
             { backgroundColor: Colors[theme].primary },
           ]}
           size={IMAGE_SIZE}
@@ -173,90 +202,40 @@ const ProfileTop = ({ user }: { user: User }) => {
 
         <View
           style={{
-            minHeight: 100,
+            marginTop: COVER_HEIGHT - 50,
             borderRadius: 50,
             backgroundColor: Colors[theme].primary,
-            top: IMAGE_SIZE / 2,
           }}
         >
-          <View style={styles.panelContent}>
-            <View style={{ paddingHorizontal: 10, gap: 5 }}>
-              <AppText type="title" size={20} weight={"bold"}>
-                {user.name + " " + user.lastName}
-              </AppText>
+          <View
+            style={{
+              marginTop: IMAGE_SIZE / 2 + 20 + 20,
+              minHeight: 100,
+            }}
+          >
+            <View
+              style={{
+                paddingHorizontal: 10,
+                gap: 10,
+              }}
+            >
+              <View style={{ paddingHorizontal: 10, gap: 5 }}>
+                <AppText type="title" size={20} weight={"bold"}>
+                  {user.name + " " + user.lastName}
+                </AppText>
 
-              {user.bio && <AppText type="subText">{user.bio}</AppText>}
+                {user.bio && <AppText type="subText">{user.bio}</AppText>}
 
-              <RegisterDate createdAt={user.createdAt} />
+                <RegisterDate createdAt={user.createdAt} />
 
-              <SubscribeButton />
+                <SubscribeButton />
+              </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
-  );
-};
-
-const ListHeader = (props: { user: User }) => {
-  const theme = useSelector((state: RootState) => state.theme.current);
-
-  return (
-    <View>
-      <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri: "https://i.pinimg.com/736x/7b/e1/23/7be1232b786e13dadc29bc52abdc38ce.jpg",
-          }}
-          style={{
-            width,
-            height: width / 2.5,
-          }}
-          resizeMode="cover"
-        />
-      </View>
-
-      <View
-        style={{
-          top: IMAGE_SIZE / 2,
-        }}
-      >
-        {props.user.avatar && (
-          <UserAvatar
-            containerStyle={[
-              styles.avatarContainer,
-              { backgroundColor: Colors[theme].primary },
-            ]}
-            imageUrl={props.user.avatar}
-            size={IMAGE_SIZE}
-          />
-        )}
-
-        <View
-          style={{
-            minHeight: 100,
-            borderRadius: 50,
-            backgroundColor: Colors[theme].primary,
-            top: IMAGE_SIZE / 2,
-          }}
-        >
-          <View style={styles.panelContent}>
-            <AppText type="title" size={20} weight={"bold"}>
-              {props.user.name + " " + props.user.lastName}
-            </AppText>
-
-            {props.user.bio && (
-              <AppText type="subText">{props.user.bio}</AppText>
-            )}
-
-            <RegisterDate createdAt={props.user.createdAt} />
-
-            <SubscribeButton />
-          </View>
-        </View>
-      </View>
-    </View>
-  );
+    );
+  }
 };
 
 const SubscribeButton = () => {
