@@ -14,15 +14,25 @@ function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
   return (
     <View
       style={{
-        backgroundColor: props.isFocused ? "rgba(0, 0, 0, 0.1)" : "",
-        height: 50,
-        width: 70,
-        justifyContent: "center",
-        alignItems: "center",
         borderRadius: 50,
+        overflow: "hidden",
       }}
     >
-      {props.icon}
+      <View
+        style={{
+          backgroundColor: props.isFocused
+            ? "rgba(0, 0, 0, 0.1)"
+            : "transparent",
+          height: 50,
+          width: 70,
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: 50,
+          overflow: "hidden",
+        }}
+      >
+        {props.icon}
+      </View>
     </View>
   );
 }
