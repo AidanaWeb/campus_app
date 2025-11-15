@@ -64,16 +64,15 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
           top: IMAGE_SIZE / 2,
         }}
       >
-        {user.avatar && (
-          <UserAvatar
-            containerStyle={[
-              styles.avatarContainer,
-              { backgroundColor: Colors[theme].primary },
-            ]}
-            imageUrl={user.avatar}
-            size={IMAGE_SIZE}
-          />
-        )}
+        <UserAvatar
+          containerStyle={[
+            styles.avatarContainer,
+            { backgroundColor: Colors[theme].primary },
+          ]}
+          imageUrl={user.avatar}
+          size={IMAGE_SIZE}
+          letter={user.name[0]}
+        />
 
         <View
           style={{

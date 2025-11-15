@@ -104,7 +104,7 @@ export const PostAuthor = ({ author }: PostAuthorProps) => {
         gap: 10,
       }}
     >
-      <UserAvatar imageUrl={author.avatar} />
+      <UserAvatar imageUrl={author.avatar} letter={author.name[0]} />
 
       <View>
         <AppText
