@@ -21,8 +21,8 @@ export const HeaderButton = ({
 }: HeaderButtonProps) => {
   const insets = useSafeAreaInsets();
   const theme = useSelector((state: RootState) => state.theme.current);
-  const backgroundColor = theme === "light" ? "#00000030" : "#ffffff30";
-  const iconColor = theme === "light" ? "white" : "black";
+  const backgroundColor = theme === "light" ? "#ffffff70" : "#00000070";
+  const iconColor = theme === "light" ? "black" : "white";
 
   return (
     <TouchableOpacity
