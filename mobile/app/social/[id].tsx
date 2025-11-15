@@ -1,4 +1,4 @@
-import { View, Text, Dimensions } from "react-native";
+import { View, Text, Dimensions, FlatList } from "react-native";
 import React from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { useGetUserByIdQuery } from "@/store/api/users";
@@ -26,9 +26,11 @@ interface propsWithId {
 
 export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
   const { id }: propsWithId = useLocalSearchParams();
-  const { currentData, isLoading, isError } = useGetUserByIdQuery(
-    registeredUserId ?? id
-  );
+  const userId = registeredUserId ?? id;
+  const { currentData, isLoading, isError } = useGetUserByIdQuery(userId, {
+    skip: !userId,
+  });
+
   const user: User | null = currentData?.data ?? null;
 
   const theme = useSelector((state: RootState) => state.theme.current);
@@ -41,12 +43,99 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
     return null;
   }
 
+  if (user.coverImage) {
+    return (
+      <FlatList
+        ListHeaderComponent={<ProfileTop user={user} />}
+        data={[]}
+        renderItem={() => <></>}
+      />
+    );
+  }
+
+  // return (
+  //   <ScrollView
+  //     style={{
+  //       flex: 1,
+  //     }}
+  //   >
+  //     <View style={styles.imageContainer}>
+  //       <HeaderButton
+  //         onPress={() => router.back()}
+  //         icon={{ type: "Ionicons", name: "arrow-back" }}
+  //       />
+
+  //       <Image
+  //         source={{
+  //           uri: user.coverImage,
+  //         }}
+  //         style={{
+  //           width,
+  //           height: width / 1.5,
+  //         }}
+  //         resizeMode="cover"
+  //       />
+  //     </View>
+
+  //     <View
+  //       style={{
+  //         top: IMAGE_SIZE * 1.5,
+  //       }}
+  //     >
+  //       <UserAvatar
+  //         containerStyle={[
+  //           styles.avatarContainer,
+  //           { backgroundColor: Colors[theme].primary },
+  //         ]}
+  //         size={IMAGE_SIZE}
+  //         user={{
+  //           name: user.name,
+  //           avatar: user.avatar,
+  //         }}
+  //       />
+
+  //       <View
+  //         style={{
+  //           minHeight: 100,
+  //           borderRadius: 50,
+  //           backgroundColor: Colors[theme].primary,
+  //           top: IMAGE_SIZE / 2,
+  //         }}
+  //       >
+  //         <View style={styles.panelContent}>
+  //           <View style={{ paddingHorizontal: 10, gap: 5 }}>
+  //             <AppText type="title" size={20} weight={"bold"}>
+  //               {user.name + " " + user.lastName}
+  //             </AppText>
+
+  //             {user.bio && <AppText type="subText">{user.bio}</AppText>}
+
+  //             <RegisterDate createdAt={user.createdAt} />
+
+  //             <SubscribeButton />
+  //           </View>
+
+  //           <View style={{ gap: 10, marginTop: 20 }}>
+  //             <AppText type="title" size={16} style={{ marginLeft: 10 }}>
+  //               Посты
+  //             </AppText>
+
+  //             {/* {posts.map((post) => {
+  //               return <Post key={post.id} post={post} />;
+  //             })} */}
+  //           </View>
+  //         </View>
+  //       </View>
+  //     </View>
+  //   </ScrollView>
+  // );
+}
+
+const ProfileTop = ({ user }: { user: User }) => {
+  const theme = useSelector((state: RootState) => state.theme.current);
+
   return (
-    <ScrollView
-      style={{
-        flex: 1,
-      }}
-    >
+    <View>
       <View style={styles.imageContainer}>
         <HeaderButton
           onPress={() => router.back()}
@@ -102,22 +191,12 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
 
               <SubscribeButton />
             </View>
-
-            <View style={{ gap: 10, marginTop: 20 }}>
-              <AppText type="title" size={16} style={{ marginLeft: 10 }}>
-                Посты
-              </AppText>
-
-              {/* {posts.map((post) => {
-                return <Post key={post.id} post={post} />;
-              })} */}
-            </View>
           </View>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
-}
+};
 
 const ListHeader = (props: { user: User }) => {
   const theme = useSelector((state: RootState) => state.theme.current);
