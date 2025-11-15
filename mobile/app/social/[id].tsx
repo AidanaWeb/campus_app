@@ -1,6 +1,6 @@
 import { View, Text, Dimensions } from "react-native";
 import React from "react";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useGetUserByIdQuery } from "@/store/api/users";
 import { Author } from "@/types/post.type";
 import { ScrollView } from "react-native";
@@ -14,6 +14,7 @@ import { User } from "@/types/user.type";
 import Button from "@/components/UI/Button";
 import Icon from "@/components/UI/Icon";
 import { StyleSheet } from "react-native";
+import { HeaderButton } from "@/components/UI/HeaderButton";
 
 const { width } = Dimensions.get("window");
 
@@ -47,13 +48,18 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
       }}
     >
       <View style={styles.imageContainer}>
+        <HeaderButton
+          onPress={() => router.back()}
+          icon={{ type: "Ionicons", name: "arrow-back" }}
+        />
+
         <Image
           source={{
             uri: user.coverImage,
           }}
           style={{
             width,
-            height: width / 2.5,
+            height: width / 1.5,
           }}
           resizeMode="cover"
         />
@@ -61,7 +67,7 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
 
       <View
         style={{
-          top: IMAGE_SIZE / 2,
+          top: IMAGE_SIZE * 1.5,
         }}
       >
         <UserAvatar

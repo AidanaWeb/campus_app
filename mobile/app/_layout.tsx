@@ -121,6 +121,13 @@ function RootLayoutNav() {
               headerTitle: "Пост",
             }}
           />
+          <Stack.Screen
+            name="social/[id]"
+            options={{
+              headerShown: false,
+              headerTitle: "Профиль",
+            }}
+          />
         </Stack>
       </ThemeProvider>
     </SafeAreaProvider>

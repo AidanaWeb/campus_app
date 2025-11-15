@@ -172,6 +172,7 @@ export default function TabLayout() {
         options={{
           title: "Профиль",
           tabBarLabel: "",
+          headerShown: false,
 
           tabBarIcon: ({ color }) => {
             const isFocused = pathname === "/profile";
