@@ -1,14 +1,13 @@
-import { router, Tabs, usePathname } from "expo-router";
+import { Tabs, usePathname } from "expo-router";
 import React, { ReactNode } from "react";
 import Colors from "@/constants/Theme";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
-import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { StyleSheet, View } from "react-native";
+import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { BlurView } from "expo-blur";
 import UserAvatar from "@/components/UserAvatar";
 import Icon from "@/components/UI/Icon";
-import { setTheme } from "@/store/slices/themeSlice";
 
 function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
   return (
@@ -36,39 +35,6 @@ function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
     </View>
   );
 }
-
-const ToggleThemeButton = () => {
-  const dispatch = useDispatch();
-  const theme = useSelector((state: RootState) => state.theme.current);
-
-  if (theme === "dark") {
-    return (
-      <TouchableOpacity
-        onPress={() => dispatch(setTheme("light"))}
-        style={{
-          borderRadius: 50,
-          paddingVertical: 5,
-          paddingHorizontal: 5,
-        }}
-      >
-        <Icon type="AntDesign" name="sun" color="#fff" />
-      </TouchableOpacity>
-    );
-  }
-
-  return (
-    <TouchableOpacity
-      onPress={() => dispatch(setTheme("dark"))}
-      style={{
-        borderRadius: 50,
-        paddingVertical: 5,
-        paddingHorizontal: 5,
-      }}
-    >
-      <Icon type="FontAwesome" name="moon-o" color="#000" />
-    </TouchableOpacity>
-  );
-};
 
 export default function TabLayout() {
   const theme = useSelector((state: RootState) => state.theme.current);
