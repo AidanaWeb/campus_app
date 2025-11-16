@@ -81,23 +81,23 @@ function RootLayoutNav() {
     initTheme();
   }, [OStheme]);
 
-  useEffect(() => {
-    const mockUser = {
-      id: "cmhxo53s3000aunvs4ndhl9ul",
-      name: "Askar",
-      lastName: "Temirbayev",
-      email: "askar.teacher@mail.com",
-      bio: "Преподаю основы программирования и баз данных. Люблю объяснять сложные вещи простыми словами.",
-      phone: "+77020000001",
-      role: "TEACHER",
-      facultyId: null,
-      avatar: "https://i.pravatar.cc/150?img=11",
-      coverImage: "https://picsum.photos/seed/askar/800/200",
-      createdAt: "2025-11-13T16:54:02.595Z",
-      updatedAt: "2025-11-14T12:29:59.469Z",
-    };
-    dispatch(setUserInfo(mockUser));
-  }, [users.length]);
+  // useEffect(() => {
+  //   const mockUser = {
+  //     id: "cmhxo53s3000aunvs4ndhl9ul",
+  //     name: "Askar",
+  //     lastName: "Temirbayev",
+  //     email: "askar.teacher@mail.com",
+  //     bio: "Преподаю основы программирования и баз данных. Люблю объяснять сложные вещи простыми словами.",
+  //     phone: "+77020000001",
+  //     role: "TEACHER",
+  //     facultyId: null,
+  //     avatar: "https://i.pravatar.cc/150?img=11",
+  //     coverImage: "https://picsum.photos/seed/askar/800/200",
+  //     createdAt: "2025-11-13T16:54:02.595Z",
+  //     updatedAt: "2025-11-14T12:29:59.469Z",
+  //   };
+  //   dispatch(setUserInfo(mockUser));
+  // }, [users.length]);
 
   return (
     <SafeAreaProvider>
@@ -129,6 +129,13 @@ function RootLayoutNav() {
           />
           <Stack.Screen
             name="social/[id]"
+            options={{
+              headerShown: false,
+              headerTitle: "Профиль",
+            }}
+          />
+          <Stack.Screen
+            name="social/signup"
             options={{
               headerShown: false,
               headerTitle: "Профиль",

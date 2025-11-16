@@ -15,6 +15,7 @@ interface AppTextProps {
   style?: StyleProp<TextStyle>;
   weight?: FontWeightString | FontWeightNumber;
   numberOfLines?: number;
+  align?: "auto" | "left" | "right" | "center" | "justify";
 }
 
 export default function AppText({
@@ -24,15 +25,17 @@ export default function AppText({
   style = {},
   weight = "normal",
   numberOfLines,
+  align,
 }: AppTextProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
 
-  const textStyle = {
+  const textStyle: TextStyle = {
     fontFamily: type === "title" ? "Montserrat" : "Roboto",
     fontSize: size,
     opacity: type === "subText" ? 0.5 : 1,
     fontWeight: weight,
     color: Colors[theme].text,
+    textAlign: align,
   };
 
   return (

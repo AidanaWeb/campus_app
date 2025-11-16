@@ -11,7 +11,7 @@ export default function MainScr() {
   const posts = Array.isArray(currentData?.data) ? currentData.data : [];
 
   if (isLoading) {
-    return null;
+    return <AppText>Loading...</AppText>;
   }
 
   if (isError) {
