@@ -38,6 +38,7 @@ function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
 
 export default function TabLayout() {
   const theme = useSelector((state: RootState) => state.theme.current);
+  const user = useSelector((state: RootState) => state.user.info);
   const pathname = usePathname();
 
   const backgroundColor = theme === "light" ? "#fff" : "#000";
@@ -93,12 +94,15 @@ export default function TabLayout() {
           headerRight: () => (
             <View style={styles.headerSide}>
               <Icon type="Ionicons" name="notifications-outline" />
-              <UserAvatar
-                user={{
-                  avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-                  name: "13",
-                }}
-              />
+
+              {user?.id && (
+                <UserAvatar
+                  user={{
+                    avatar: user.avatar,
+                    name: user.name,
+                  }}
+                />
+              )}
             </View>
           ),
           headerLeft: () => (
