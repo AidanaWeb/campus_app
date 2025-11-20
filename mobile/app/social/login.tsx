@@ -1,9 +1,11 @@
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Alert } from "react-native";
 import React, { useState } from "react";
 import FormInput from "@/components/FormInput";
 import AppText from "@/components/UI/AppText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/UI/Button";
+import { validateEmail } from "@/utils/validateForm";
+import { router } from "expo-router";
 
 interface Form {
   email: string;
@@ -21,6 +23,18 @@ export default function LoginScr() {
       ...form,
       [field]: value,
     });
+  };
+
+  const validateForm = () => {
+    const emailCheck = validateEmail(form.email);
+    if (emailCheck.error) {
+      Alert.alert(emailCheck.error);
+      return;
+    }
+
+    if (!form.password) {
+      Alert.alert("Заполните пароль");
+    }
   };
 
   return (
@@ -63,7 +77,9 @@ export default function LoginScr() {
           }}
         >
           <AppText type="subText">Нет аккаунта?</AppText>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push({ pathname: "/social/signup" })}
+          >
             <AppText>Регистрация</AppText>
           </TouchableOpacity>
         </View>
@@ -73,6 +89,7 @@ export default function LoginScr() {
 
       <Button
         title="Продолжить"
+        onPress={validateForm}
         isActive
         containerStyle={{ paddingHorizontal: 20, left: 0, right: 0 }}
         buttonStyle={{ width: "100%" }}
