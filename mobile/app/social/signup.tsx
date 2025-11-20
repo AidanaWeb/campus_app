@@ -50,7 +50,7 @@ export default function SignupScr() {
           flexGrow: 1,
           justifyContent: "center",
           padding: 20,
-          gap: 20,
+          gap: 10,
         }}
       >
         <AppText type="title" size={28} weight={"bold"} align="center">
