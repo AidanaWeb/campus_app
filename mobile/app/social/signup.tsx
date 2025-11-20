@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import AppText from "@/components/UI/AppText";
@@ -13,6 +14,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "@/components/UI/Input";
 import FormInput from "@/components/FormInput";
 import Button from "@/components/UI/Button";
+import {
+  validateEmail,
+  validateName,
+  validatePassword,
+} from "@/utils/validateForm";
+import { router } from "expo-router";
 
 const { height } = Dimensions.get("window");
 
@@ -38,6 +45,32 @@ export default function SignupScr() {
       ...form,
       [field]: value,
     });
+  };
+
+  const validateForm = () => {
+    const emailCheck = validateEmail(form.email);
+    if (emailCheck.error) {
+      Alert.alert(emailCheck.error);
+      return;
+    }
+
+    const nameCheck = validateName(form.name);
+    if (nameCheck.error) {
+      Alert.alert(nameCheck.error);
+      return;
+    }
+
+    const lastNameCheck = validateName(form.lastName);
+    if (lastNameCheck.error) {
+      Alert.alert(lastNameCheck.error);
+      return;
+    }
+
+    const passCheck = validatePassword(form.password, form.passwordCheck);
+    if (passCheck.error) {
+      Alert.alert(passCheck.error);
+      return;
+    }
   };
 
   return (
@@ -78,13 +111,13 @@ export default function SignupScr() {
           placeholder="Фамилия"
         />
         <FormInput
-          value={form.lastName}
+          value={form.password}
           setValue={setValue}
           field="password"
           placeholder="Пароль"
         />
         <FormInput
-          value={form.lastName}
+          value={form.passwordCheck}
           setValue={setValue}
           field="passwordCheck"
           placeholder="Повторите пароль"
@@ -98,7 +131,9 @@ export default function SignupScr() {
           }}
         >
           <AppText type="subText">Уже есть аккаунт?</AppText>
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => router.push({ pathname: "/social/login" })}
+          >
             <AppText>Войти</AppText>
           </TouchableOpacity>
         </View>
@@ -108,6 +143,7 @@ export default function SignupScr() {
 
       <Button
         title="Продолжить"
+        onPress={validateForm}
         isActive
         containerStyle={{ paddingHorizontal: 20, left: 0, right: 0 }}
         buttonStyle={{ width: "100%" }}
