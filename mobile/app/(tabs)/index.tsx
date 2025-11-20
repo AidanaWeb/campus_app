@@ -7,10 +7,10 @@ import { useGetPostsQuery } from "@/store/api/posts";
 import { banners } from "@/mock/banners";
 
 export default function MainScr() {
-  const { currentData, isLoading, isError } = useGetPostsQuery({});
+  const { currentData, isFetching, isError } = useGetPostsQuery({});
   const posts = Array.isArray(currentData?.data) ? currentData.data : [];
 
-  if (isLoading) {
+  if (isFetching) {
     return <AppText>Loading...</AppText>;
   }
 
