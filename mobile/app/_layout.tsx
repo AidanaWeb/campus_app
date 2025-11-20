@@ -137,8 +137,15 @@ function RootLayoutNav() {
           <Stack.Screen
             name="social/signup"
             options={{
-              headerShown: false,
-              headerTitle: "Профиль",
+              headerShown: true,
+              headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="social/login"
+            options={{
+              headerShown: true,
+              headerTitle: "",
             }}
           />
         </Stack>

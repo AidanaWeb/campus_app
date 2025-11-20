@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import AppText from "@/components/UI/AppText";
 import Icon from "@/components/UI/Icon";
 import Button from "@/components/UI/Button";
+import { router } from "expo-router";
 
 export default function profile() {
   const user = useSelector((state: RootState) => state.user.info);
@@ -47,8 +48,15 @@ const NoAuthProfile = () => {
             gap: 10,
           }}
         >
-          <Button title="Войти" isActive />
-          <Button title="Зарегистрироваться" />
+          <Button
+            title="Войти"
+            isActive
+            onPress={() => router.push({ pathname: "/social/login" })}
+          />
+          <Button
+            title="Зарегистрироваться"
+            onPress={() => router.push({ pathname: "/social/signup" })}
+          />
         </View>
 
         <View style={{ height: 100 }} />

@@ -5,6 +5,7 @@ import {
   TextStyle,
   StyleSheet,
   ViewStyle,
+  GestureResponderEvent,
 } from "react-native";
 import React, { ReactNode } from "react";
 import AppText from "./AppText";
@@ -20,6 +21,7 @@ interface ButtonProps {
   isActive?: boolean;
   containerStyle?: ViewStyle;
   buttonStyle?: ViewStyle;
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 export default function Button({
@@ -31,6 +33,7 @@ export default function Button({
   isActive = false,
   containerStyle,
   buttonStyle,
+  onPress,
 }: ButtonProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
 
@@ -41,10 +44,14 @@ export default function Button({
     return (
       <View style={containerStyle}>
         <TouchableOpacity
+          onPress={onPress}
           style={[
             styles.button,
             {
               backgroundColor,
+              flexGrow: 1,
+              justifyContent: "center",
+              alignItems: "center",
               ...buttonStyle,
             },
           ]}
@@ -70,7 +77,10 @@ export default function Button({
 
   return (
     <View>
-      <TouchableOpacity style={[styles.button, { backgroundColor }]}>
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor }]}
+        onPress={onPress}
+      >
         <AppText style={[styles.title]}>{title}</AppText>
       </TouchableOpacity>
     </View>

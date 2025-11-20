@@ -12,6 +12,7 @@ import AppText from "@/components/UI/AppText";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Input from "@/components/UI/Input";
 import FormInput from "@/components/FormInput";
+import Button from "@/components/UI/Button";
 
 const { height } = Dimensions.get("window");
 
@@ -104,6 +105,13 @@ export default function SignupScr() {
 
         <View style={{ height: 100 }} />
       </ScrollView>
+
+      <Button
+        title="Продолжить"
+        isActive
+        containerStyle={{ paddingHorizontal: 20, left: 0, right: 0 }}
+        buttonStyle={{ width: "100%" }}
+      />
     </SafeAreaView>
   );
 }
