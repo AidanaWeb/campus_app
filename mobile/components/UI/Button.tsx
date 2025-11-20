@@ -49,7 +49,6 @@ export default function Button({
             styles.button,
             {
               backgroundColor,
-              flexGrow: 1,
               justifyContent: "center",
               alignItems: "center",
               ...buttonStyle,
@@ -76,7 +75,7 @@ export default function Button({
     theme === "light" ? "rgba(0, 0, 0, 0.05)" : "rgba(255, 255, 255, 0.05)";
 
   return (
-    <View>
+    <View style={containerStyle}>
       <TouchableOpacity
         style={[styles.button, { backgroundColor }]}
         onPress={onPress}
