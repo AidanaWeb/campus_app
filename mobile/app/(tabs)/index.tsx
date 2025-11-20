@@ -5,8 +5,38 @@ import Button from "@/components/UI/Button";
 import Post from "@/components/Post";
 import { useGetPostsQuery } from "@/store/api/posts";
 import { banners } from "@/mock/banners";
+import { useState } from "react";
+
+const sections = [
+  { id: 1, name: "Все", settings: null },
+  {
+    id: 2,
+    name: "Посты",
+    settings: {
+      param: "type",
+      value: "post",
+    },
+  },
+  {
+    id: 3,
+    name: "События",
+    settings: {
+      param: "type",
+      value: "event",
+    },
+  },
+  {
+    id: 4,
+    name: "Новости",
+    settings: {
+      param: "type",
+      value: "news",
+    },
+  },
+];
 
 export default function MainScr() {
+  const [section, setSection] = useState<number>(1);
   const { currentData, isFetching, isError } = useGetPostsQuery({});
   const posts = Array.isArray(currentData?.data) ? currentData.data : [];
 
@@ -21,7 +51,9 @@ export default function MainScr() {
   return (
     <FlatList
       showsVerticalScrollIndicator={false}
-      ListHeaderComponent={<ListHeader />}
+      ListHeaderComponent={
+        <ListHeader section={section} setSection={setSection} />
+      }
       data={posts}
       renderItem={({ item }) => (
         <View style={{ marginHorizontal: 10 }}>
@@ -33,27 +65,10 @@ export default function MainScr() {
   );
 }
 
-const ListHeader = () => {
-  const filterButtons = [
-    {
-      id: 1,
-      title: "Все",
-      isActive: true,
-    },
-    {
-      id: 2,
-      title: "События",
-    },
-    {
-      id: 3,
-      title: "Новости",
-    },
-    {
-      id: 4,
-      title: "Подписки",
-    },
-  ];
-
+const ListHeader = (props: {
+  section: number;
+  setSection: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   return (
     <View style={styles.headerContainer}>
       <AppText
@@ -67,9 +82,13 @@ const ListHeader = () => {
       <Carousel data={banners} />
 
       <FlatList
-        data={filterButtons}
+        data={sections}
         renderItem={({ item }) => (
-          <Button title={item.title} isActive={item.isActive} />
+          <Button
+            title={item.name}
+            isActive={item.id === props.section}
+            onPress={() => props.setSection(item.id)}
+          />
         )}
         horizontal
         showsHorizontalScrollIndicator={false}
