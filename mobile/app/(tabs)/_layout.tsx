@@ -10,6 +10,10 @@ import UserAvatar from "@/components/UserAvatar";
 import Icon from "@/components/UI/Icon";
 
 function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
+  const theme = useSelector((state: RootState) => state.theme.current);
+  const backgroundColor =
+    theme === "light" ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.1)";
+
   return (
     <View
       style={{
@@ -19,9 +23,7 @@ function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
     >
       <View
         style={{
-          backgroundColor: props.isFocused
-            ? "rgba(0, 0, 0, 0.1)"
-            : "transparent",
+          backgroundColor: props.isFocused ? backgroundColor : "transparent",
           height: 50,
           width: 70,
           justifyContent: "center",
@@ -47,7 +49,7 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[theme].secondary,
-        tabBarInactiveTintColor: "#000",
+        tabBarInactiveTintColor: Colors[theme].secondary,
         headerShown: true,
         tabBarStyle: styles.tabBar,
         tabBarItemStyle: styles.tabBarItem,
