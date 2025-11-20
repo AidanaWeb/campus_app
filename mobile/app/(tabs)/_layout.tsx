@@ -60,6 +60,7 @@ export default function TabLayout() {
           borderBottomWidth: 0,
           height: 110,
         },
+        headerTitleAlign: "center",
         headerShadowVisible: false,
 
         tabBarBackground: () => (
