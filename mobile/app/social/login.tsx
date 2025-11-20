@@ -1,35 +1,18 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Dimensions,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import FormInput from "@/components/FormInput";
 import AppText from "@/components/UI/AppText";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Input from "@/components/UI/Input";
-import FormInput from "@/components/FormInput";
-
-const { height } = Dimensions.get("window");
 
 interface Form {
   email: string;
-  name: string;
-  lastName: string;
   password: string;
-  passwordCheck: string;
 }
 
-export default function SignupScr() {
+export default function LoginScr() {
   const [form, setForm] = useState<Form>({
     email: "",
-    name: "",
-    lastName: "",
     password: "",
-    passwordCheck: "",
   });
 
   const setValue = (field: string, value: string) => {
@@ -55,7 +38,7 @@ export default function SignupScr() {
         }}
       >
         <AppText type="title" size={28} weight={"bold"} align="center">
-          Регистрация
+          Вход
         </AppText>
 
         <FormInput
@@ -65,28 +48,10 @@ export default function SignupScr() {
           placeholder="email"
         />
         <FormInput
-          value={form.name}
-          setValue={setValue}
-          field="name"
-          placeholder="Имя"
-        />
-        <FormInput
-          value={form.lastName}
-          setValue={setValue}
-          field="lastName"
-          placeholder="Фамилия"
-        />
-        <FormInput
-          value={form.lastName}
+          value={form.password}
           setValue={setValue}
           field="password"
           placeholder="Пароль"
-        />
-        <FormInput
-          value={form.lastName}
-          setValue={setValue}
-          field="passwordCheck"
-          placeholder="Повторите пароль"
         />
 
         <View
@@ -96,9 +61,9 @@ export default function SignupScr() {
             gap: 5,
           }}
         >
-          <AppText type="subText">Уже есть аккаунт?</AppText>
+          <AppText type="subText">Нет аккаунта?</AppText>
           <TouchableOpacity>
-            <AppText>Войти</AppText>
+            <AppText>Регистрация</AppText>
           </TouchableOpacity>
         </View>
 
@@ -107,5 +72,3 @@ export default function SignupScr() {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({});
