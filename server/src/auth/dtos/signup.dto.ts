@@ -1,4 +1,5 @@
-import { IsEmail, IsString, Matches, MinLength } from "class-validator";
+import { IsEmail, IsEnum, IsString, Matches, MinLength } from "class-validator";
+import { UserRole } from "generated/prisma";
 
 export class SignupDto {
   @IsString({ message: "Введите некорректные данные" })
@@ -18,4 +19,7 @@ export class SignupDto {
     message: "Пароль должен содержать хотя бы 1 цифру и 1 символ",
   })
   password: string;
+
+  @IsEnum(UserRole)
+  role: UserRole;
 }
