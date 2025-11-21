@@ -8,7 +8,7 @@ import { validateEmail } from "@/utils/validateForm";
 import { router } from "expo-router";
 import { useLoginMutation } from "@/store/api/users";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/store/slices/userSlice";
+import { loginUser, setUser, setUserInfo } from "@/store/slices/userSlice";
 
 interface Form {
   email: string;
@@ -62,7 +62,12 @@ export default function LoginScr() {
         return;
       }
 
-      dispatch(setUserInfo(loginRes.user));
+      dispatch(
+        setUser({
+          user: loginRes.user,
+          token: loginRes.accessToken,
+        })
+      );
       Alert.alert("Вход выполнен", `Добро пожаловать, ${loginRes.user.name}`);
       router.replace("/(tabs)");
     } catch (error) {
