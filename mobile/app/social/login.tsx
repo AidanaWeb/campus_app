@@ -6,6 +6,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/UI/Button";
 import { validateEmail } from "@/utils/validateForm";
 import { router } from "expo-router";
+import { useLoginMutation } from "@/store/api/users";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/store/slices/userSlice";
 
 interface Form {
   email: string;
@@ -13,6 +16,9 @@ interface Form {
 }
 
 export default function LoginScr() {
+  const [login] = useLoginMutation();
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState<Form>({
     email: "",
     password: "",
@@ -29,11 +35,38 @@ export default function LoginScr() {
     const emailCheck = validateEmail(form.email);
     if (emailCheck.error) {
       Alert.alert(emailCheck.error);
-      return;
+      return false;
     }
 
     if (!form.password) {
       Alert.alert("Заполните пароль");
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmitForm = async () => {
+    const validForm = validateForm();
+
+    if (!validForm) return;
+
+    try {
+      const loginRes = await login({
+        email: form.email,
+        password: form.password,
+      }).unwrap();
+
+      if (!loginRes.user || !loginRes.accessToken) {
+        Alert.alert("Произошла ошибка", "Попробуйте позже");
+        return;
+      }
+
+      dispatch(setUserInfo(loginRes.user));
+      Alert.alert("Вход выполнен", `Добро пожаловать, ${loginRes.user.name}`);
+      router.replace("/(tabs)");
+    } catch (error) {
+      Alert.alert("Произошла ошибка", "Попробуйте позже");
     }
   };
 
@@ -89,7 +122,7 @@ export default function LoginScr() {
 
       <Button
         title="Продолжить"
-        onPress={validateForm}
+        onPress={handleSubmitForm}
         isActive
         containerStyle={{ paddingHorizontal: 20, left: 0, right: 0 }}
         buttonStyle={{ width: "100%" }}
