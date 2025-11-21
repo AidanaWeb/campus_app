@@ -58,6 +58,12 @@ export class AuthService {
       user: {
         id: createdUser.id,
         email: createdUser.email,
+        avatar: createdUser.avatar,
+        role: createdUser.role,
+        bio: createdUser.bio,
+        coverImage: createdUser.coverImage,
+        createdAt: createdUser.createdAt,
+        updatedAt: createdUser.updatedAt,
       },
     };
   }

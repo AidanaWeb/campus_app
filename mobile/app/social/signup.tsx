@@ -7,6 +7,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import AppText from "@/components/UI/AppText";
@@ -20,6 +21,10 @@ import {
   validatePassword,
 } from "@/utils/validateForm";
 import { router } from "expo-router";
+import { useLoginMutation, useSignupMutation } from "@/store/api/users";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/store/slices/userSlice";
 
 const { height } = Dimensions.get("window");
 
@@ -32,6 +37,11 @@ interface Form {
 }
 
 export default function SignupScr() {
+  const [signUp, signUpResult] = useSignupMutation();
+  const [login, loginResult] = useLoginMutation();
+
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState<Form>({
     email: "",
     name: "",
@@ -51,25 +61,74 @@ export default function SignupScr() {
     const emailCheck = validateEmail(form.email);
     if (emailCheck.error) {
       Alert.alert(emailCheck.error);
-      return;
+      return false;
     }
 
     const nameCheck = validateName(form.name);
     if (nameCheck.error) {
       Alert.alert(nameCheck.error);
-      return;
+      return false;
     }
 
     const lastNameCheck = validateName(form.lastName);
     if (lastNameCheck.error) {
       Alert.alert(lastNameCheck.error);
-      return;
+      return false;
     }
 
     const passCheck = validatePassword(form.password, form.passwordCheck);
     if (passCheck.error) {
       Alert.alert(passCheck.error);
-      return;
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleSubmitForm = async () => {
+    const validStatus = validateForm();
+
+    if (!validStatus) return;
+
+    try {
+      const signupRes = await signUp({
+        email: form.email,
+        name: form.name,
+        lastName: form.lastName,
+        password: form.password,
+        role: "STUDENT",
+      }).unwrap();
+
+      if (!signupRes.user) {
+        Alert.alert("Произошла ошибка", "Попробуйте позже");
+        return;
+      }
+
+      const loginRes = await login({
+        email: form.email,
+        password: form.password,
+      }).unwrap();
+
+      if (!loginRes.user || !loginRes.accessToken) {
+        Alert.alert("Произошла ошибка", "Попробуйте позже");
+        return;
+      }
+
+      dispatch(setUserInfo(loginRes.user));
+      Alert.alert("Регистрация завершена", "Авторизация выполнена успешно.");
+      router.replace("/(tabs)");
+    } catch (error: FetchBaseQueryError | any) {
+      if (error?.data?.translations?.["ru"]) {
+        Alert.alert(error.data.translations?.["ru"]);
+        return;
+      }
+
+      if (Array.isArray(error?.data?.message)) {
+        Alert.alert(error.data.message[0]);
+        return;
+      }
+
+      Alert.alert("Произошла ошибка", "Попробуйте позже");
     }
   };
 
@@ -143,7 +202,7 @@ export default function SignupScr() {
 
       <Button
         title="Продолжить"
-        onPress={validateForm}
+        onPress={handleSubmitForm}
         isActive
         containerStyle={{ paddingHorizontal: 20, left: 0, right: 0 }}
         buttonStyle={{ width: "100%" }}
