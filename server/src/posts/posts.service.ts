@@ -112,34 +112,38 @@ export class PostsService {
     };
   }
 
-  // async createPost(userId: string | undefined, postData: createPostDto) {
-  //   if (!userId) {
-  //     throw new UnauthorizedException({
-  //       message: "unathorized",
-  //     });
-  //   }
+  async createPost(userId: string | undefined, postData: createPostDto) {
+    const { title, description, coverImage } = postData;
 
-  //   try {
-  //     const createdPost = await this.prisma.post.create({
-  //       data: {
-  //         authorId: userId,
-  //         ...postData,
-  //       },
-  //     });
+    if (!userId) {
+      throw new UnauthorizedException({
+        message: "unathorized",
+      });
+    }
 
-  //     return {
-  //       data: createdPost,
-  //     };
-  //   } catch (error) {
-  //     if (error instanceof Error) {
-  //       Logger.error(error.message);
-  //     } else {
-  //       Logger.error("Unknown error");
-  //     }
+    try {
+      const createdPost = await this.prisma.post.create({
+        data: {
+          authorId: userId,
+          title,
+          description,
+          coverImage,
+        },
+      });
 
-  //     throw new InternalServerErrorException(ErrorMessages.CREATE_POST_FAILED);
-  //   }
-  // }
+      return {
+        data: createdPost,
+      };
+    } catch (error) {
+      if (error instanceof Error) {
+        Logger.error(error.message);
+      } else {
+        Logger.error("Unknown error");
+      }
+
+      throw new InternalServerErrorException(ErrorMessages.CREATE_POST_FAILED);
+    }
+  }
 
   async getPostLikesCount(postId: string) {
     const likesCount = await this.prisma.like.count({

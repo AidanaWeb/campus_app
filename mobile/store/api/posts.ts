@@ -36,9 +36,24 @@ const postApi = api.injectEndpoints({
     getPostById: build.query({
       query: (postId) => `/posts/${postId}`,
     }),
+
+    createPost: build.mutation({
+      query: ({ title, description, coverImage }) => {
+        return {
+          method: "POST",
+          url: "/posts",
+          body: {
+            title,
+            description,
+            coverImage,
+          },
+        };
+      },
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useGetPostsQuery, useGetPostByIdQuery } = postApi;
+export const { useGetPostsQuery, useGetPostByIdQuery, useCreatePostMutation } =
+  postApi;

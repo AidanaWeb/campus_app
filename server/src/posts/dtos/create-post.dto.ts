@@ -4,13 +4,13 @@ export class createPostDto {
   @IsOptional()
   @IsString()
   @MinLength(2)
-  title?: string;
+  title: string;
 
   @IsString({
     message: "Post content is required",
   })
   @MinLength(2)
-  body: string;
+  description: string;
 
   @IsOptional()
   @IsString()

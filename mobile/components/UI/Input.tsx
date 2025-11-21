@@ -11,6 +11,9 @@ interface InputProps {
   iconLeft?: ReactNode;
   containerStyle?: ViewStyle;
   inputStyle?: TextStyle;
+  transparent?: boolean;
+  multiline?: boolean;
+  numberOfLines?: number;
 }
 
 export default function Input({
@@ -20,6 +23,9 @@ export default function Input({
   iconLeft,
   containerStyle,
   inputStyle,
+  transparent,
+  multiline,
+  numberOfLines,
 }: InputProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
   const placeholderColor = theme === "light" ? "#00000050" : "#ffffff50";
@@ -41,7 +47,9 @@ export default function Input({
       <TextInput
         style={[
           {
-            backgroundColor: Colors[theme].overlay,
+            backgroundColor: transparent
+              ? "transparent"
+              : Colors[theme].overlay,
             paddingVertical: 10,
             paddingHorizontal: 20,
             fontSize: 16,
@@ -52,6 +60,8 @@ export default function Input({
         placeholderTextColor={placeholderColor}
         value={value}
         onChangeText={onChangeText}
+        multiline={multiline}
+        numberOfLines={numberOfLines}
       />
     </View>
   );
