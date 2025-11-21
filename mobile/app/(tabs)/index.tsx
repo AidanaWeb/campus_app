@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, View } from "react-native";
 import Carousel from "@/components/Carousel";
 import AppText from "@/components/UI/AppText";
 import Button from "@/components/UI/Button";
@@ -7,6 +7,9 @@ import { useGetPostsQuery } from "@/store/api/posts";
 import { banners } from "@/mock/banners";
 import { useState } from "react";
 import Icon from "@/components/UI/Icon";
+import Colors from "@/constants/Theme";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
 
 const sections = [
   { id: 1, name: "Все", settings: null },
@@ -37,14 +40,27 @@ const sections = [
 ];
 
 export default function MainScr() {
+  const theme = useSelector((state: RootState) => state.theme.current);
   const [section, setSection] = useState<number>(1);
+
   const { currentData, isFetching, isError, error, refetch } = useGetPostsQuery(
     {}
   );
   const posts = Array.isArray(currentData?.data) ? currentData.data : [];
 
   if (isFetching) {
-    return <AppText>Loading...</AppText>;
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ActivityIndicator size={"large"} color={Colors[theme].secondary} />
+        <View style={{ height: 100 }} />
+      </View>
+    );
   }
 
   if (isError) {
