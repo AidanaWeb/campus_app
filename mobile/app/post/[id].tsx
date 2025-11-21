@@ -45,6 +45,7 @@ export default function PostDetails() {
             {
               backgroundColor: Colors[theme].primary,
               bottom: post.coverImage ? 40 : null,
+              paddingTop: post.coverImage ? 30 : 0,
             },
           ]}
         >
@@ -76,6 +77,7 @@ export default function PostDetails() {
           {
             backgroundColor: Colors[theme].primary,
             bottom: post.coverImage ? 40 : null,
+            paddingTop: post.coverImage ? 30 : 0,
           },
         ]}
       >
@@ -168,23 +170,10 @@ const PostBody = (props: { description: string }) => {
   );
 };
 
-// const PostBody = () => {
-//   return (
-//     <View>
-//       <AppText type="subText" size={14}>
-//         {`
-// Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laborisnisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-
-// Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`}
-//       </AppText>
-//     </View>
-//   );
-// };
-
 const styles = StyleSheet.create({
   panel: {
+    // paddingTop: 30,
     borderRadius: 50,
-    paddingTop: 30,
     paddingHorizontal: 30,
     gap: 20,
   },
