@@ -14,6 +14,7 @@ interface InputProps {
   transparent?: boolean;
   multiline?: boolean;
   numberOfLines?: number;
+  fontSize?: number;
 }
 
 export default function Input({
@@ -26,12 +27,53 @@ export default function Input({
   transparent,
   multiline,
   numberOfLines,
+  fontSize = 16,
 }: InputProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
   const placeholderColor = theme === "light" ? "#00000050" : "#ffffff50";
 
   if (iconLeft) {
-    return null;
+    return (
+      <View
+        style={[
+          {
+            flexDirection: "row",
+            alignItems: "center",
+            borderRadius: 20,
+            overflow: "hidden",
+            backgroundColor: transparent
+              ? "transparent"
+              : Colors[theme].overlay,
+          },
+          containerStyle,
+        ]}
+      >
+        <View
+          style={{
+            paddingLeft: 15,
+          }}
+        >
+          {iconLeft}
+        </View>
+
+        <TextInput
+          style={[
+            {
+              paddingVertical: 10,
+              paddingHorizontal: 20,
+              fontSize,
+            },
+            inputStyle,
+          ]}
+          placeholder={placeholder}
+          placeholderTextColor={placeholderColor}
+          value={value}
+          onChangeText={onChangeText}
+          multiline={multiline}
+          numberOfLines={numberOfLines}
+        />
+      </View>
+    );
   }
 
   return (
@@ -52,7 +94,7 @@ export default function Input({
               : Colors[theme].overlay,
             paddingVertical: 10,
             paddingHorizontal: 20,
-            fontSize: 16,
+            fontSize,
           },
           inputStyle,
         ]}

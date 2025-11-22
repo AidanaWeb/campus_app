@@ -10,6 +10,7 @@ import Icon from "@/components/UI/Icon";
 import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
+import Input from "@/components/UI/Input";
 
 const sections = [
   { id: 1, name: "Все", settings: null },
@@ -125,6 +126,20 @@ const ListHeader = (props: {
 
       <Carousel data={banners} />
 
+      <Input
+        value=""
+        onChangeText={(text) => {}}
+        placeholder="поиск..."
+        fontSize={14}
+        iconLeft={<Icon type="Ionicons" name="search-outline" color={"grey"} />}
+        inputStyle={{ paddingVertical: 20 }}
+        containerStyle={{
+          marginHorizontal: 10,
+          borderRadius: 30,
+          marginVertical: 5,
+        }}
+      />
+
       <FlatList
         data={sections}
         renderItem={({ item }) => (
@@ -138,7 +153,7 @@ const ListHeader = (props: {
         showsHorizontalScrollIndicator={false}
         style={{
           marginLeft: 10,
-          marginTop: 10,
+          // marginTop: 10,
         }}
         ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
       />
