@@ -11,42 +11,34 @@ import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Input from "@/components/UI/Input";
+import { PostType } from "@/types/post.type";
 
 const sections = [
-  { id: 1, name: "Все", settings: null },
+  { id: 1, name: "Все", type: null },
   {
     id: 2,
     name: "Посты",
-    settings: {
-      param: "type",
-      value: "post",
-    },
+    type: "POST",
   },
   {
     id: 3,
     name: "События",
-    settings: {
-      param: "type",
-      value: "event",
-    },
+    type: "EVENT",
   },
   {
     id: 4,
     name: "Новости",
-    settings: {
-      param: "type",
-      value: "news",
-    },
+    type: "NEWS",
   },
 ];
 
 export default function MainScr() {
   const theme = useSelector((state: RootState) => state.theme.current);
-  const [section, setSection] = useState<number>(1);
+  const [section, setSection] = useState<PostType | null>(null);
 
-  const { currentData, isFetching, isError, error, refetch } = useGetPostsQuery(
-    {}
-  );
+  const params = section ? { type: section } : {};
+  const { currentData, isFetching, isError, error, refetch } =
+    useGetPostsQuery(params);
   const posts = Array.isArray(currentData?.data) ? currentData.data : [];
 
   if (isFetching) {
@@ -111,8 +103,8 @@ export default function MainScr() {
 }
 
 const ListHeader = (props: {
-  section: number;
-  setSection: React.Dispatch<React.SetStateAction<number>>;
+  section: PostType | null;
+  setSection: React.Dispatch<React.SetStateAction<PostType | null>>;
 }) => {
   return (
     <View style={styles.headerContainer}>
@@ -145,8 +137,8 @@ const ListHeader = (props: {
         renderItem={({ item }) => (
           <Button
             title={item.name}
-            isActive={item.id === props.section}
-            onPress={() => props.setSection(item.id)}
+            isActive={item.type === props.section}
+            onPress={() => props.setSection(item.type)}
           />
         )}
         horizontal

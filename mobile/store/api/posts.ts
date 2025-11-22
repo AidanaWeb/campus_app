@@ -1,3 +1,4 @@
+import { PostType } from "@/types/post.type";
 import { api } from "./api";
 
 type postOrder = "asc" | "desc";
@@ -8,6 +9,7 @@ interface searchPostParams {
   dateFrom?: string;
   dateTo?: string;
   order?: "asc" | "desc";
+  type?: PostType | null;
 }
 
 const postApi = api.injectEndpoints({
@@ -19,16 +21,18 @@ const postApi = api.injectEndpoints({
         dateFrom,
         dateTo,
         order = "desc",
+        type,
       }: searchPostParams) => {
+        const params: any = { limit, order };
+
+        if (authorId) params.authorId = authorId;
+        if (dateFrom) params.dateFrom = dateFrom;
+        if (dateTo) params.dateTo = dateTo;
+        if (type) params.type = type;
+
         return {
           url: "/posts",
-          params: {
-            limit,
-            authorId,
-            dateFrom,
-            dateTo,
-            order,
-          },
+          params,
         };
       },
     }),

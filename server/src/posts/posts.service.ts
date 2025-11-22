@@ -16,8 +16,6 @@ export class PostsService {
   constructor(private readonly prisma: PrismaService) {}
 
   async getPosts(query: SearchPostDto) {
-    console.log(query);
-
     // const hasFilters = Object.keys(query).length > 0;
 
     // if (!hasFilters) {
@@ -27,6 +25,9 @@ export class PostsService {
     const where: Prisma.PostWhereInput = {};
     if (query.authorId) {
       where.authorId = query.authorId;
+    }
+    if (query.type) {
+      where.type = query.type;
     }
     if (query.dateFrom || query.dateTo) {
       where.createdAt = {

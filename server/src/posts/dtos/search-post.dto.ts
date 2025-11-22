@@ -1,5 +1,13 @@
 import { Type } from "class-transformer";
-import { IsDate, IsIn, IsInt, IsOptional, IsString } from "class-validator";
+import {
+  IsDate,
+  IsEnum,
+  IsIn,
+  IsInt,
+  IsOptional,
+  IsString,
+} from "class-validator";
+import { EntityType } from "generated/prisma";
 
 export class SearchPostDto {
   @IsOptional()
@@ -24,4 +32,8 @@ export class SearchPostDto {
   @IsOptional()
   @IsIn(["asc", "desc"])
   order?: "asc" | "desc";
+
+  @IsOptional()
+  @IsEnum(EntityType)
+  type?: EntityType;
 }
