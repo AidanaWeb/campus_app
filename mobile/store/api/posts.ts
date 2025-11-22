@@ -9,7 +9,8 @@ interface searchPostParams {
   dateFrom?: string;
   dateTo?: string;
   order?: "asc" | "desc";
-  type?: PostType;
+  type?: PostType | null;
+  search?: string | null;
 }
 
 const postApi = api.injectEndpoints({
@@ -22,6 +23,7 @@ const postApi = api.injectEndpoints({
         dateTo,
         order = "desc",
         type,
+        search,
       }: searchPostParams) => {
         const params: any = { limit, order };
 
@@ -29,6 +31,7 @@ const postApi = api.injectEndpoints({
         if (dateFrom) params.dateFrom = dateFrom;
         if (dateTo) params.dateTo = dateTo;
         if (type) params.type = type;
+        if (search) params.search = search;
 
         return {
           url: "/posts",

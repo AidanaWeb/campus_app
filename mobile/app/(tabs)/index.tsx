@@ -5,7 +5,7 @@ import Button from "@/components/UI/Button";
 import Post from "@/components/Post";
 import { useGetPostsQuery } from "@/store/api/posts";
 import { banners } from "@/mock/banners";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Icon from "@/components/UI/Icon";
 import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
@@ -32,14 +32,39 @@ const sections = [
   },
 ];
 
+interface filters {
+  type: PostType | null;
+  search: string | null;
+}
+
 export default function MainScr() {
   const theme = useSelector((state: RootState) => state.theme.current);
-
   const [sectionId, setSectionId] = useState<number>(1);
-  const section = sections.find((item) => item.id === sectionId);
-  const params = section?.type ? { type: section?.type } : {};
+  const [search, setSearch] = useState<string>("");
+  const [filters, setFilters] = useState<filters>({
+    type: null,
+    search: null,
+  });
+
   const { currentData, isFetching, isLoading, isError, error, refetch } =
-    useGetPostsQuery(params);
+    useGetPostsQuery(filters);
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setFilters((prev) => ({ ...prev, search: search }));
+    }, 1000);
+
+    return () => clearTimeout(timeout);
+  }, [search]);
+
+  useEffect(() => {
+    const section = sections.find((item) => item.id === sectionId);
+    updateFilter("type", section?.type ?? null);
+  }, [sectionId]);
+
+  const updateFilter = (key: string, value: any) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
 
   const posts = Array.isArray(currentData?.data) ? currentData.data : [];
 
@@ -91,7 +116,12 @@ export default function MainScr() {
     <FlatList
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
-        <ListHeader sectionId={sectionId} setSectionId={setSectionId} />
+        <ListHeader
+          sectionId={sectionId}
+          setSectionId={setSectionId}
+          search={search}
+          setSearch={setSearch}
+        />
       }
       data={posts}
       renderItem={({ item }) => (
@@ -107,6 +137,8 @@ export default function MainScr() {
 const ListHeader = (props: {
   sectionId: number;
   setSectionId: React.Dispatch<React.SetStateAction<number>>;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
 }) => {
   return (
     <View style={styles.headerContainer}>
@@ -121,8 +153,8 @@ const ListHeader = (props: {
       <Carousel data={banners} />
 
       <Input
-        value=""
-        onChangeText={(text) => {}}
+        value={props.search}
+        onChangeText={props.setSearch}
         placeholder="поиск..."
         fontSize={14}
         iconLeft={<Icon type="Ionicons" name="search-outline" color={"grey"} />}

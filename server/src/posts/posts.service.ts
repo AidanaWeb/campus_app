@@ -17,7 +17,6 @@ export class PostsService {
 
   async getPosts(query: SearchPostDto) {
     // const hasFilters = Object.keys(query).length > 0;
-
     // if (!hasFilters) {
     //   return await this.getAllPosts();
     // }
@@ -28,6 +27,15 @@ export class PostsService {
     }
     if (query.type) {
       where.type = query.type;
+    }
+    console.log(query.search);
+    if (query.search?.trim()) {
+      where.OR = [
+        { title: { contains: query.search, mode: "insensitive" } },
+        {
+          description: { contains: query.search, mode: "insensitive" },
+        },
+      ];
     }
     if (query.dateFrom || query.dateTo) {
       where.createdAt = {
@@ -185,6 +193,7 @@ export class PostsService {
         status: true,
       };
     } catch (error) {
+      console.log(error);
       throw new InternalServerErrorException(ErrorMessages.INTERNAL_ERROR);
     }
   }

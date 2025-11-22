@@ -36,4 +36,8 @@ export class SearchPostDto {
   @IsOptional()
   @IsEnum(EntityType)
   type?: EntityType;
+
+  @IsOptional()
+  @IsString()
+  search?: string;
 }
