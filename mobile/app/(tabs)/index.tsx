@@ -114,7 +114,7 @@ export default function MainScr() {
 
   return (
     <FlatList
-      showsVerticalScrollIndicator={false}
+      data={posts}
       ListHeaderComponent={
         <ListHeader
           sectionId={sectionId}
@@ -123,13 +123,29 @@ export default function MainScr() {
           setSearch={setSearch}
         />
       }
-      data={posts}
       renderItem={({ item }) => (
         <View style={{ marginHorizontal: 10 }}>
           <Post post={item} paddingHorizontal={10} />
         </View>
       )}
+      ListEmptyComponent={
+        isFetching ? (
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <ActivityIndicator size={"large"} color={Colors[theme].secondary} />
+            <View style={{ height: 100 }} />
+          </View>
+        ) : (
+          <EmptyPostsList />
+        )
+      }
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      showsVerticalScrollIndicator={false}
     />
   );
 }
@@ -167,6 +183,7 @@ const ListHeader = (props: {
       />
 
       <FlatList
+        horizontal
         data={sections}
         renderItem={({ item }) => (
           <Button
@@ -175,14 +192,29 @@ const ListHeader = (props: {
             onPress={() => props.setSectionId(item.id)}
           />
         )}
-        horizontal
         showsHorizontalScrollIndicator={false}
+        ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
         style={{
           marginLeft: 10,
-          // marginTop: 10,
         }}
-        ItemSeparatorComponent={() => <View style={{ width: 10 }} />}
       />
+    </View>
+  );
+};
+
+const EmptyPostsList = () => {
+  return (
+    <View
+      style={{
+        height: 500,
+        alignItems: "center",
+        paddingTop: 50,
+      }}
+    >
+      <Icon type="Ionicons" name="search-outline" size={62} opacity={0.3} />
+      <AppText type="subText" size={14}>
+        Посты не найдены
+      </AppText>
     </View>
   );
 };
