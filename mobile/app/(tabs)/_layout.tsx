@@ -8,6 +8,7 @@ import { RootState } from "@/store/store";
 import { BlurView } from "expo-blur";
 import UserAvatar from "@/components/UserAvatar";
 import Icon from "@/components/UI/Icon";
+import ToggleThemeButton from "@/components/ToggleThemeButton";
 
 function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
   const theme = useSelector((state: RootState) => state.theme.current);
@@ -110,7 +111,7 @@ export default function TabLayout() {
           headerLeft: () => (
             <View style={styles.headerSide}>
               <Icon type="Ionicons" name="settings-outline" opacity={0.3} />
-              {/* <ToggleThemeButton /> */}
+              <ToggleThemeButton />
             </View>
           ),
         }}
