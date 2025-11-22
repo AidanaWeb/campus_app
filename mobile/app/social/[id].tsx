@@ -127,7 +127,16 @@ const ProfileTop = ({
 
 const UserCoverImage = (props: { coverImage: string | undefined }) => {
   if (!props.coverImage) {
-    return null;
+    return (
+      <View
+        style={{
+          width: COVER_WIDTH,
+          height: COVER_HEIGHT,
+          position: "absolute",
+          backgroundColor: "grey",
+        }}
+      />
+    );
   }
 
   return (
