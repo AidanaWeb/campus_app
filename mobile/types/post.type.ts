@@ -7,13 +7,13 @@ export interface Author {
   role: "STUDENT" | "TEACHER" | "ADMIN";
 }
 
-// export enum PostType {
-//   POST = "POST",
-//   NEWS = "NEWS",
-//   EVENT = "EVENT",
-// }
+export enum PostType {
+  POST = "POST",
+  NEWS = "NEWS",
+  EVENT = "EVENT",
+}
 
-export type PostType = "POST" | "NEWS" | "EVENT";
+// export type PostType = "POST" | "NEWS" | "EVENT";
 
 export type FeedItem = Post | Event;
 export interface Post {

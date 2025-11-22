@@ -18,30 +18,32 @@ const sections = [
   {
     id: 2,
     name: "Посты",
-    type: "POST",
+    type: PostType.POST,
   },
   {
     id: 3,
     name: "События",
-    type: "EVENT",
+    type: PostType.EVENT,
   },
   {
     id: 4,
     name: "Новости",
-    type: "NEWS",
+    type: PostType.NEWS,
   },
 ];
 
 export default function MainScr() {
   const theme = useSelector((state: RootState) => state.theme.current);
-  const [section, setSection] = useState<PostType | null>(null);
 
-  const params = section ? { type: section } : {};
-  const { currentData, isFetching, isError, error, refetch } =
+  const [sectionId, setSectionId] = useState<number>(1);
+  const section = sections.find((item) => item.id === sectionId);
+  const params = section?.type ? { type: section?.type } : {};
+  const { currentData, isFetching, isLoading, isError, error, refetch } =
     useGetPostsQuery(params);
+
   const posts = Array.isArray(currentData?.data) ? currentData.data : [];
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <View
         style={{
@@ -89,7 +91,7 @@ export default function MainScr() {
     <FlatList
       showsVerticalScrollIndicator={false}
       ListHeaderComponent={
-        <ListHeader section={section} setSection={setSection} />
+        <ListHeader sectionId={sectionId} setSectionId={setSectionId} />
       }
       data={posts}
       renderItem={({ item }) => (
@@ -103,8 +105,8 @@ export default function MainScr() {
 }
 
 const ListHeader = (props: {
-  section: PostType | null;
-  setSection: React.Dispatch<React.SetStateAction<PostType | null>>;
+  sectionId: number;
+  setSectionId: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
     <View style={styles.headerContainer}>
@@ -137,8 +139,8 @@ const ListHeader = (props: {
         renderItem={({ item }) => (
           <Button
             title={item.name}
-            isActive={item.type === props.section}
-            onPress={() => props.setSection(item.type)}
+            isActive={item.id === props.sectionId}
+            onPress={() => props.setSectionId(item.id)}
           />
         )}
         horizontal

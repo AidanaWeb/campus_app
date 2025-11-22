@@ -9,7 +9,7 @@ interface searchPostParams {
   dateFrom?: string;
   dateTo?: string;
   order?: "asc" | "desc";
-  type?: PostType | null;
+  type?: PostType;
 }
 
 const postApi = api.injectEndpoints({
