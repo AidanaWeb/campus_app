@@ -48,6 +48,9 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
     : [];
 
   const theme = useSelector((state: RootState) => state.theme.current);
+  const userState = useSelector((state: RootState) => state.user.info);
+
+  const isCurrentUser = userId === userState?.id;
 
   if (isLoading) {
     return null;
@@ -59,7 +62,9 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
 
   return (
     <FlatList
-      ListHeaderComponent={<ProfileTop user={user} />}
+      ListHeaderComponent={
+        <ProfileTop user={user} isCurrentUser={isCurrentUser} />
+      }
       showsVerticalScrollIndicator={false}
       data={posts}
       renderItem={({ item }) => (
@@ -73,7 +78,13 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
   );
 }
 
-const ProfileTop = ({ user }: { user: User }) => {
+const ProfileTop = ({
+  user,
+  isCurrentUser = false,
+}: {
+  user: User;
+  isCurrentUser: boolean;
+}) => {
   const theme = useSelector((state: RootState) => state.theme.current);
 
   return (
@@ -107,7 +118,7 @@ const ProfileTop = ({ user }: { user: User }) => {
 
           <UserAdditionalInfo createdAt={user.createdAt} email={user.email} />
 
-          <SubscribeButton />
+          {!isCurrentUser && <SubscribeButton />}
         </View>
       </View>
     </View>
