@@ -24,7 +24,8 @@ import { router } from "expo-router";
 import { useLoginMutation, useSignupMutation } from "@/store/api/users";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/store/slices/userSlice";
+import { setUser, setUserInfo } from "@/store/slices/userSlice";
+import { saveDataInStorage } from "@/utils/storage";
 
 const { height } = Dimensions.get("window");
 
@@ -114,7 +115,14 @@ export default function SignupScr() {
         return;
       }
 
-      dispatch(setUserInfo(loginRes.user));
+      dispatch(
+        setUser({
+          user: loginRes.user,
+          accessToken: loginRes.accessToken,
+        })
+      );
+      await saveDataInStorage("app_user", loginRes.user);
+      await saveDataInStorage("refreshToken", loginRes.refreshToken);
       Alert.alert("Регистрация завершена", "Авторизация выполнена успешно.");
       router.replace("/(tabs)");
     } catch (error: FetchBaseQueryError | any) {

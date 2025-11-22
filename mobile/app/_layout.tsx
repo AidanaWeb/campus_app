@@ -81,6 +81,17 @@ function RootLayoutNav() {
     initTheme();
   }, [OStheme]);
 
+  useEffect(() => {
+    const getUserFromStorage = async () => {
+      const userInStorage = await getDataFromStorage("app_user");
+      if (userInStorage) {
+        dispatch(setUserInfo(userInStorage));
+      }
+    };
+
+    getUserFromStorage();
+  }, []);
+
   // useEffect(() => {
   //   const mockUser = {
   //     id: "cmhxo53s3000aunvs4ndhl9ul",
