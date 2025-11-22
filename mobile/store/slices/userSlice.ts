@@ -3,12 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface UserState {
   info: User | null;
-  token?: string | null;
+  accessToken?: string | null;
 }
 
 const initialState: UserState = {
   info: null,
-  token: null,
+  accessToken: null,
 };
 
 export const userSlice = createSlice({
@@ -20,10 +20,10 @@ export const userSlice = createSlice({
     },
 
     setUser: (state, action) => {
-      const { user, token } = action.payload || {};
+      const { user, accessToken } = action.payload || {};
 
       state.info = user;
-      state.token = token;
+      state.accessToken = accessToken;
     },
   },
 });

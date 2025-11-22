@@ -8,7 +8,7 @@ export const api = createApi({
     baseUrl: API_BASE_URL,
 
     prepareHeaders: (headers, { getState }) => {
-      const token = (getState() as RootState).user.token;
+      const token = (getState() as RootState).user.accessToken;
 
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
