@@ -158,6 +158,9 @@ export class AuthService {
       });
     }
 
-    return this.generateUserTokens(existingToken.userId);
+    const tokens = await this.generateUserTokens(existingToken.userId);
+    return {
+      data: tokens,
+    };
   }
 }
