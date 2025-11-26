@@ -165,6 +165,7 @@ function RootLayoutNav() {
             options={{
               headerShown: true,
               headerTitle: "Настройки",
+              presentation: "modal",
             }}
           />
         </Stack>

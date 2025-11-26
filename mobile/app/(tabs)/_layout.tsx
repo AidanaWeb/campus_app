@@ -51,7 +51,6 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[theme].secondary,
         tabBarInactiveTintColor: Colors[theme].secondary,
-        headerShown: true,
         tabBarStyle: styles.tabBar,
         tabBarItemStyle: styles.tabBarItem,
         tabBarIconStyle: styles.tabBarIcon,
@@ -59,10 +58,14 @@ export default function TabLayout() {
         sceneStyle: {
           backgroundColor,
         },
+        headerShown: true,
         headerStyle: {
           backgroundColor,
           borderBottomWidth: 0,
           height: 110,
+        },
+        headerTitleStyle: {
+          color: Colors[theme].text,
         },
         headerTitleAlign: "center",
         headerShadowVisible: false,
