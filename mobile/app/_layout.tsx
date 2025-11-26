@@ -121,6 +121,7 @@ function RootLayoutNav() {
             headerStyle: {
               backgroundColor: Colors[themeState].primary,
             },
+            headerTitleAlign: "center",
             headerShadowVisible: false,
             headerTitleStyle: {
               color: Colors[themeState].text,
@@ -157,6 +158,13 @@ function RootLayoutNav() {
             options={{
               headerShown: true,
               headerTitle: "",
+            }}
+          />
+          <Stack.Screen
+            name="settings"
+            options={{
+              headerShown: true,
+              headerTitle: "Настройки",
             }}
           />
         </Stack>

@@ -1,8 +1,8 @@
-import { Tabs, usePathname } from "expo-router";
+import { router, Tabs, usePathname } from "expo-router";
 import React, { ReactNode } from "react";
 import Colors from "@/constants/Theme";
 import { Ionicons, MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { BlurView } from "expo-blur";
@@ -110,7 +110,9 @@ export default function TabLayout() {
           ),
           headerLeft: () => (
             <View style={styles.headerSide}>
-              <Icon type="Ionicons" name="settings-outline" opacity={0.3} />
+              <TouchableOpacity onPress={() => router.push("/settings")}>
+                <Icon type="Ionicons" name="settings-outline" opacity={0.3} />
+              </TouchableOpacity>
               <ToggleThemeButton />
             </View>
           ),
