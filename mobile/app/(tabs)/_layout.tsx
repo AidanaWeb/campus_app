@@ -9,6 +9,7 @@ import { BlurView } from "expo-blur";
 import UserAvatar from "@/components/UserAvatar";
 import Icon from "@/components/UI/Icon";
 import ToggleThemeButton from "@/components/ToggleThemeButton";
+import { useTranslation } from "react-i18next";
 
 function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
   const theme = useSelector((state: RootState) => state.theme.current);
@@ -40,6 +41,7 @@ function TabBarIcon(props: { icon: ReactNode; isFocused: boolean }) {
 }
 
 export default function TabLayout() {
+  const { t } = useTranslation();
   const theme = useSelector((state: RootState) => state.theme.current);
   const user = useSelector((state: RootState) => state.user.info);
   const pathname = usePathname();
@@ -78,8 +80,8 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Главная",
-          headerTitle: "Главная",
+          title: t("mainScr"),
+          headerTitle: t("mainScr"),
           tabBarLabel: "",
 
           tabBarIcon: ({ color }) => {
@@ -125,7 +127,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="createPost"
         options={{
-          title: "Создать",
+          title: t("create"),
           tabBarLabel: "",
 
           tabBarIcon: ({ color }) => {

@@ -12,30 +12,35 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import Input from "@/components/UI/Input";
 import { PostType } from "@/types/post.type";
-
-const sections = [
-  { id: 1, name: "Все", type: null },
-  {
-    id: 2,
-    name: "Посты",
-    type: PostType.POST,
-  },
-  {
-    id: 3,
-    name: "События",
-    type: PostType.EVENT,
-  },
-  {
-    id: 4,
-    name: "Новости",
-    type: PostType.NEWS,
-  },
-];
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 interface filters {
   type: PostType | null;
   search: string | null;
 }
+const sections = [
+  { id: 1, name: { ru: "Все", en: "All" }, type: null },
+  {
+    id: 2,
+    name: {
+      ru: "Посты",
+      en: "Posts",
+    },
+    type: PostType.POST,
+  },
+  {
+    id: 3,
+    name: { ru: "События", en: "Events" },
+    type: PostType.EVENT,
+  },
+  {
+    id: 4,
+    name: { ru: "Новости", en: "News" },
+    type: PostType.NEWS,
+  },
+];
 
 export default function MainScr() {
   const theme = useSelector((state: RootState) => state.theme.current);
@@ -156,6 +161,9 @@ const ListHeader = (props: {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const { t } = useTranslation();
+  const lang = i18n.language;
+
   return (
     <View style={styles.headerContainer}>
       <AppText
@@ -163,7 +171,7 @@ const ListHeader = (props: {
         type="title"
         style={{ fontWeight: "bold", marginLeft: 20 }}
       >
-        Новости
+        {t("news")}
       </AppText>
 
       <Carousel data={banners} />
@@ -171,7 +179,7 @@ const ListHeader = (props: {
       <Input
         value={props.search}
         onChangeText={props.setSearch}
-        placeholder="поиск..."
+        placeholder={`${t("search")}...`}
         fontSize={14}
         iconLeft={<Icon type="Ionicons" name="search-outline" color={"grey"} />}
         inputStyle={{ paddingVertical: 20 }}
@@ -187,7 +195,7 @@ const ListHeader = (props: {
         data={sections}
         renderItem={({ item }) => (
           <Button
-            title={item.name}
+            title={item.name[lang]}
             isActive={item.id === props.sectionId}
             onPress={() => props.setSectionId(item.id)}
           />

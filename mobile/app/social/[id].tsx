@@ -16,6 +16,7 @@ import { StyleSheet } from "react-native";
 import { HeaderButton } from "@/components/UI/HeaderButton";
 import { useGetPostsQuery } from "@/store/api/posts";
 import Post from "@/components/Post";
+import { useTranslation } from "react-i18next";
 
 const { width } = Dimensions.get("window");
 const COVER_WIDTH = width;
@@ -167,6 +168,7 @@ const SubscribeButton = () => {
 };
 
 const UserAdditionalInfo = (props: { createdAt: string; email: string }) => {
+  const { t } = useTranslation();
   const registerDate = new Date(props.createdAt).toLocaleDateString();
 
   return (
@@ -191,7 +193,9 @@ const UserAdditionalInfo = (props: { createdAt: string; email: string }) => {
         }}
       >
         <Icon type="Ionicons" name="calendar-outline" size={18} opacity={0.3} />
-        <AppText type="subText">Дата регистрации: {registerDate}</AppText>
+        <AppText type="subText">
+          {t("register_date")}: {registerDate}
+        </AppText>
       </View>
     </View>
   );

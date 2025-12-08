@@ -16,10 +16,12 @@ import AuthError from "@/components/AuthError";
 import Input from "@/components/UI/Input";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCreatePostMutation } from "@/store/api/posts";
+import { useTranslation } from "react-i18next";
 
 type Props = {};
 
 const CreatePostScr = (props: Props) => {
+  const { t } = useTranslation();
   const [createPost] = useCreatePostMutation();
   const user = useSelector((state: RootState) => state.user.info);
 
@@ -87,21 +89,21 @@ const CreatePostScr = (props: Props) => {
         />
 
         <Input
-          placeholder="Название"
+          placeholder={t("title")}
           value={post.title}
           onChangeText={(text) => setValue("title", text)}
           transparent
         />
 
         <Input
-          placeholder="Описание поста"
+          placeholder={t("post_desc")}
           value={post.description}
           onChangeText={(text) => setValue("description", text)}
           transparent
           multiline
         />
 
-        <Button title={"Создать"} isActive onPress={handleCreatePost} />
+        <Button title={t("create")} isActive onPress={handleCreatePost} />
       </ScrollView>
     </TouchableWithoutFeedback>
   );

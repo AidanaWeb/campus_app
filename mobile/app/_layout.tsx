@@ -20,6 +20,7 @@ import { setTheme } from "@/store/slices/themeSlice";
 import Colors from "@/constants/Theme";
 import { users } from "@/mock/users";
 import { setUserInfo } from "@/store/slices/userSlice";
+import { useTranslation } from "react-i18next";
 export { ErrorBoundary } from "expo-router";
 
 export const unstable_settings = {
@@ -63,6 +64,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const OStheme = useColorScheme();
   const themeState = useSelector((state: RootState) => state.theme.current);
 
@@ -136,14 +138,14 @@ function RootLayoutNav() {
             name="post/[id]"
             options={{
               headerShown: false,
-              headerTitle: "Пост",
+              headerTitle: t("post"),
             }}
           />
           <Stack.Screen
             name="social/[id]"
             options={{
               headerShown: false,
-              headerTitle: "Профиль",
+              headerTitle: t("profile"),
             }}
           />
           <Stack.Screen
@@ -164,7 +166,7 @@ function RootLayoutNav() {
             name="settings"
             options={{
               headerShown: true,
-              headerTitle: "Настройки",
+              headerTitle: t("settings"),
               presentation: "modal",
             }}
           />
