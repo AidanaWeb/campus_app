@@ -172,7 +172,7 @@ export default function TabLayout() {
               />
             );
           },
-          tabBarBadge: 4,
+          // tabBarBadge: 4,
         }}
       />
     </Tabs>
