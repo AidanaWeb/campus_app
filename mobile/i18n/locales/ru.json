@@ -25,6 +25,7 @@
   "login_noun": "Вход",
   "login_success": "Вход выполнен",
   "welcome_message": "Добро пожаловать, ${name}",
+  "logout_verb": "Выйти",
   "something_went_wrong": "Что-то пошло не так",
   "try_reload": "Попробуйте обновить страницу.",
   "try_again": "Попробовать снова",
@@ -37,5 +38,6 @@
   "theme_light": "светлая",
   "theme_system": "система",
   "language": "Язык",
-  "notifications": "Уведомления"
+  "notifications": "Уведомления",
+  "logout_success": "Вы вышли из аккаунта"
 }

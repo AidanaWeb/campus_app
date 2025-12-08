@@ -5,6 +5,10 @@ import {
   ScrollView,
   TouchableOpacity,
   Dimensions,
+  ColorValue,
+  NativeTouchEvent,
+  GestureResponderEvent,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -16,15 +20,16 @@ import RNPickerSelect from "react-native-picker-select";
 import { Picker } from "@react-native-picker/picker";
 import Icon from "@/components/UI/Icon";
 import Button from "@/components/UI/Button";
-import { saveDataInStorage } from "@/utils/storage";
+import { removeDataFromStorage, saveDataInStorage } from "@/utils/storage";
 import { setTheme } from "@/store/slices/themeSlice";
 import i18n from "@/i18n";
 import { useTranslation } from "react-i18next";
-
-type themeSelect = "system" | "light" | "dark";
+import { logoutUser, setUser } from "@/store/slices/userSlice";
+import { router } from "expo-router";
 
 export default function Settings() {
   const theme = useSelector((state: RootState) => state.theme.current);
+  const user = useSelector((state: RootState) => state.user.info);
   const dispatch = useDispatch();
   const lang = i18n.language;
   const { t } = useTranslation();
@@ -37,6 +42,14 @@ export default function Settings() {
   const handleChangeLang = async (next: "ru" | "en") => {
     i18n.changeLanguage(next);
     await saveDataInStorage("app_lang", next);
+  };
+
+  const handleLogout = async () => {
+    dispatch(logoutUser());
+    await removeDataFromStorage("app_user");
+    await removeDataFromStorage("refreshToken");
+    Alert.alert(t("logout_success"));
+    router.replace("/");
   };
 
   return (
@@ -89,6 +102,18 @@ export default function Settings() {
         </View>
 
         <SettingItem title={t("notifications")} />
+
+        {user?.id && (
+          <>
+            <Separator />
+
+            <SettingItem
+              title={t("logout_verb")}
+              color={"red"}
+              onPress={handleLogout}
+            />
+          </>
+        )}
       </View>
     </ScrollView>
   );
@@ -97,10 +122,18 @@ export default function Settings() {
 interface SettingItemProps {
   title: string;
   type?: "default" | "select" | "toggle";
+  color?: ColorValue;
+  onPress?: (e: GestureResponderEvent) => void;
 }
-const SettingItem = ({ title, type = "default" }: SettingItemProps) => {
+const SettingItem = ({
+  title,
+  type = "default",
+  color,
+  onPress = () => {},
+}: SettingItemProps) => {
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={{
         paddingVertical: 10,
         paddingHorizontal: 15,
@@ -108,7 +141,13 @@ const SettingItem = ({ title, type = "default" }: SettingItemProps) => {
         justifyContent: "space-between",
       }}
     >
-      <AppText type="title" size={18}>
+      <AppText
+        type="title"
+        size={18}
+        style={{
+          color,
+        }}
+      >
         {title}
       </AppText>
 
