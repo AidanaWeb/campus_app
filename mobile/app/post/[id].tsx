@@ -3,10 +3,11 @@ import {
   Image,
   Dimensions,
   StyleSheet,
-  TouchableOpacity,
+  Share,
+  Alert,
 } from "react-native";
 import React, { Fragment } from "react";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, usePathname } from "expo-router";
 import { FeedItem } from "@/types/post.type";
 import { ScrollView } from "react-native";
 import AppText from "@/components/UI/AppText";
@@ -16,19 +17,36 @@ import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetPostByIdQuery } from "@/store/api/posts";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { HeaderButton } from "@/components/UI/HeaderButton";
+import { useTranslation } from "react-i18next";
 
 const { width } = Dimensions.get("window");
-
 const IMAGE_SIZE = width;
 
 export default function PostDetails() {
   const { id }: { id: string } = useLocalSearchParams();
   const theme = useSelector((state: RootState) => state.theme.current);
+  const { t } = useTranslation();
 
   const { currentData } = useGetPostByIdQuery(id);
   const post: FeedItem | null = currentData?.data ?? null;
+
+  const handleSharePost = async () => {
+    const message = `
+    ${post?.title}
+
+    ${post?.description}
+    `;
+
+    try {
+      await Share.share({
+        message,
+        title: "CampusApp",
+      });
+    } catch (error) {
+      Alert.alert(t("error_occured"), t("try_later"));
+    }
+  };
 
   if (!post) {
     return <Fragment />;
@@ -37,7 +55,7 @@ export default function PostDetails() {
   if (post.type === "EVENT") {
     return (
       <ScrollView style={{ flex: 1 }}>
-        <PostImage url={post.coverImage} />
+        <PostImage url={post.coverImage} handleShare={handleSharePost} />
 
         <View
           style={[
@@ -69,7 +87,7 @@ export default function PostDetails() {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <PostImage url={post.coverImage} />
+      <PostImage url={post.coverImage} handleShare={handleSharePost} />
 
       <View
         style={[
@@ -97,13 +115,28 @@ export default function PostDetails() {
   );
 }
 
-const PostImage = (props: { url: string | undefined }) => {
+const PostImage = (props: {
+  url: string | undefined;
+  handleShare: () => void;
+}) => {
   if (!props.url) {
     return (
-      <View style={{ height: 150 }}>
+      <View
+        style={{
+          height: 150,
+        }}
+      >
         <HeaderButton
           onPress={() => router.back()}
           icon={{ type: "Ionicons", name: "arrow-back" }}
+        />
+
+        <HeaderButton
+          onPress={() => props.handleShare()}
+          icon={{ type: "Entypo", name: "share" }}
+          containerStyle={{
+            right: 0,
+          }}
         />
       </View>
     );
@@ -114,6 +147,13 @@ const PostImage = (props: { url: string | undefined }) => {
       <HeaderButton
         onPress={() => router.back()}
         icon={{ type: "Ionicons", name: "arrow-back" }}
+      />
+      <HeaderButton
+        onPress={() => props.handleShare()}
+        icon={{ type: "Entypo", name: "share" }}
+        containerStyle={{
+          right: 0,
+        }}
       />
 
       <Image

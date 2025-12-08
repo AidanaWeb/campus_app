@@ -1,4 +1,4 @@
-import { TouchableOpacity, StyleSheet } from "react-native";
+import { TouchableOpacity, StyleSheet, ViewStyle } from "react-native";
 import React, { ReactNode } from "react";
 import Icon, { iconType } from "./Icon";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,12 +12,14 @@ interface HeaderButtonProps {
     type: iconType;
     name: string;
   };
+  containerStyle?: ViewStyle;
 }
 
 export const HeaderButton = ({
   margin = 10,
   onPress,
   icon,
+  containerStyle,
 }: HeaderButtonProps) => {
   const insets = useSafeAreaInsets();
   const theme = useSelector((state: RootState) => state.theme.current);
@@ -32,6 +34,7 @@ export const HeaderButton = ({
         margin,
         top: insets.top,
         backgroundColor,
+        ...containerStyle,
       }}
     >
       <Icon type={icon.type} name={icon.name} color={iconColor} />
