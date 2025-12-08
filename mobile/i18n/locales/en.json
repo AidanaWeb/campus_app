@@ -30,5 +30,12 @@
   "try_again": "Try again",
   "login_to_continue": "Log in to continue",
   "feature_allowed_for_registered_users": "This feature is available only to registered users.",
-  "register": "Sign up"
+  "register": "Sign up",
+  "settings": "Settings",
+  "theme": "Theme",
+  "theme_dark": "dark",
+  "theme_light": "light",
+  "theme_system": "system",
+  "language": "Language",
+  "notifications": "Notifications"
 }

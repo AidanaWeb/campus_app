@@ -33,5 +33,9 @@
   "register": "Зарегистрироваться",
   "settings": "Настройки",
   "theme": "Тема",
-  "language": "Язык"
+  "theme_dark": "темная",
+  "theme_light": "светлая",
+  "theme_system": "система",
+  "language": "Язык",
+  "notifications": "Уведомления"
 }

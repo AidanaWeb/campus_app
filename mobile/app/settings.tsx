@@ -1,48 +1,102 @@
-import { View, Text, Modal, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  Modal,
+  ScrollView,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AppText from "@/components/UI/AppText";
 import Colors from "@/constants/Theme";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import RNPickerSelect from "react-native-picker-select";
 import { Picker } from "@react-native-picker/picker";
 import Icon from "@/components/UI/Icon";
+import Button from "@/components/UI/Button";
+import { saveDataInStorage } from "@/utils/storage";
+import { setTheme } from "@/store/slices/themeSlice";
+import i18n from "@/i18n";
+import { useTranslation } from "react-i18next";
 
 type themeSelect = "system" | "light" | "dark";
 
 export default function Settings() {
   const theme = useSelector((state: RootState) => state.theme.current);
-  const [selectedTheme, setSelectedTheme] = useState<themeSelect>(theme);
+  const dispatch = useDispatch();
+  const lang = i18n.language;
+  const { t } = useTranslation();
+
+  const handleChangeTheme = async (next: "dark" | "light") => {
+    dispatch(setTheme(next));
+    await saveDataInStorage("app_theme", next);
+  };
+
+  const handleChangeLang = async (next: "ru" | "en") => {
+    i18n.changeLanguage(next);
+    await saveDataInStorage("app_lang", next);
+  };
 
   return (
     <ScrollView>
-      {/* <AppText>Настройки</AppText> */}
-
       <View
         style={{
           backgroundColor: Colors[theme].overlay,
-          gap: 5,
+          gap: 10,
           margin: 10,
           borderRadius: 10,
         }}
       >
-        <SettingItem title="Тема" type="select" />
-        <SettingItem title="Язык" type="select" />
-        <SettingItem title="Уведомления" type="toggle" />
+        <View>
+          <SettingItem title={t("theme")} />
+
+          <View style={{ flexDirection: "row", gap: 10, marginHorizontal: 10 }}>
+            <Button
+              title={t("theme_dark")}
+              isActive={theme === "dark"}
+              onPress={() => handleChangeTheme("dark")}
+            />
+            <Button
+              title={t("theme_light")}
+              isActive={theme === "light"}
+              onPress={() => handleChangeTheme("light")}
+            />
+            <Button title={t("theme_system")} />
+          </View>
+
+          <Separator />
+        </View>
+
+        <View>
+          <SettingItem title={t("language")} />
+
+          <View style={{ flexDirection: "row", gap: 10, marginHorizontal: 10 }}>
+            <Button
+              title={"русский"}
+              isActive={lang === "ru"}
+              onPress={() => handleChangeLang("ru")}
+            />
+            <Button
+              title={"english"}
+              isActive={lang === "en"}
+              onPress={() => handleChangeLang("en")}
+            />
+          </View>
+
+          <Separator />
+        </View>
+
+        <SettingItem title={t("notifications")} />
       </View>
     </ScrollView>
   );
 }
 
-interface selectItem {
-  label: string;
-  value: string;
-}
 interface SettingItemProps {
   title: string;
   type?: "default" | "select" | "toggle";
-  selectItems?: selectItem[];
 }
 const SettingItem = ({ title, type = "default" }: SettingItemProps) => {
   return (
@@ -60,5 +114,22 @@ const SettingItem = ({ title, type = "default" }: SettingItemProps) => {
 
       <Icon type="MaterialIcons" name="navigate-next" opacity={0.3} />
     </TouchableOpacity>
+  );
+};
+
+const Separator = () => {
+  const theme = useSelector((state: RootState) => state.theme.current);
+
+  return (
+    <View
+      style={{
+        width: "95%",
+        height: 1,
+        backgroundColor: Colors[theme].secondary,
+        opacity: 0.05,
+        marginVertical: 10,
+        alignSelf: "center",
+      }}
+    />
   );
 };
