@@ -141,15 +141,21 @@ const SettingItem = ({
         justifyContent: "space-between",
       }}
     >
-      <AppText
-        type="title"
-        size={18}
-        style={{
-          color,
-        }}
-      >
-        {title}
-      </AppText>
+      {color ? (
+        <AppText
+          type="title"
+          size={18}
+          style={{
+            color,
+          }}
+        >
+          {title}
+        </AppText>
+      ) : (
+        <AppText type="title" size={18}>
+          {title}
+        </AppText>
+      )}
 
       <Icon type="MaterialIcons" name="navigate-next" opacity={0.3} />
     </TouchableOpacity>
