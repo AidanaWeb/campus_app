@@ -199,7 +199,7 @@ export default function SignupScr() {
         >
           <AppText type="subText">Уже есть аккаунт?</AppText>
           <TouchableOpacity
-            onPress={() => router.push({ pathname: "/social/login" })}
+            onPress={() => router.replace({ pathname: "/social/login" })}
           >
             <AppText>Войти</AppText>
           </TouchableOpacity>

@@ -73,8 +73,9 @@ export default function LoginScr() {
       await saveDataInStorage("refreshToken", loginRes.refreshToken);
       Alert.alert("Вход выполнен", `Добро пожаловать, ${loginRes.user.name}`);
       router.replace("/(tabs)");
-    } catch (error) {
-      Alert.alert("Произошла ошибка", "Попробуйте позже");
+    } catch (error: any) {
+      const message = error?.data?.translations?.ru;
+      Alert.alert("Произошла ошибка", message ?? "Попробуйте позже");
     }
   };
 
@@ -119,7 +120,7 @@ export default function LoginScr() {
         >
           <AppText type="subText">Нет аккаунта?</AppText>
           <TouchableOpacity
-            onPress={() => router.push({ pathname: "/social/signup" })}
+            onPress={() => router.replace({ pathname: "/social/signup" })}
           >
             <AppText>Регистрация</AppText>
           </TouchableOpacity>
