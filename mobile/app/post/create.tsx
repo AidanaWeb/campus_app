@@ -10,12 +10,12 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import AppText from "@/components/UI/AppText";
 import Button from "@/components/UI/Button";
-import { router } from "expo-router";
+import { router, useNavigation } from "expo-router";
 import AuthError from "@/components/AuthError";
 import Input from "@/components/UI/Input";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -24,6 +24,7 @@ import { useTranslation } from "react-i18next";
 import Icon from "@/components/UI/Icon";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
+import { HeaderButton } from "@/components/UI/HeaderButton";
 
 const { width } = Dimensions.get("window");
 
@@ -34,6 +35,7 @@ const CreatePostScr = (props: Props) => {
   const [createPost] = useCreatePostMutation();
   const user = useSelector((state: RootState) => state.user.info);
   const [image, setImage] = useState<null | string>(null);
+  const navigation = useNavigation();
 
   const [post, setPost] = useState({
     title: "",
@@ -110,6 +112,35 @@ const CreatePostScr = (props: Props) => {
     }
   };
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <TouchableOpacity
+          onPress={() => handleCreatePost()}
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            marginRight: 5,
+          }}
+        >
+          <AppText size={16}>Далее</AppText>
+          <Icon type="MaterialIcons" name="navigate-next" />
+        </TouchableOpacity>
+      ),
+    });
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      setPost({
+        title: "",
+        description: "",
+        coverImage: "",
+      });
+      setImage(null);
+    };
+  }, []);
+
   if (!user) {
     return <AuthError />;
   }
@@ -127,13 +158,6 @@ const CreatePostScr = (props: Props) => {
         style={{ flex: 1 }}
       >
         <ScrollView keyboardShouldPersistTaps="handled" style={{ flex: 1 }}>
-          {/* <Input
-          placeholder="url фото"
-          value={post.coverImage}
-          onChangeText={(text) => setValue("coverImage", text)}
-          transparent
-        /> */}
-
           {image && (
             <Image
               source={{ uri: image }}
@@ -162,6 +186,10 @@ const CreatePostScr = (props: Props) => {
             value={post.title}
             onChangeText={(text) => setValue("title", text)}
             transparent
+            inputStyle={{
+              fontWeight: 500,
+              fontSize: 20,
+            }}
           />
 
           <Input
@@ -171,8 +199,6 @@ const CreatePostScr = (props: Props) => {
             transparent
             multiline
           />
-
-          <Button title={t("create")} isActive onPress={handleCreatePost} />
         </ScrollView>
 
         <View style={{ height: 150 }} />
