@@ -43,15 +43,21 @@ const CreatePostScr = (props: Props) => {
 
   const handleCreatePost = async () => {
     if (!post.title || !post.description) {
-      Alert.alert("");
+      Alert.alert("Ошибка", "Заполните поля");
       return;
     }
+
+    const imageToSend = {
+      uri: image,
+      name: image,
+      type: "image/jpeg",
+    };
 
     try {
       const postRes = await createPost({
         title: post.title,
         description: post.description,
-        coverImage: post.coverImage,
+        coverImage: imageToSend,
       }).unwrap();
 
       if (!postRes.data) {
@@ -59,8 +65,10 @@ const CreatePostScr = (props: Props) => {
         return;
       }
 
-      console.log(postRes);
-      router.push({ pathname: "/post/[id]", params: { id: postRes.data.id } });
+      router.replace({
+        pathname: "/post/[id]",
+        params: { id: postRes.data.id },
+      });
     } catch (error) {
       console.log(error);
       Alert.alert("Произошла ошибка", "Попробуйте позже");

@@ -46,13 +46,24 @@ const postApi = api.injectEndpoints({
 
     createPost: build.mutation({
       query: ({ title, description, coverImage }) => {
+        const formData = new FormData();
+        formData.append("title", title);
+        formData.append("description", description);
+
+        if (coverImage) {
+          formData.append("coverImage", {
+            uri: coverImage.uri,
+            name: coverImage.fileName || "image.jpg",
+            type: coverImage.type || "image/jpeg",
+          } as any);
+        }
+
         return {
           method: "POST",
           url: "/posts",
-          body: {
-            title,
-            description,
-            coverImage,
+          body: formData,
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
         };
       },
