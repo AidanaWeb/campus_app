@@ -5,6 +5,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  TouchableOpacity,
+  Dimensions,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
@@ -17,6 +21,11 @@ import Input from "@/components/UI/Input";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useCreatePostMutation } from "@/store/api/posts";
 import { useTranslation } from "react-i18next";
+import Icon from "@/components/UI/Icon";
+import * as ImagePicker from "expo-image-picker";
+import { Image } from "react-native";
+
+const { width } = Dimensions.get("window");
 
 type Props = {};
 
@@ -24,6 +33,7 @@ const CreatePostScr = (props: Props) => {
   const { t } = useTranslation();
   const [createPost] = useCreatePostMutation();
   const user = useSelector((state: RootState) => state.user.info);
+  const [image, setImage] = useState<null | string>(null);
 
   const [post, setPost] = useState({
     title: "",
@@ -68,6 +78,30 @@ const CreatePostScr = (props: Props) => {
     });
   };
 
+  const handlePickImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert(
+        "Permission required",
+        "Permission to access the media library is required."
+      );
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
   if (!user) {
     return <AuthError />;
   }
@@ -80,31 +114,61 @@ const CreatePostScr = (props: Props) => {
         flex: 1,
       }}
     >
-      <ScrollView keyboardShouldPersistTaps="handled" style={{ flex: 1 }}>
-        <Input
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1 }}
+      >
+        <ScrollView keyboardShouldPersistTaps="handled" style={{ flex: 1 }}>
+          {/* <Input
           placeholder="url фото"
           value={post.coverImage}
           onChangeText={(text) => setValue("coverImage", text)}
           transparent
-        />
+        /> */}
 
-        <Input
-          placeholder={t("title")}
-          value={post.title}
-          onChangeText={(text) => setValue("title", text)}
-          transparent
-        />
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{
+                width,
+                height: width,
+              }}
+            />
+          )}
 
-        <Input
-          placeholder={t("post_desc")}
-          value={post.description}
-          onChangeText={(text) => setValue("description", text)}
-          transparent
-          multiline
-        />
+          <TouchableOpacity
+            onPress={handlePickImage}
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+              padding: 10,
+            }}
+          >
+            <Icon type="Entypo" name="attachment" />
+            <AppText size={14}>Выбрать изображение</AppText>
+          </TouchableOpacity>
 
-        <Button title={t("create")} isActive onPress={handleCreatePost} />
-      </ScrollView>
+          <Input
+            placeholder={t("title")}
+            value={post.title}
+            onChangeText={(text) => setValue("title", text)}
+            transparent
+          />
+
+          <Input
+            placeholder={t("post_desc")}
+            value={post.description}
+            onChangeText={(text) => setValue("description", text)}
+            transparent
+            multiline
+          />
+
+          <Button title={t("create")} isActive onPress={handleCreatePost} />
+        </ScrollView>
+
+        <View style={{ height: 150 }} />
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 };
