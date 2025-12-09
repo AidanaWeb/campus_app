@@ -19,6 +19,7 @@ import { RootState } from "@/store/store";
 import { useGetPostByIdQuery } from "@/store/api/posts";
 import { HeaderButton } from "@/components/UI/HeaderButton";
 import { useTranslation } from "react-i18next";
+import { SERVER_URL } from "@/config/api";
 
 const { width } = Dimensions.get("window");
 const IMAGE_SIZE = width;
@@ -30,6 +31,10 @@ export default function PostDetails() {
 
   const { currentData } = useGetPostByIdQuery(id);
   const post: FeedItem | null = currentData?.data ?? null;
+
+  const imagePath = post?.coverImage?.includes("uploads/")
+    ? "" + SERVER_URL + post?.coverImage
+    : post?.coverImage;
 
   const handleSharePost = async () => {
     const message = `
@@ -55,7 +60,7 @@ export default function PostDetails() {
   if (post.type === "EVENT") {
     return (
       <ScrollView style={{ flex: 1 }}>
-        <PostImage url={post.coverImage} handleShare={handleSharePost} />
+        <PostImage url={imagePath} handleShare={handleSharePost} />
 
         <View
           style={[
@@ -87,7 +92,7 @@ export default function PostDetails() {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <PostImage url={post.coverImage} handleShare={handleSharePost} />
+      <PostImage url={imagePath} handleShare={handleSharePost} />
 
       <View
         style={[

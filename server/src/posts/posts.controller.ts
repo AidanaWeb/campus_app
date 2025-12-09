@@ -7,13 +7,17 @@ import {
   Post,
   Query,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { AuthGuard } from "src/auth/auth.guard";
 import { createPostDto } from "./dtos/create-post.dto";
 import type { AuthRequest } from "src/auth/interfaces/auth-request.interface";
 import { SearchPostDto } from "./dtos/search-post.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { storage } from "./multer.config";
 
 @Controller("posts")
 export class PostsController {
@@ -32,9 +36,13 @@ export class PostsController {
 
   @Post()
   @UseGuards(AuthGuard)
-  // TODO: store images
-  async createPost(@Req() req: AuthRequest, @Body() postData: createPostDto) {
-    return await this.postsService.createPost(req.userId, postData);
+  @UseInterceptors(FileInterceptor("coverImage", { storage }))
+  async createPost(
+    @Req() req: AuthRequest,
+    @Body() postData: createPostDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return await this.postsService.createPost(req.userId, postData, file);
   }
 
   @Delete("/:id")

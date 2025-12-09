@@ -7,8 +7,10 @@ import { UsersModule } from "./users/users.module";
 import { AuthModule } from "./auth/auth.module";
 import { PrismaModule } from "./prisma.module";
 import { JwtModule } from "@nestjs/jwt";
-import { ReactionsModule } from './reactions/reactions.module';
-import { ClubsModule } from './clubs/clubs.module';
+import { ReactionsModule } from "./reactions/reactions.module";
+import { ClubsModule } from "./clubs/clubs.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "node:path";
 
 @Module({
   imports: [
@@ -26,6 +28,11 @@ import { ClubsModule } from './clubs/clubs.module';
         },
       }),
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "uploads"),
+      serveRoot: "/uploads/",
+    }),
+
     PostsModule,
     UsersModule,
     AuthModule,

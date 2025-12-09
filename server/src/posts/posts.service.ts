@@ -28,7 +28,6 @@ export class PostsService {
     if (query.type) {
       where.type = query.type;
     }
-    console.log(query.search);
     if (query.search?.trim()) {
       where.OR = [
         { title: { contains: query.search, mode: "insensitive" } },
@@ -121,8 +120,14 @@ export class PostsService {
     };
   }
 
-  async createPost(userId: string | undefined, postData: createPostDto) {
-    const { title, description, coverImage } = postData;
+  async createPost(
+    userId: string | undefined,
+    postData: createPostDto,
+    file: Express.Multer.File,
+  ) {
+    const { title, description } = postData;
+
+    const imagePath = file ? `/uploads/${file.filename}` : null;
 
     if (!userId) {
       throw new UnauthorizedException({
@@ -136,7 +141,7 @@ export class PostsService {
           authorId: userId,
           title,
           description,
-          coverImage,
+          coverImage: imagePath,
         },
       });
 

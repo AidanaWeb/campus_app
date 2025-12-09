@@ -14,6 +14,7 @@ import UserAvatar from "./UserAvatar";
 import UserRoleTag from "./UserRoleTag";
 import Icon from "./UI/Icon";
 import { router } from "expo-router";
+import { API_BASE_URL, SERVER_URL } from "@/config/api";
 
 const { width } = Dimensions.get("window");
 interface PostProps {
@@ -27,6 +28,9 @@ export default function Post({ post, paddingHorizontal = 10 }: PostProps) {
   const theme = useSelector((state: RootState) => state.theme.current);
   const backgroundColor =
     theme === "light" ? "rgba(0,0,0, 0.05)" : "rgba(255, 255, 255, 0.05)";
+  const imagePath = post.coverImage?.includes("uploads/")
+    ? "" + SERVER_URL + post.coverImage
+    : post.coverImage;
 
   const openDetails = () => {
     router.navigate({
@@ -46,10 +50,10 @@ export default function Post({ post, paddingHorizontal = 10 }: PostProps) {
     >
       {post.author && <PostAuthor author={post.author} />}
 
-      {post.coverImage && (
+      {imagePath && (
         <TouchableOpacity activeOpacity={0.7} onPress={openDetails}>
           <Image
-            source={{ uri: post.coverImage }}
+            source={{ uri: imagePath }}
             style={[
               styles.image,
               {
