@@ -44,10 +44,10 @@ const CreatePostScr = (props: Props) => {
   });
 
   const handleCreatePost = async () => {
-    if (!post.title || !post.description) {
-      Alert.alert("Ошибка", "Заполните поля");
-      return;
-    }
+    // if (!post.title || !post.description) {
+    //   Alert.alert("Ошибка", "Заполните поля");
+    //   return;
+    // }
 
     const imageToSend = {
       uri: image,
