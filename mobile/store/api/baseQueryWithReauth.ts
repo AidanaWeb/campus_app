@@ -52,8 +52,9 @@ export const baseQueryWithReauth: BaseQueryFn<
       extraOptions
     );
 
-    if (tokensResult.data) {
-      const { accessToken, refreshToken: newRefresh } = tokensResult.data;
+    console.log("token", tokensResult);
+    if (tokensResult.data?.data) {
+      const { accessToken, refreshToken: newRefresh } = tokensResult.data.data;
 
       api.dispatch(setAccessToken(accessToken));
       await saveDataInStorage("refreshToken", newRefresh);

@@ -18,6 +18,7 @@ import type { AuthRequest } from "src/auth/interfaces/auth-request.interface";
 import { SearchPostDto } from "./dtos/search-post.dto";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { storage } from "./multer.config";
+import { DeletePostDto } from "./dtos/delete.post.dto";
 
 @Controller("posts")
 export class PostsController {
@@ -47,7 +48,7 @@ export class PostsController {
 
   @Delete("/:id")
   @UseGuards(AuthGuard)
-  async deletePost(@Req() req: AuthRequest, @Body() postId: string) {
-    return await this.postsService.deletePost(req.userId, postId);
+  async deletePost(@Req() req: AuthRequest, @Body() body: DeletePostDto) {
+    return await this.postsService.deletePost(req.userId, body?.postId);
   }
 }

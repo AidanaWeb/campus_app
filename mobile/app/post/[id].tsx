@@ -56,13 +56,29 @@ export default function PostDetails() {
     }
   };
 
-  const handleDeletePost = async () => {
+  const handleDeletePost = () => {
     if (!user?.id || user.id !== post?.author.id) return;
+
+    Alert.alert("Удалить пост?", "Отменить действие будет нельзя", [
+      {
+        text: "удалить",
+        onPress: () => handleDelete(),
+      },
+      {
+        text: "отмена",
+      },
+    ]);
+  };
+
+  const handleDelete = async () => {
+    if (!post?.id) return;
 
     try {
       await deletePost({ postId: post.id }).unwrap();
       Alert.alert("Пост удален");
+      router.replace("/");
     } catch (error) {
+      console.log(error);
       Alert.alert(t("error_occured"), t("try_later"));
     }
   };

@@ -38,6 +38,8 @@ const postApi = api.injectEndpoints({
           params,
         };
       },
+
+      keepUnusedDataFor: 0,
     }),
 
     getPostById: build.query({
@@ -73,6 +75,7 @@ const postApi = api.injectEndpoints({
       query: ({ postId }) => ({
         method: "DELETE",
         url: `/posts/${postId}`,
+        body: { postId },
       }),
     }),
   }),

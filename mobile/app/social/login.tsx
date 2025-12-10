@@ -75,7 +75,11 @@ export default function LoginScr() {
       router.replace("/(tabs)");
     } catch (error: any) {
       const message = error?.data?.translations?.ru;
-      Alert.alert("Произошла ошибка", message ?? "Попробуйте позже");
+      const message2 = error?.data?.message;
+      Alert.alert(
+        "Произошла ошибка",
+        message ?? message2 ?? "Попробуйте позже"
+      );
     }
   };
 
