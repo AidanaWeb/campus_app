@@ -115,6 +115,7 @@ export default function PostDetails() {
         url={imagePath}
         handleShare={handleSharePost}
         showDeleteButton={Boolean(user?.id && user.id === post.author.id)}
+        handleDeletePost={() => handleDeletePost()}
       />
 
       <View
