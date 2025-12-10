@@ -8,6 +8,7 @@ import AppText from "@/components/UI/AppText";
 import Icon from "@/components/UI/Icon";
 import Button from "@/components/UI/Button";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 
 export default function profile() {
   const user = useSelector((state: RootState) => state.user.info);
@@ -20,6 +21,8 @@ export default function profile() {
 }
 
 const NoAuthProfile = () => {
+  const { t } = useTranslation();
+
   return (
     <SafeAreaView
       style={{
@@ -38,8 +41,7 @@ const NoAuthProfile = () => {
         <Icon type="AntDesign" name="user-add" size={62} />
 
         <AppText size={14} align="center">
-          Чтобы просматривать профиль, создавать посты и управлять настройками —
-          войдите в аккаунт.
+          {t("need_register_to_open_profile")}
         </AppText>
 
         <View
@@ -49,12 +51,12 @@ const NoAuthProfile = () => {
           }}
         >
           <Button
-            title="Войти"
+            title={t("login_verb")}
             isActive
             onPress={() => router.push({ pathname: "/social/login" })}
           />
           <Button
-            title="Зарегистрироваться"
+            title={t("register")}
             onPress={() => router.push({ pathname: "/social/signup" })}
           />
         </View>
