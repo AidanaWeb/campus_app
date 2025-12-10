@@ -64,9 +64,9 @@ const postApi = api.injectEndpoints({
           method: "POST",
           url: "/posts",
           body: formData,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+          // headers: {
+          //   "Content-Type": "multipart/form-data",
+          // },
         };
       },
     }),

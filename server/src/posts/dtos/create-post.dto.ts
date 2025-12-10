@@ -11,8 +11,4 @@ export class createPostDto {
   })
   @MinLength(2)
   description: string;
-
-  @IsOptional()
-  @IsString()
-  coverImage?: string;
 }

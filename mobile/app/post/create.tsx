@@ -44,10 +44,10 @@ const CreatePostScr = (props: Props) => {
   });
 
   const handleCreatePost = async () => {
-    // if (!post.title || !post.description) {
-    //   Alert.alert("Ошибка", "Заполните поля");
-    //   return;
-    // }
+    if (!post.title.length || !post.description.length) {
+      Alert.alert("Ошибка", "Заполните поля");
+      return;
+    }
 
     const imageToSend = {
       uri: image,
@@ -78,14 +78,11 @@ const CreatePostScr = (props: Props) => {
     }
   };
 
-  const setValue = (
-    field: "title" | "description" | "coverImage",
-    value: string
-  ) => {
-    setPost({
-      ...post,
+  const setValue = (field: "title" | "description", value: string) => {
+    setPost((prev) => ({
+      ...prev,
       [field]: value,
-    });
+    }));
   };
 
   const handlePickImage = async () => {
@@ -128,18 +125,7 @@ const CreatePostScr = (props: Props) => {
         </TouchableOpacity>
       ),
     });
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      setPost({
-        title: "",
-        description: "",
-        coverImage: "",
-      });
-      setImage(null);
-    };
-  }, []);
+  }, [post, image]);
 
   if (!user) {
     return <AuthError />;
@@ -199,6 +185,8 @@ const CreatePostScr = (props: Props) => {
             transparent
             multiline
           />
+
+          {/* <Button title={t("create")} onPress={() => handleCreatePost()} /> */}
         </ScrollView>
 
         <View style={{ height: 150 }} />
