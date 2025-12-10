@@ -68,10 +68,21 @@ const postApi = api.injectEndpoints({
         };
       },
     }),
+
+    deletePost: build.mutation({
+      query: ({ postId }) => ({
+        method: "DELETE",
+        url: `/posts/${postId}`,
+      }),
+    }),
   }),
 
   overrideExisting: false,
 });
 
-export const { useGetPostsQuery, useGetPostByIdQuery, useCreatePostMutation } =
-  postApi;
+export const {
+  useGetPostsQuery,
+  useGetPostByIdQuery,
+  useCreatePostMutation,
+  useDeletePostMutation,
+} = postApi;

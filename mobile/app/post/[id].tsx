@@ -16,7 +16,7 @@ import { PostAuthor } from "@/components/Post";
 import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
-import { useGetPostByIdQuery } from "@/store/api/posts";
+import { useDeletePostMutation, useGetPostByIdQuery } from "@/store/api/posts";
 import { HeaderButton } from "@/components/UI/HeaderButton";
 import { useTranslation } from "react-i18next";
 import { SERVER_URL } from "@/config/api";
@@ -25,8 +25,11 @@ const { width } = Dimensions.get("window");
 const IMAGE_SIZE = width;
 
 export default function PostDetails() {
+  const [deletePost] = useDeletePostMutation();
+
   const { id }: { id: string } = useLocalSearchParams();
   const theme = useSelector((state: RootState) => state.theme.current);
+  const user = useSelector((state: RootState) => state.user.info);
   const { t } = useTranslation();
 
   const { currentData } = useGetPostByIdQuery(id);
@@ -53,6 +56,17 @@ export default function PostDetails() {
     }
   };
 
+  const handleDeletePost = async () => {
+    if (!user?.id || user.id !== post?.author.id) return;
+
+    try {
+      await deletePost({ postId: post.id }).unwrap();
+      Alert.alert("Пост удален");
+    } catch (error) {
+      Alert.alert(t("error_occured"), t("try_later"));
+    }
+  };
+
   if (!post) {
     return <Fragment />;
   }
@@ -60,7 +74,12 @@ export default function PostDetails() {
   if (post.type === "EVENT") {
     return (
       <ScrollView style={{ flex: 1 }}>
-        <PostImage url={imagePath} handleShare={handleSharePost} />
+        <PostImage
+          url={imagePath}
+          handleShare={handleSharePost}
+          showDeleteButton={Boolean(user?.id && user.id === post.author.id)}
+          handleDeletePost={() => handleDeletePost()}
+        />
 
         <View
           style={[
@@ -92,7 +111,11 @@ export default function PostDetails() {
 
   return (
     <ScrollView style={{ flex: 1 }}>
-      <PostImage url={imagePath} handleShare={handleSharePost} />
+      <PostImage
+        url={imagePath}
+        handleShare={handleSharePost}
+        showDeleteButton={Boolean(user?.id && user.id === post.author.id)}
+      />
 
       <View
         style={[
@@ -123,6 +146,8 @@ export default function PostDetails() {
 const PostImage = (props: {
   url: string | undefined;
   handleShare: () => void;
+  showDeleteButton: boolean;
+  handleDeletePost: () => void;
 }) => {
   if (!props.url) {
     return (
@@ -143,6 +168,17 @@ const PostImage = (props: {
             right: 0,
           }}
         />
+
+        {props.showDeleteButton && (
+          <HeaderButton
+            onPress={props.handleDeletePost}
+            icon={{ type: "MaterialIcons", name: "delete-outline" }}
+            containerStyle={{
+              right: 0,
+              top: 50,
+            }}
+          />
+        )}
       </View>
     );
   }
@@ -160,6 +196,17 @@ const PostImage = (props: {
           right: 0,
         }}
       />
+
+      {props.showDeleteButton && (
+        <HeaderButton
+          onPress={props.handleDeletePost}
+          icon={{ type: "MaterialIcons", name: "delete-outline" }}
+          containerStyle={{
+            right: 0,
+            top: 120,
+          }}
+        />
+      )}
 
       <Image
         source={{
