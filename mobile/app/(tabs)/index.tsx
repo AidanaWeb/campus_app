@@ -5,7 +5,7 @@ import Button from "@/components/UI/Button";
 import Post from "@/components/Post";
 import { useGetPostsQuery } from "@/store/api/posts";
 import { banners } from "@/mock/banners";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Icon from "@/components/UI/Icon";
 import Colors from "@/constants/Theme";
 import { useSelector } from "react-redux";
@@ -15,6 +15,7 @@ import { PostType } from "@/types/post.type";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import i18n from "@/i18n";
+import { useFocusEffect } from "expo-router";
 
 interface filters {
   type: PostType | null;
@@ -66,6 +67,12 @@ export default function MainScr() {
     const section = sections.find((item) => item.id === sectionId);
     updateFilter("type", section?.type ?? null);
   }, [sectionId]);
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [])
+  );
 
   const updateFilter = (key: string, value: any) => {
     setFilters((prev) => ({ ...prev, [key]: value }));

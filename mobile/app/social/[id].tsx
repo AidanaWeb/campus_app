@@ -1,6 +1,6 @@
 import { View, Text, Dimensions, FlatList } from "react-native";
-import React from "react";
-import { router, useLocalSearchParams } from "expo-router";
+import React, { useCallback } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useGetUserByIdQuery } from "@/store/api/users";
 import { FeedItem } from "@/types/post.type";
 import { Image } from "react-native";
@@ -34,13 +34,19 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
   const { currentData, isLoading, isError } = useGetUserByIdQuery(userId, {
     skip: !userId,
   });
-  const { currentData: postsData } = useGetPostsQuery(
+  const { currentData: postsData, refetch } = useGetPostsQuery(
     {
       authorId: userId,
     },
     {
       skip: !userId,
     }
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch();
+    }, [refetch])
   );
 
   const user: User | null = currentData?.data ?? null;
