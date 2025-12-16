@@ -59,7 +59,7 @@ const CreatePostScr = (props: Props) => {
       const postRes = await createPost({
         title: post.title,
         description: post.description,
-        coverImage: imageToSend,
+        coverImage: image ? imageToSend : undefined,
       }).unwrap();
 
       if (!postRes.data) {
@@ -106,6 +106,8 @@ const CreatePostScr = (props: Props) => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+    } else {
+      setImage(null);
     }
   };
 
