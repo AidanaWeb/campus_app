@@ -17,7 +17,7 @@ export const banners = [
     id: 3,
     title: "Киберспорт в нашем универе 🎮",
     image:
-      "https://images.unsplash.com/photo-1606112219348-204d7d8b94ee?w=800&h=500&fit=crop",
+      "https://static.tildacdn.one/tild6662-3863-4632-a663-336231386564/6578.jpeg",
     link: "/clubs/esports",
   },
   {
