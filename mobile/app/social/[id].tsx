@@ -1,4 +1,10 @@
-import { View, Text, Dimensions, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Dimensions,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
 import React, { useCallback } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { useGetUserByIdQuery } from "@/store/api/users";
@@ -17,6 +23,7 @@ import { HeaderButton } from "@/components/UI/HeaderButton";
 import { useGetPostsQuery } from "@/store/api/posts";
 import Post from "@/components/Post";
 import { useTranslation } from "react-i18next";
+import Error from "@/components/Error";
 
 const { width } = Dimensions.get("window");
 const COVER_WIDTH = width;
@@ -60,11 +67,29 @@ export default function SocialDetailScr({ id: registeredUserId }: propsWithId) {
   const isCurrentUser = userId === userState?.id;
 
   if (isLoading) {
-    return null;
+    return (
+      <>
+        <HeaderButton
+          onPress={() => router.back()}
+          icon={{ type: "Ionicons", name: "arrow-back" }}
+        />
+
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flex: 1,
+            minHeight: 300,
+          }}
+        >
+          <ActivityIndicator size={"large"} color={Colors[theme].secondary} />
+        </View>
+      </>
+    );
   }
 
   if (isError || !user) {
-    return null;
+    return <Error />;
   }
 
   return (
