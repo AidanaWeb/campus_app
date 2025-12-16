@@ -21,6 +21,7 @@ interface filters {
   type: PostType | null;
   search: string | null;
 }
+
 const sections = [
   { id: 1, name: { ru: "Все", en: "All" }, type: null },
   {
@@ -158,6 +159,7 @@ export default function MainScr() {
       }
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       showsVerticalScrollIndicator={false}
+      ListFooterComponent={() => <View style={{ height: 120 }} />}
     />
   );
 }
