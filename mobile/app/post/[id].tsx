@@ -191,8 +191,7 @@ const PostImage = (props: {
             onPress={props.handleDeletePost}
             icon={{ type: "MaterialIcons", name: "delete-outline" }}
             containerStyle={{
-              right: 0,
-              top: 50,
+              right: 50,
             }}
           />
         )}
@@ -219,8 +218,7 @@ const PostImage = (props: {
           onPress={props.handleDeletePost}
           icon={{ type: "MaterialIcons", name: "delete-outline" }}
           containerStyle={{
-            right: 0,
-            top: 120,
+            right: 50,
           }}
         />
       )}
