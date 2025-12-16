@@ -61,6 +61,7 @@ export default function UserAvatar({
           width: size,
           height: size,
           borderRadius: 50,
+          backgroundColor: "grey",
         }}
       />
     </View>

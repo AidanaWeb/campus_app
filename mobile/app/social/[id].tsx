@@ -155,6 +155,7 @@ const UserCoverImage = (props: { coverImage: string | undefined }) => {
         width: COVER_WIDTH,
         height: COVER_HEIGHT,
         position: "absolute",
+        backgroundColor: "grey",
       }}
       resizeMode="cover"
     />
