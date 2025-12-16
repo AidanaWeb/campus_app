@@ -5,6 +5,7 @@ import {
   StyleSheet,
   Share,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { Fragment } from "react";
 import { router, useLocalSearchParams, usePathname } from "expo-router";
@@ -20,6 +21,7 @@ import { useDeletePostMutation, useGetPostByIdQuery } from "@/store/api/posts";
 import { HeaderButton } from "@/components/UI/HeaderButton";
 import { useTranslation } from "react-i18next";
 import { SERVER_URL } from "@/config/api";
+import Error from "@/components/Error";
 
 const { width } = Dimensions.get("window");
 const IMAGE_SIZE = width;
@@ -32,7 +34,7 @@ export default function PostDetails() {
   const user = useSelector((state: RootState) => state.user.info);
   const { t } = useTranslation();
 
-  const { currentData } = useGetPostByIdQuery(id);
+  const { currentData, isFetching } = useGetPostByIdQuery(id);
   const post: FeedItem | null = currentData?.data ?? null;
 
   const imagePath = post?.coverImage?.includes("uploads/")
@@ -83,8 +85,50 @@ export default function PostDetails() {
     }
   };
 
+  if (isFetching) {
+    return (
+      <>
+        <View
+          style={{
+            height: 100,
+          }}
+        >
+          <HeaderButton
+            onPress={() => router.back()}
+            icon={{ type: "Ionicons", name: "arrow-back" }}
+          />
+        </View>
+
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+            flex: 1,
+            minHeight: 300,
+          }}
+        >
+          <ActivityIndicator size={"large"} color={Colors[theme].secondary} />
+        </View>
+      </>
+    );
+  }
+
   if (!post) {
-    return <Fragment />;
+    return (
+      <>
+        <View
+          style={{
+            height: 100,
+          }}
+        >
+          <HeaderButton
+            onPress={() => router.back()}
+            icon={{ type: "Ionicons", name: "arrow-back" }}
+          />
+        </View>
+        <Error />
+      </>
+    );
   }
 
   if (post.type === "EVENT") {
