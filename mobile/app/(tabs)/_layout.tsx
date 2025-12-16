@@ -104,12 +104,14 @@ export default function TabLayout() {
               <Icon type="Ionicons" name="notifications-outline" />
 
               {user?.id && (
-                <UserAvatar
-                  user={{
-                    avatar: user.avatar,
-                    name: user.name,
-                  }}
-                />
+                <TouchableOpacity onPress={() => router.push("/profile")}>
+                  <UserAvatar
+                    user={{
+                      avatar: user.avatar,
+                      name: user.name,
+                    }}
+                  />
+                </TouchableOpacity>
               )}
             </View>
           ),
