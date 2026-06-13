@@ -20,7 +20,7 @@ Mobile application for publishing and viewing internal university announcements,
 ## Preview
 
 <!-- ![main screen filter](./assets/main_screen_buttons.gif) -->
-<img src="./assets/main_screen_buttons.gif" width="300" />
+<img src="./assets/main_screen_buttons.gif" width="500" />
 
 ## Tech stack
 
@@ -65,8 +65,8 @@ Backend
 <!-- ![open profile](./assets/open_profile.gif) -->
 
 <p>
-    <img src='./assets/search.gif' width=300 />
-    <img src='./assets/open_profile.gif' width=300 />
+    <img src='./assets/search.gif' width=500 />
+    <img src='./assets/open_profile.gif' width=500 />
 </p>
 
 ### Post
@@ -75,15 +75,15 @@ Backend
 <!-- ![create post](./assets/create_post.gif) -->
 
 <p>
-    <img src='./assets/open_post.gif' width=300 />
-    <img src='./assets/create_post.gif' width=300 />
+    <img src='./assets/open_post.gif' width=500 />
+    <img src='./assets/create_post.gif' width=500 />
 </p>
 
 ### Settings
 
 <!-- ![settings](./assets/settings.gif) -->
 
-<img src='./assets/settings.gif' width=300 />
+<img src='./assets/settings.gif' width=500 />
 
 ## Future Improvements
 
